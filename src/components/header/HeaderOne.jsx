@@ -914,7 +914,7 @@ const HeaderOne = () => {
       <style jsx global>{`
         .navbar {
           background-color: var(--background-dark) !important;
-          border-bottom: 1px solid var(--border);
+          border-bottom: 3px solid var(--primary-color);
         }
 
         .navbar-inner {
