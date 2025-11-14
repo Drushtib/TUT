@@ -1,0 +1,74 @@
+import AdBanner from "../common/AdBanner";
+import WidgetAd from "../widget/WidgetAd";
+import WidgetCategory from "../widget/WidgetCategory";
+import WidgetInstagram from "../widget/WidgetInstagram";
+import WidgetNewsletter from "../widget/WidgetNewsletter";
+import WidgetPost from "../widget/WidgetPost";
+import WidgetSocialShare from "../widget/WidgetSocialShare";
+import PostLayoutTwo from "./layout/PostLayoutTwo";
+
+import { useQuery } from "@tanstack/react-query";
+import { client } from "../../client";
+import SectionTitle from "../elements/SectionTitle";
+import Loader from "../common/Loader";
+
+const MasterTalks = ({ postData, adBanner, pClass }) => {
+  const query = `
+*[_type == "post" && categories[0]._ref == *[_type == "category" && slug.current == "master-talks"][0]._id] 
+{
+  title,
+   altText,
+  slug,
+  'featureImg': mainImage.asset->url,
+  description,
+  'category': {
+    'title': categories[0]->title,
+    'slug': categories[0]->slug.current
+  },
+  publishedAt
+} | order(publishedAt desc)[0...7] 
+`;
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["categoryFivePosts"],
+    queryFn: async () => {
+      const response = await client.fetch(query);
+      return response;
+    },
+  });
+
+  if (isLoading) return <Loader />;
+  if (error) return <div>Error fetching posts</div>;
+
+  if (!data) return null;
+  return (
+  <div className="container " style={{ marginTop: "8px" }}>
+      <div className="row">
+        <div className="col-lg-8">
+          <SectionTitle
+            title={data[0]?.category.title || "Business Bulletin"}
+            btnText="ALL Posts"
+            btnUrl={`/category/${data[0]?.category?.slug}`}
+            pClass="m-b-xs-10"
+          />
+          <div className="axil-content">
+            {data.slice(0, 8).map((post, index) => (
+              <div key={index} style={{ marginBottom: "8px" }}>
+                <PostLayoutTwo data={post} postSizeMd={true} />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="col-lg-4">
+          <div className="post-sidebar" style={{ display: "grid", rowGap: "12px" }}>
+            <WidgetNewsletter />
+            <WidgetCategory cateData={data} /> {/* Pass the fetched data */}
+            <WidgetSocialShare />
+            <WidgetPost dataPost={data} /> {/* Pass the fetched data */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MasterTalks;

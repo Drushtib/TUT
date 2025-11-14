@@ -1,0 +1,28 @@
+/**
+ * Theme CSS Variables
+ * 
+ * This file contains CSS variable definitions that are synced with src/config/theme.js
+ * 
+ * IMPORTANT: When updating colors, update BOTH:
+ * 1. src/config/theme.js (for JavaScript/React usage)
+ * 2. src/styles/style.css :root section (for CSS usage)
+ * 
+ * This file serves as a reference. The actual CSS variables are in style.css
+ */
+
+/* 
+ * To use these variables in CSS:
+ * 
+ * .my-element {
+ *   background: var(--background);
+ *   color: var(--text);
+ *   border: 1px solid var(--border);
+ * }
+ * 
+ * To use in React components:
+ * 
+ * import { getColor } from "../lib/utils/theme";
+ * 
+ * <div style={{ background: getColor("background") }}>
+ */
+
