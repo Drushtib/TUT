@@ -216,7 +216,7 @@ const MagazineHero = () => {
           height: 380px;
           margin: 0;
           padding: 0;
-          border: none;
+          border: 3px solid var(--primary-color);
           outline: none;
           transition: all 0.3s ease;
         }
@@ -245,8 +245,11 @@ const MagazineHero = () => {
           outline: none;
         }
         
-        .magazine-card * {
+        .magazine-card img {
           border: none !important;
+        }
+        
+        .magazine-card * {
           outline: none !important;
         }
       `}</style>
