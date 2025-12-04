@@ -9019,3 +9019,49 @@ address .tel i {
   background: var(--primary-color) !important;
 }
 
+/* ============================================
+   Editorial Utility Classes
+   ============================================ */
+
+/* Typography Enhancements */
+.editorial-section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
+
+/* Section Spacing */
+.editorial-section-gap {
+  margin-bottom: 4rem;
+}
+
+.editorial-section-gap-large {
+  margin-bottom: 6rem;
+}
+
+/* Container Enhancements */
+.editorial-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 1200px) {
+  .editorial-grid-60-40,
+  .editorial-grid-70-30,
+  .editorial-grid-65-35 {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .editorial-grid-varied {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .editorial-grid-varied > div {
+    grid-column: span 1 !important;
+  }
+}
+

@@ -1,4 +1,5 @@
 import SectionTitle from "../elements/SectionTitle";
+import Link from "next/link";
 import PostVideoOne from "./layout/PostVideoOne";
 import PostVideoTwo from "./layout/PostVideoTwo";
 import { useWebProfiles } from "../../hooks/usePosts";
@@ -34,46 +35,71 @@ const WebProfiles = () => {
   };
 
   return (
-    <div className="axil-video-posts section-gap section-gap-top__with-text" style={{ background: getColor("background"), color: getColor("text") }}>
-      <div className="container">
-        <SectionTitle
-          btnUrl={`/category/${data[0]?.category?.slug}`}
-          title={`${data[0]?.category.title}` || "Web Profiles"}
-          btnText="Read all Articles"
-          pClass="title-white m-b-xs-40"
-        />
-        <div className="row">
-          <div className="col-lg-8">
-            <PostVideoOne data={reorderedData[selectedProfile]} />
-          </div>
-          <div className="col-lg-4">
-            <div className="webprofile-names-list">
-              <h4 className="names-list-title">Select Profile</h4>
-              {reorderedData.map((post, index) => (
-                <div
-                  key={index}
-                  className={`name-item ${selectedProfile === index ? 'active' : ''}`}
-                  onClick={() => handleProfileClick(index)}
-                >
-                  <div className="name-content">
-                    <div className="name-image">
-                      <img 
-                        src={post.featureImg} 
-                        alt={post.title}
-                        width={60}
-                        height={60}
-                      />
-                    </div>
-                    <span className="name-text">{post.title}</span>
+    <div style={{ background: getColor("background"), color: getColor("text") }}>
+      <div style={{ marginBottom: '3rem' }}>
+        <h2 style={{
+          fontSize: 'clamp(2rem, 4vw, 3rem)',
+          fontWeight: 800,
+          color: 'var(--text)',
+          marginBottom: '1rem',
+          textTransform: 'uppercase',
+          letterSpacing: '1px'
+        }}>
+          {data[0]?.category.title || "Web Profiles"}
+        </h2>
+        <Link 
+          href={`/category/${data[0]?.category?.slug}`}
+          style={{
+            color: 'var(--primary-color)',
+            textDecoration: 'none',
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+            transition: 'opacity 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '0.8';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = '1';
+          }}
+        >
+          Read All Articles →
+        </Link>
+      </div>
+      <div className="editorial-grid-65-35" style={{ gap: '3rem', marginTop: '2rem' }}>
+        <div>
+          <PostVideoOne data={reorderedData[selectedProfile]} />
+        </div>
+        <div>
+          <div className="webprofile-names-list">
+            <h4 className="names-list-title">Select Profile</h4>
+            {reorderedData.map((post, index) => (
+              <div
+                key={index}
+                className={`name-item ${selectedProfile === index ? 'active' : ''}`}
+                onClick={() => handleProfileClick(index)}
+              >
+                <div className="name-content">
+                  <div className="name-image">
+                    <img 
+                      src={post.featureImg} 
+                      alt={post.title}
+                      width={60}
+                      height={60}
+                    />
                   </div>
-                  <div className="name-indicator"></div>
+                  <span className="name-text">{post.title}</span>
                 </div>
-              ))}
-            </div>
+                <div className="name-indicator"></div>
+              </div>
+            ))}
           </div>
         </div>
-        
-        <style jsx>{`
+      </div>
+      
+      <style jsx>{`
           .webprofile-main-image img {
             max-width: 250px;
             max-height: 180px;
@@ -177,7 +203,6 @@ const WebProfiles = () => {
             transform: scale(1.1);
           }
         `}</style>
-      </div>
     </div>
   );
 };

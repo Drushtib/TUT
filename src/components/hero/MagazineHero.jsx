@@ -113,58 +113,203 @@ const MagazineHero = () => {
   if (isLoading) return <Loader />;
   if (error) return <div>Error loading magazines</div>;
 
+  const currentMagazine = displayData[currentIndex] || displayData[0];
+
   return (
     <>
-      <div style={{ width: "100%", height: "80vh", background: "var(--gradient-background)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {/* Custom Carousel */}
-        <div className="carousel-container">
-          <div className="carousel-track">
-            {displayData.map((magazine, index) => {
-              const isCenter = index === currentIndex;
-              const relativePosition = index - currentIndex;
-              
-              // Calculate position for 9-card layout: 4 left + 1 center + 4 right
-              let position = relativePosition;
-              if (position > 4) position = position - displayData.length; // Wrap around for circular effect
-              if (position < -4) position = position + displayData.length;
-              
-              // Only show cards within the 9-card range
-              if (Math.abs(position) > 4) return null;
-              
-              // Create horizontal row with progressive scaling - no rotation, cards stay upright
-              const offset = position * 150; // Horizontal spacing between cards
-              const scale = isCenter ? 1.0 : Math.max(0.2, 1.0 - Math.abs(position) * 0.2); // Progressive scaling: 100%, 80%, 60%, 40%, 20%
-              const opacity = isCenter ? 1.0 : Math.max(0.2, 1.0 - Math.abs(position) * 0.2); // Progressive opacity: 100%, 80%, 60%, 40%, 20%
-              
-              return (
-                <div
-                  key={`${magazine.slug?.current || magazine.slug}-${index}`}
-                  className={`carousel-item ${isCenter ? 'center' : 'side'}`}
-                  style={{
-                    left: `calc(50% + ${offset}px)`,
-                    transform: `translateX(-50%) translateY(-50%) scale(${scale})`,
-                    opacity: opacity,
-                    zIndex: isCenter ? 10 : Math.max(1, 10 - Math.abs(position)),
-                  }}
-                >
-                  <div className="magazine-card">
-                    <Link href={`/magazine/${magazine.slug?.current || magazine.slug}`}>
-                      <div className="image-container">
-                        <Image
-                          src={magazine.featureImg || magazine.image}
-                          alt={magazine.title}
-                          width={1000}
-                          height={1000}
-                          className="img-fluid"
-                        />
-                      </div>
-                    </Link>
+      <div className="editorial-container" style={{ minHeight: "80vh", display: "flex", alignItems: "center", position: "relative", zIndex: 1 }}>
+        <div className="editorial-grid-60-40" style={{ width: "100%", alignItems: "center" }}>
+          {/* Typography-Focused Left Side */}
+          <div className="editorial-padding-asymmetric" style={{ position: "relative", zIndex: 2 }}>
+            <div style={{ 
+              marginBottom: "1.5rem", 
+              color: "var(--primary-color)", 
+              opacity: 1, 
+              fontWeight: 700,
+              fontSize: "0.875rem",
+              textTransform: "uppercase",
+              letterSpacing: "2px"
+            }}>
+              FEATURED MAGAZINE
+            </div>
+            
+            <Link href={`/magazine/${currentMagazine.slug?.current || currentMagazine.slug}`} style={{ textDecoration: "none", display: "block" }}>
+              <h1 style={{ 
+                marginBottom: "1rem", 
+                cursor: "pointer", 
+                opacity: 1, 
+                color: "var(--text)",
+                fontWeight: 900,
+                fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+                lineHeight: "1.1",
+                letterSpacing: "-0.02em"
+              }}>
+                {currentMagazine.title?.toUpperCase() || currentMagazine.title}
+              </h1>
+            </Link>
+            
+            {/* Red-orange accent line separator */}
+            <div style={{
+              width: "80px",
+              height: "3px",
+              background: "var(--primary-color)",
+              marginBottom: "2rem"
+            }}></div>
+            
+            {currentMagazine.description && (
+              <p style={{ 
+                fontSize: "1.125rem", 
+                marginBottom: "2.5rem", 
+                opacity: 1, 
+                color: "var(--text)",
+                fontWeight: 400,
+                lineHeight: "1.6"
+              }}>
+                {currentMagazine.description}
+              </p>
+            )}
+            
+            <Link 
+              href={`/magazine/${currentMagazine.slug?.current || currentMagazine.slug}`}
+              style={{
+                background: "var(--primary-color)",
+                color: "var(--text-dark)",
+                padding: "1rem 2.5rem",
+                borderRadius: "0",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "1.5px",
+                textDecoration: "none",
+                display: "inline-block",
+                fontSize: "0.875rem",
+                transition: "all 0.3s ease",
+                border: "2px solid var(--primary-color)"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.color = "var(--primary-color)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "var(--primary-color)";
+                e.currentTarget.style.color = "var(--text-dark)";
+              }}
+            >
+              READ MORE
+            </Link>
+          </div>
+
+          {/* Magazine Carousel Right Side */}
+          <div className="carousel-container" style={{ position: "relative", height: "600px" }}>
+            <div className="carousel-track">
+              {displayData.map((magazine, index) => {
+                const isCenter = index === currentIndex;
+                const relativePosition = index - currentIndex;
+                
+                // Calculate position for 9-card layout: 4 left + 1 center + 4 right
+                let position = relativePosition;
+                if (position > 4) position = position - displayData.length;
+                if (position < -4) position = position + displayData.length;
+                
+                // Only show cards within the 9-card range
+                if (Math.abs(position) > 4) return null;
+                
+                // Create horizontal row with progressive scaling
+                const offset = position * 150;
+                const scale = isCenter ? 1.0 : Math.max(0.2, 1.0 - Math.abs(position) * 0.2);
+                const opacity = isCenter ? 1.0 : Math.max(0.2, 1.0 - Math.abs(position) * 0.2);
+                
+                return (
+                  <div
+                    key={`${magazine.slug?.current || magazine.slug}-${index}`}
+                    className={`carousel-item ${isCenter ? 'center' : 'side'}`}
+                    style={{
+                      left: `calc(50% + ${offset}px)`,
+                      transform: `translateX(-50%) translateY(-50%) scale(${scale})`,
+                      opacity: opacity,
+                      zIndex: isCenter ? 10 : Math.max(1, 10 - Math.abs(position)),
+                    }}
+                  >
+                    <div className="magazine-card">
+                      <Link href={`/magazine/${magazine.slug?.current || magazine.slug}`}>
+                        <div className="image-container">
+                          <Image
+                            src={magazine.featureImg || magazine.image}
+                            alt={magazine.title}
+                            width={1000}
+                            height={1000}
+                            className="img-fluid"
+                          />
+                        </div>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+            
+            {/* Navigation Dots */}
+            <div style={{
+              position: "absolute",
+              bottom: "20px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              display: "flex",
+              gap: "8px",
+              zIndex: 20
+            }}>
+              {displayData.slice(0, Math.min(5, displayData.length)).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  style={{
+                    width: currentIndex === index ? "24px" : "8px",
+                    height: "8px",
+                    borderRadius: "4px",
+                    background: currentIndex === index ? "var(--primary-color)" : "rgba(255, 255, 255, 0.3)",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    padding: 0
+                  }}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
+      </div>
+      
+      {/* Separator Line Below Hero */}
+      <div style={{
+        width: '100%',
+        height: '2px',
+        background: 'var(--primary-color)',
+        marginTop: '3rem'
+      }}></div>
+      
+      {/* Featured Magazine Title Below Separator */}
+      <div style={{
+        marginTop: '1.5rem',
+        textAlign: 'left'
+      }}>
+        <Link 
+          href={`/magazine/${currentMagazine.slug?.current || currentMagazine.slug}`}
+          style={{
+            textDecoration: 'none',
+            color: 'var(--text)',
+            fontSize: '1.25rem',
+            fontWeight: 600,
+            transition: 'color 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = 'var(--primary-color)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = 'var(--text)';
+          }}
+        >
+          {currentMagazine.title} - {currentMagazine.description || 'Featured Story'}
+        </Link>
       </div>
 
       <style jsx>{`
@@ -195,7 +340,6 @@ const MagazineHero = () => {
           justify-content: center;
           transform-origin: center center;
           top: 50%;
-          bottom: 50%;
           transform: translateY(-50%);
         }
 
@@ -208,7 +352,7 @@ const MagazineHero = () => {
         }
 
         .magazine-card {
-          border-radius: 0.5rem;
+          border-radius: 10px;
           overflow: hidden;
           background: transparent;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -223,7 +367,8 @@ const MagazineHero = () => {
         
         .magazine-card:hover {
           transform: scale(1.05);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 12px 40px rgba(187, 5, 5, 0.4);
+          border-color: var(--primary-color);
         }
         
         .image-container {
@@ -240,7 +385,7 @@ const MagazineHero = () => {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          border-radius: 0.5rem;
+          border-radius: 10px;
           border: none;
           outline: none;
         }
@@ -251,6 +396,28 @@ const MagazineHero = () => {
         
         .magazine-card * {
           outline: none !important;
+        }
+
+        @media (max-width: 1200px) {
+          .editorial-grid-60-40 {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+          }
+          
+          .carousel-container {
+            height: 500px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .carousel-container {
+            height: 400px;
+          }
+          
+          .magazine-card {
+            width: 220px;
+            height: 300px;
+          }
         }
       `}</style>
     </>

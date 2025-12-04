@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "../styles/style.css";
 import "../styles/magazines.css";
+import "../styles/home.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import LoadingPage from "../components/common/LoadingPage";

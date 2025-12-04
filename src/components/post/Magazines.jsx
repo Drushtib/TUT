@@ -20,45 +20,49 @@ const Magazines = () => {
   if (!data || data.length === 0) return null;
 
   return (
-    <div className="related-post mt-4">
-      <div className="container">
-        <SectionTitle
-          btnUrl={ROUTES.MAGAZINES}
-          title={"Latest Magazines"}
-          btnText="View All Magazines"
-          pClass="mb-0"
-        />
-        <div className="grid-wrapper row">
-          <Splide
-            aria-label="My Favorite Images"
-            options={{
-              type: "loop",
-              arrows: false,
-              breakpoints: {
-                2000: {
-                  perPage: 3,
-                },
-                1200: {
-                  perPage: 3, // 3 slides per page on screens up to 1200px wide
-                },
-                900: {
-                  perPage: 2, // 2 slides per page on screens up to 768px wide
-                },
-                480: {
-                  perPage: 1, // 1 slide per page on screens up to 480px wide
-                },
+    <div style={{ background: 'var(--background)' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
+        <h2 style={{
+          fontSize: 'clamp(2rem, 4vw, 3rem)',
+          fontWeight: 800,
+          color: 'var(--text)',
+          marginBottom: '3rem',
+          textAlign: 'center',
+          textTransform: 'uppercase',
+          letterSpacing: '1px'
+        }}>
+          Latest Digital Editions
+        </h2>
+        <div className="grid-wrapper" style={{ marginTop: '2rem' }}>
+        <Splide
+          aria-label="Latest Magazines"
+          options={{
+            type: "loop",
+            arrows: false,
+            breakpoints: {
+              2000: {
+                perPage: 3,
               },
-              autoplay: true,
-              interval: 3000, // Interval in milliseconds
-            }}
-          >
-            {data.map((post, index) => (
-              <SplideSlide key={index}>
-                {/* <PostLayoutformag data={post} /> */}
-                <PostLayoutformag_Home data={post} />
-              </SplideSlide>
-            ))}
-          </Splide>
+              1200: {
+                perPage: 3,
+              },
+              900: {
+                perPage: 2,
+              },
+              480: {
+                perPage: 1,
+              },
+            },
+            autoplay: true,
+            interval: 3000,
+          }}
+        >
+          {data.map((post, index) => (
+            <SplideSlide key={index}>
+              <PostLayoutformag_Home data={post} />
+            </SplideSlide>
+          ))}
+        </Splide>
         </div>
       </div>
     </div>

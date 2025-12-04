@@ -6,6 +6,8 @@ import WidgetNewsletter from "../widget/WidgetNewsletter";
 import WidgetPost from "../widget/WidgetPost";
 import WidgetSocialShare from "../widget/WidgetSocialShare";
 import PostLayoutTwo from "./layout/PostLayoutTwo";
+import Link from "next/link";
+import Image from "next/image";
 
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../../client";
@@ -41,29 +43,191 @@ const MasterTalks = ({ postData, adBanner, pClass }) => {
 
   if (!data) return null;
   return (
-  <div className="container " style={{ marginTop: "8px" }}>
-      <div className="row">
-        <div className="col-lg-8">
-          <SectionTitle
-            title={data[0]?.category.title || "Business Bulletin"}
-            btnText="ALL Posts"
-            btnUrl={`/category/${data[0]?.category?.slug}`}
-            pClass="m-b-xs-10"
-          />
-          <div className="axil-content">
-            {data.slice(0, 8).map((post, index) => (
-              <div key={index} style={{ marginBottom: "8px" }}>
-                <PostLayoutTwo data={post} postSizeMd={true} />
-              </div>
+    <div style={{ background: 'var(--background)' }}>
+      <div style={{ marginBottom: '3rem' }}>
+        <h2 style={{
+          fontSize: 'clamp(2rem, 4vw, 3rem)',
+          fontWeight: 800,
+          color: 'var(--text)',
+          marginBottom: '1rem',
+          textTransform: 'uppercase',
+          letterSpacing: '1px'
+        }}>
+          {data[0]?.category.title || "Master Talks"}
+        </h2>
+        <Link 
+          href={`/category/${data[0]?.category?.slug}`}
+          style={{
+            color: 'var(--primary-color)',
+            textDecoration: 'none',
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+            transition: 'opacity 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '0.8';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = '1';
+          }}
+        >
+          View All Posts →
+        </Link>
+      </div>
+      
+      <div className="editorial-grid-65-35" style={{ gap: '3rem', alignItems: 'stretch' }}>
+        {/* Main Content - Card Grid */}
+        <div>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '2rem'
+          }}>
+            {data.slice(0, 6).map((post, index) => (
+              <Link
+                key={index}
+                href={`/post/${post.slug.current}`}
+                style={{ textDecoration: 'none' }}
+              >
+                <div className="editorial-card" style={{
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-5px)';
+                  e.currentTarget.style.borderColor = 'var(--primary-color)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = 'rgba(68, 68, 68, 0.3)';
+                }}
+                >
+                  {/* Image */}
+                  <div style={{
+                    width: '100%',
+                    height: '200px',
+                    overflow: 'hidden',
+                    borderRadius: '8px 8px 0 0',
+                    marginBottom: '1rem'
+                  }}>
+                    <Image
+                      src={post.featureImg}
+                      alt={post.altText || post.title}
+                      width={400}
+                      height={300}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                      }}
+                    />
+                  </div>
+                  
+                  {/* Content */}
+                  <div style={{ padding: '0 0.5rem 1rem', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div style={{
+                      display: 'inline-block',
+                      background: 'var(--primary-color)',
+                      color: 'var(--text-dark)',
+                      padding: '0.25rem 0.75rem',
+                      borderRadius: '4px',
+                      fontSize: '0.75rem',
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                      marginBottom: '0.75rem',
+                      width: 'fit-content'
+                    }}>
+                      {post.category?.title || 'Master Talks'}
+                    </div>
+                    
+                    <h3 style={{
+                      fontSize: '1.125rem',
+                      fontWeight: 700,
+                      color: 'var(--text)',
+                      marginBottom: '0.5rem',
+                      lineHeight: '1.4',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden'
+                    }}>
+                      {post.title}
+                    </h3>
+                    
+                    {post.description && (
+                      <p style={{
+                        fontSize: '0.875rem',
+                        color: 'var(--text-muted)',
+                        lineHeight: '1.6',
+                        marginTop: 'auto',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      }}>
+                        {post.description}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
-        <div className="col-lg-4">
-          <div className="post-sidebar" style={{ display: "grid", rowGap: "12px" }}>
-            <WidgetNewsletter />
-            <WidgetCategory cateData={data} /> {/* Pass the fetched data */}
-            <WidgetSocialShare />
-            <WidgetPost dataPost={data} /> {/* Pass the fetched data */}
+        
+        {/* Sidebar - Compact */}
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column',
+          height: '100%'
+        }}>
+          <div className="post-sidebar" style={{ 
+            display: "flex", 
+            flexDirection: "column",
+            gap: "0.75rem",
+            height: '100%',
+            justifyContent: 'flex-start'
+          }}>
+            <div style={{ 
+              transform: 'scale(0.8)', 
+              transformOrigin: 'top left',
+              marginBottom: '-5%'
+            }}>
+              <WidgetNewsletter />
+            </div>
+            <div style={{ 
+              transform: 'scale(0.8)', 
+              transformOrigin: 'top left',
+              marginBottom: '-5%'
+            }}>
+              <WidgetCategory cateData={data} />
+            </div>
+            <div style={{ 
+              transform: 'scale(0.8)', 
+              transformOrigin: 'top left',
+              marginBottom: '-5%'
+            }}>
+              <WidgetSocialShare />
+            </div>
+            <div style={{ 
+              transform: 'scale(0.8)', 
+              transformOrigin: 'top left'
+            }}>
+              <WidgetPost dataPost={data} />
+            </div>
           </div>
         </div>
       </div>

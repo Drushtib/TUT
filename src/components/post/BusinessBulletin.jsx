@@ -1,4 +1,6 @@
 import SectionTitle from "../elements/SectionTitle";
+import Link from "next/link";
+import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../../client";
 import PostLayoutTwo from "./layout/PostLayoutTwo";
@@ -35,21 +37,159 @@ const BusinessBulletin = () => {
   if (!data) return null;
 
   return (
-    <div className="section-gap section-gap-top__with-text trending-stories" style={{ background: 'var(--background)', color: 'var(--text)' }}>
-      <div className="container">
-        <SectionTitle
-          title={data[0]?.category.title || "Business Bulletin"}
-          btnText="ALL Posts"
-          btnUrl={`/category/${data[0]?.category?.slug}`}
-          pClass="title-white m-b-xs-40"
-        />
-        <div className="row">
-          {data.map((post, index) => (
-            <div className="col-lg-6" key={index}>
-              <PostLayoutTwo1 data={post} />
+    <div style={{ background: 'var(--background)', color: 'var(--text)' }}>
+      <div style={{ marginBottom: '3rem' }}>
+        <h2 style={{
+          fontSize: 'clamp(2rem, 4vw, 3rem)',
+          fontWeight: 800,
+          color: 'var(--text)',
+          marginBottom: '1rem',
+          textTransform: 'uppercase',
+          letterSpacing: '1px'
+        }}>
+          {data[0]?.category.title || "Business Bulletin"}
+        </h2>
+        <Link 
+          href={`/category/${data[0]?.category?.slug}`}
+          style={{
+            color: 'var(--primary-color)',
+            textDecoration: 'none',
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+            transition: 'opacity 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '0.8';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = '1';
+          }}
+        >
+          View All Posts →
+        </Link>
+      </div>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+        gap: '2rem'
+      }}>
+        {data.map((post, index) => (
+          <Link
+            key={index}
+            href={`/post/${post.slug.current}`}
+            style={{ textDecoration: 'none' }}
+          >
+            <div style={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              transition: 'all 0.3s ease',
+              cursor: 'pointer',
+              position: 'relative'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-5px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+            >
+              {/* Image Container */}
+              <div style={{
+                width: '100%',
+                height: '320px',
+                overflow: 'hidden',
+                borderRadius: '20px',
+                position: 'relative',
+                marginBottom: '-10px'
+              }}>
+                <Image
+                  src={post.featureImg}
+                  alt={post.altText || post.title}
+                  width={400}
+                  height={400}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                />
+              </div>
+              
+              {/* Content Container - Half-in, Half-out with Negative Margin */}
+              <div style={{ 
+                background: 'var(--background)',
+                border: '1px solid rgba(68, 68, 68, 0.3)',
+                borderRadius: '8px',
+                padding: '0',
+                marginTop: '-140px',
+                marginLeft: '1.5rem',
+                marginRight: '1.5rem',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+                flexGrow: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative',
+                zIndex: 2,
+                overflow: 'hidden'
+              }}>
+                {/* Red Banner at Top */}
+                <div style={{
+                  background: 'var(--primary-color)',
+                  color: 'var(--text-dark)',
+                  padding: '0.5rem 1.5rem',
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px',
+                  width: '100%'
+                }}>
+                  {post.category?.title?.toUpperCase() || 'BUSINESS BULLETIN'}
+                </div>
+                
+                {/* Content */}
+                <div style={{ padding: '1.5rem' }}>
+                  <h3 style={{
+                    fontSize: '1.25rem',
+                    fontWeight: 700,
+                    color: 'var(--text)',
+                    marginBottom: '0.75rem',
+                    lineHeight: '1.4',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden'
+                  }}>
+                    {post.title}
+                  </h3>
+                  
+                  {post.description && (
+                    <p style={{
+                      fontSize: '0.875rem',
+                      color: 'var(--text-muted)',
+                      lineHeight: '1.6',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden'
+                    }}>
+                      {post.description}
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
+          </Link>
+        ))}
       </div>
     </div>
   );

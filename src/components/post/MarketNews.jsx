@@ -37,30 +37,27 @@ const MarketNews = () => {
   if (!data) return null;
 
   return (
-  <div className="recent-news-wrapper section-gap p-t-xs-15 p-t-sm-60" style={{ paddingTop: "8px", paddingBottom: "8px" }}>
-      <div className="container">
-        <div className="row align-items-stretch">
-          <div className="col-lg-6" style={{ display: "flex" }}>
-            <div style={{ marginBottom: "2px", width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
-              <PostLayoutOne data={data[0]} />
-            </div>
-          </div>
-          <div className="col-lg-6" style={{ display: "flex" }}>
-            <div className="axil-recent-news" style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
-              <SectionTitle
-                title={`${data[0]?.category.title}` || "Market News"} // Dynamic title
-                btnUrl={`/category/${data[0]?.category?.slug}`}
-                btnText="all posts"
-                pClass="m-b-xs-10"
-              />
-              <div className="axil-content" style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-                {data.slice(1).map((post, index) => (
-                  <div key={index} style={{ marginBottom: "10px" }}>
-                    <PostLayoutTwo data={post} />
-                  </div>
-                ))}
+    <div style={{ background: 'var(--background)' }}>
+      <div className="editorial-grid-60-40" style={{ gap: '3rem', alignItems: 'start' }}>
+        {/* Large Featured Post (60%) */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <PostLayoutOne data={data[0]} />
+        </div>
+        
+        {/* Sidebar with List (40%) */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <SectionTitle
+            title={`${data[0]?.category.title}` || "Market News"}
+            btnUrl={`/category/${data[0]?.category?.slug}`}
+            btnText="all posts"
+            pClass="m-b-xs-10"
+          />
+          <div className="axil-content" style={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: "1rem" }}>
+            {data.slice(1).map((post, index) => (
+              <div key={index}>
+                <PostLayoutTwo data={post} />
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

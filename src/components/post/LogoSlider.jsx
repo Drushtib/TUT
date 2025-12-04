@@ -14,28 +14,30 @@ const LogoSlider = () => {
   }, []);
 
   return (
-    <div className="container my-5 ">
-      <h2 className="text-center mb-4">Our Partner Brands</h2>
-      <div className="row">
-        <div className="col">
-          <div className="logo-slider">
-            <div className="logo-slide-track">
-              {[...images, ...images].map((image, index) => (
-                <div key={index} className="logo-slide">
-                  <div className="logo-container">
-                    <Image
-                      src={image.imageUrl}
-                      alt={`Brand logo ${index + 1}`}
-                      width={120}
-                      height={50}
-                      quality={100}
-                      objectFit="contain"
-                    />
-                  </div>
-                </div>
-              ))}
+    <div style={{ background: 'var(--background)' }}>
+      <h2 className="editorial-headline" style={{ 
+        textAlign: 'center', 
+        marginBottom: '2rem',
+        color: 'var(--text)'
+      }}>
+        Our Partner Brands
+      </h2>
+      <div className="logo-slider">
+        <div className="logo-slide-track">
+          {[...images, ...images].map((image, index) => (
+            <div key={index} className="logo-slide">
+              <div className="logo-container">
+                <Image
+                  src={image.imageUrl}
+                  alt={`Brand logo ${index + 1}`}
+                  width={120}
+                  height={50}
+                  quality={100}
+                  objectFit="contain"
+                />
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
       <style jsx>{`
