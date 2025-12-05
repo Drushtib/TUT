@@ -1,36 +1,51 @@
-import React, { useState, useMemo } from "react";
-import { useAllMagazines } from "../hooks/useMagazines";
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { client } from "../client";
 import Loader from "../components/common/Loader";
-import ErrorFallback from "../components/common/ErrorFallback";
 import HeaderOne from "../components/header/HeaderOne";
-import Faq from "../components/FAQ/Faq";
 import FooterTwo from "../components/footer/FooterTwo";
 import PostLayoutformag from "../components/post/layout/PostLayoutformag";
 import HeadMeta from "../components/elements/HeadMeta";
-import { getColor, getSpacing, getShadow, getBorderRadius } from "../lib/utils/theme";
 
 const Magazines = () => {
   const [searchValue, setSearchValue] = useState("");
-  const { data, isLoading, error } = useAllMagazines();
 
-  const sortedData = useMemo(() => {
-    if (!data) return [];
-    return [...data].sort((a, b) => {
-      const aKey = a._createdAt || a.publishedAt || 0;
-      const bKey = b._createdAt || b.publishedAt || 0;
-      return new Date(bKey) - new Date(aKey);
-    });
-  }, [data]);
+  const query = `
+    *[_type == "magazine"] {
+      title,
+      slug,
+      'featureImg': mainImage.asset->url,
+      publishedAt,
+      _createdAt
+    } | order(_createdAt desc)
+  `;
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["allMagazines"],
+    queryFn: async () => {
+      const response = await client.fetch(query);
+      return response.sort((a, b) => {
+        const aKey = a._createdAt || a.publishedAt || 0;
+        const bKey = b._createdAt || b.publishedAt || 0;
+        return new Date(bKey) - new Date(aKey);
+      });
+    },
+  });
 
   if (isLoading) return <Loader />;
-  if (error) return <ErrorFallback error={error} />;
-  if (!sortedData || sortedData.length === 0) return null;
+  if (error)
+    return (
+      <div style={{ color: "gold", textAlign: "center" }}>
+        Error fetching magazines
+      </div>
+    );
+  if (!data) return null;
 
   const filteredMagazines = searchValue
-    ? sortedData.filter((mag) =>
+    ? data.filter((mag) =>
         (mag.title || "").toLowerCase().includes(searchValue.toLowerCase())
       )
-    : sortedData;
+    : data;
 
   return (
     <>
@@ -41,12 +56,12 @@ const Magazines = () => {
 
       <HeaderOne />
 
-      <div style={{ width: "100%", minHeight: "100vh", background: getColor("background") }}>
+      <div style={{ width: "100%", minHeight: "100vh", background: "#000" }}>
         {/* Simple local search (magazine titles only) */}
         <div style={{
           display: 'flex',
           justifyContent: 'center',
-          padding: `${getSpacing("xl")} ${getSpacing("md")} 0`,
+          padding: '2rem 1rem 0',
         }}>
           <input
             type="text"
@@ -57,12 +72,12 @@ const Magazines = () => {
             style={{
               width: '100%',
               maxWidth: '640px',
-              background: getColor("background"),
-              color: getColor("text"),
-              border: `1px solid ${getColor("border")}`,
+              background: '#000',
+              color: '#fff',
+              border: '1px solid #333',
               outline: 'none',
-              padding: `${getSpacing("sm")} ${getSpacing("md")}`,
-              borderRadius: getBorderRadius("xl"),
+              padding: '12px 16px',
+              borderRadius: '8px',
             }}
           />
         </div>
@@ -126,19 +141,20 @@ const Magazines = () => {
               width: "30%",
               maxWidth: "40rem",
               height: "6rem",
-              borderRadius: getBorderRadius("full"),
-              boxShadow: getShadow("large"),
+              borderRadius: "10rem",
+              boxShadow:
+                "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: getColor("backgroundCard"),
+              backgroundColor: "#101820", // optional contrast
             }}
           >
             <h2
               style={{
                 fontSize: "2.2rem",
                 margin: 0,
-                color: getColor("primary"),
+                color: "#ae8625", // golden color for visibility
                 fontWeight: "bold",
               }}
             >
@@ -156,6 +172,7 @@ const Magazines = () => {
             gap: "40px",
             maxWidth: "1600px",
             margin: "0 auto",
+            padding: "0 4rem",
           }}
         >
           {filteredMagazines.length > 0 ? (
@@ -165,7 +182,7 @@ const Magazines = () => {
           ) : (
             <p
               style={{
-                color: getColor("text"),
+                color: "white",
                 textAlign: "center",
                 width: "100%",
               }}
@@ -175,8 +192,6 @@ const Magazines = () => {
           )}
         </div>
       </div>
-
-      <Faq/>
 
       <FooterTwo />
     </>

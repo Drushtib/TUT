@@ -1,53 +1,171 @@
-import React from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import React, { useRef, useState, useEffect } from "react";
+import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+  faAward, 
+  faChartLine, 
+  faShareAlt, 
+  faArchive, 
+  faEnvelope, 
+  faSearch, 
+  faUsers, 
+  faHandshake 
+} from "@fortawesome/free-solid-svg-icons";
+import emailjs from "@emailjs/browser";
 import HeaderOne from "../components/header/HeaderOne";
 import FooterTwo from "../components/footer/FooterTwo";
 
 const features = [
   {
-    icon: "📝",
+    icon: faAward,
+    color: "#FFD700",
     description: "We have high Domain Authority and Page Authority.",
   },
   {
-    icon: "📊",
+    icon: faChartLine,
+    color: "#4CAF50",
     description: "We capture the audience organically.",
   },
   {
-    icon: "📤",
+    icon: faShareAlt,
+    color: "#2196F3",
     description:
       "We will post your published content on our social media channels.",
   },
   {
-    icon: "📁",
+    icon: faArchive,
+    color: "#FF9800",
     description: "Your content will remain in our archives for one year.",
   },
   {
-    icon: "💡",
+    icon: faEnvelope,
+    color: "#9C27B0",
     description:
       "If your content is good, we will promote it in our weekly newsletter.",
   },
   {
-    icon: "🔍",
+    icon: faSearch,
+    color: "#00BCD4",
     description:
       "We will optimize your content to make it visible on search engines.",
   },
   {
-    icon: "👥",
+    icon: faUsers,
+    color: "#E91E63",
     description:
       "Our team is professionally adept and follows high integrity in all processes.",
   },
   {
-    icon: "💼",
+    icon: faHandshake,
+    color: "#795548",
     description: "We will give discounts for long-term partnerships.",
   },
 ];
 const GuestPostForm = () => {
+  const form = useRef();
+  const [result, showResult] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (result) {
+      const timer = setTimeout(() => {
+        showResult(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [result]);
+
+  const sendEmail = async (e) => {
+    e.preventDefault();
+    
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+
+    try {
+      // Create a message field with organization and country info
+      const formData = new FormData(form.current);
+      const name = formData.get('contact-name') || '';
+      const email = formData.get('contact-email') || '';
+      const phone = formData.get('contact-phone') || '';
+      const organization = formData.get('contact-organization') || '';
+      const country = formData.get('contact-country') || '';
+      const message = `Guest Post Request\n\nOrganization: ${organization}\nCountry: ${country}`;
+      
+      // Add message field to form if it doesn't exist
+      let messageField = form.current.querySelector('[name="contact-message"]');
+      if (!messageField) {
+        messageField = document.createElement('input');
+        messageField.type = 'hidden';
+        messageField.name = 'contact-message';
+        form.current.appendChild(messageField);
+      }
+      messageField.value = message;
+
+      console.log("Submitting form with data:", {
+        name,
+        email,
+        phone,
+        organization,
+        country,
+        message
+      });
+
+      const response = await emailjs.sendForm(
+        "service_8tg2gsa",
+        "template_zmxkd45",
+        form.current,
+        "QYncFYwURx7oPBVab"
+      );
+
+      console.log("SUCCESS!", response.status, response.text);
+      
+      // Reset form and show success
+      form.current.reset();
+      showResult(true);
+      setIsSubmitting(false);
+      
+      // Remove the temporary message field
+      if (messageField && messageField.parentNode) {
+        messageField.parentNode.removeChild(messageField);
+      }
+    } catch (error) {
+      console.error("FAILED...", error);
+      setIsSubmitting(false);
+      
+      // Remove the temporary message field even on error
+      const messageField = form.current.querySelector('[name="contact-message"]');
+      if (messageField && messageField.parentNode) {
+        messageField.parentNode.removeChild(messageField);
+      }
+      
+      // Show user-friendly error message
+      const errorText = error.text || error.message || error.toString() || "Unknown error";
+      console.error("Error details:", error);
+      
+      // Check if it's a Gmail API error
+      if (errorText.includes("Gmail_API") || errorText.includes("Invalid grant")) {
+        alert(
+          "Email service configuration issue detected.\n\n" +
+          "Please contact the website administrator. The email service needs to be reconfigured.\n\n" +
+          "Error: " + errorText
+        );
+      } else {
+        alert(
+          "Failed to submit form. Please try again.\n\n" +
+          "If the problem persists, please contact us directly.\n\n" +
+          "Error: " + errorText
+        );
+      }
+    }
+  };
+
   return (
     <>
       <HeaderOne />
       <Container
         fluid
-        style={{ backgroundColor: "var(--primary-color)" }}
+        style={{ backgroundColor: "#171717" }}
         className=" text-white py-5"
       >
         <Row className="justify-content-center">
@@ -69,44 +187,81 @@ const GuestPostForm = () => {
             </p>
           </Col>
           <Col md={4}>
-            <div className="bg-light text-dark p-4 rounded">
-              <h2 className="text-center mb-4">Get a Quote</h2>
-              <Form>
+            <div className="p-4 rounded" style={{ background: "#171717", border: "1px solid #fff" }}>
+              <h2 className="text-center mb-4" style={{ color: "#fff" }}>Get a Quote</h2>
+              <Form className="guest-post-form" ref={form} onSubmit={sendEmail}>
                 <Form.Group className="mb-3" controlId="formName">
-                  <Form.Control type="text" placeholder="Name*" required />
+                  <Form.Control 
+                    type="text" 
+                    name="contact-name"
+                    placeholder="Name*" 
+                    required 
+                    style={{ background: "#171717", color: "#fff", border: "1px solid #fff" }}
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formEmail">
-                  <Form.Control type="email" placeholder="Email*" required />
+                  <Form.Control 
+                    type="email" 
+                    name="contact-email"
+                    placeholder="Email*" 
+                    required 
+                    style={{ background: "#171717", color: "#fff", border: "1px solid #fff" }}
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formPhone">
                   <Form.Control
                     type="number"
+                    name="contact-phone"
                     placeholder="Contact Number*"
                     required
+                    style={{ background: "#171717", color: "#fff", border: "1px solid #fff" }}
                   />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formOrganization">
                   <Form.Control
                     type="text"
+                    name="contact-organization"
                     placeholder="Organization Name*"
                     required
+                    style={{ background: "#171717", color: "#fff", border: "1px solid #fff" }}
                   />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formCountry">
-                  <Form.Control type="text" placeholder="Country*" required />
+                  <Form.Control 
+                    type="text" 
+                    name="contact-country"
+                    placeholder="Country*" 
+                    required 
+                    style={{ background: "#171717", color: "#fff", border: "1px solid #fff" }}
+                  />
                 </Form.Group>
+                {result && (
+                  <Alert variant="success" className="mb-3" style={{ background: "#28a745", color: "#fff", border: "none", borderRadius: "6px" }}>
+                    Form submitted successfully!
+                  </Alert>
+                )}
                 <div className="d-grid">
-                  <Button variant="dark" type="submit">
-                    Submit
+                  <Button 
+                    variant="dark" 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    style={{ 
+                      background: isSubmitting ? "#999" : "#FF0000", 
+                      color: "#fff", 
+                      border: "none",
+                      cursor: isSubmitting ? "not-allowed" : "pointer"
+                    }}
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit"}
                   </Button>
                 </div>
               </Form>
             </div>
           </Col>
         </Row>
-        <Container className="py-5 bg-white mt-5 mb-5">
-          <h2 className="text-center mb-4">Highlighted Features</h2>
-          <p className="text-center mb-5">
+        <Container className="py-5 mt-5 mb-5" style={{ background: "#171717" }}>
+          <h2 className="text-center mb-4" style={{ color: "#fff" }}>Highlighted Features</h2>
+          <p className="text-center mb-5" style={{ color: "#fff" }}>
             We have built our platform to help our partners reach their audience
             in the most professional manner. Here are some of the benefits of
             publishing your content on our website.
@@ -115,16 +270,25 @@ const GuestPostForm = () => {
             {features.map((feature, index) => (
               <Col key={index} md={3} sm={6} className="text-center">
                 <div
-                  className="feature-box p-4 border rounded-3 d-flex flex-column align-items-center justify-content-center"
-                  style={{ height: "200px" }}
+                  className="feature-box guest-post-feature-box p-4 border rounded-3 d-flex flex-column align-items-center justify-content-center"
+                  style={{ height: "200px", background: "#171717", border: "1px solid #fff" }}
                 >
                   <div
-                    className="feature-icon mb-3"
-                    style={{ fontSize: "2rem", color: "var(--primary-color)" }}
+                    className="feature-icon guest-post-feature-icon mb-3"
+                    style={{ 
+                      fontSize: "3rem",
+                      color: feature.color || "#d4af37"
+                    }}
                   >
-                    {feature.icon}
+                    <FontAwesomeIcon 
+                      icon={feature.icon} 
+                      color={feature.color || "#d4af37"}
+                      style={{ 
+                        filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))"
+                      }} 
+                    />
                   </div>
-                  <p className="m-0">{feature.description}</p>
+                  <p className="m-0" style={{ color: "#fff" }}>{feature.description}</p>
                 </div>
               </Col>
             ))}
@@ -140,8 +304,8 @@ const GuestPostForm = () => {
               submit your content
             </p>
             <Col md={6}>
-              <h3>Guidelines for Content Submission</h3>
-              <ul>
+              <h3 style={{ color: "#fff" }}>Guidelines for Content Submission</h3>
+              <ul style={{ color: "#fff" }}>
                 <li>Choose topics related to business or technology.</li>
                 <li>Consider trending topics.</li>
                 <li>Avoid promotional content.</li>
@@ -154,8 +318,8 @@ const GuestPostForm = () => {
               </ul>
             </Col>
             <Col md={6}>
-              <h3>Additional Notes</h3>
-              <ul>
+              <h3 style={{ color: "#fff" }}>Additional Notes</h3>
+              <ul style={{ color: "#fff" }}>
                 <li>
                   Provide related images or allow our team to use appropriate
                   ones.
@@ -189,6 +353,40 @@ const GuestPostForm = () => {
           </Row>
         </Container>
       </Container>
+      <style jsx global>{`
+        .guest-post-form input:focus,
+        .guest-post-form input:active {
+          background: #171717 !important;
+          color: #fff !important;
+          border-color: #fff !important;
+          outline: none !important;
+        }
+        .guest-post-form input::placeholder {
+          color: #ccc !important;
+          opacity: 1 !important;
+        }
+        .guest-post-form button[type="submit"]:hover {
+          background: #CC0000 !important;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(255, 0, 0, 0.4);
+        }
+        /* Override global color for feature icons with very high specificity */
+        .guest-post-feature-box .guest-post-feature-icon,
+        .guest-post-feature-box .guest-post-feature-icon svg,
+        .guest-post-feature-box .guest-post-feature-icon svg path,
+        .guest-post-feature-box .guest-post-feature-icon svg * {
+          color: inherit !important;
+          fill: currentColor !important;
+          stroke: currentColor !important;
+        }
+        /* Ensure the icon wrapper passes color to SVG */
+        .guest-post-feature-box .guest-post-feature-icon svg {
+          color: inherit !important;
+        }
+        .guest-post-feature-box .guest-post-feature-icon svg path {
+          fill: currentColor !important;
+        }
+      `}</style>
       <FooterTwo />
     </>
   );

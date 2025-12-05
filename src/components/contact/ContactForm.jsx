@@ -43,14 +43,11 @@ const ContactForm = () => {
   }, 2000);
 
   return (
-    <div className="axil-contact-form-block m-b-xs-30" style={{ background: 'var(--background)', color: 'var(--text)' }}>
-      <div className="section-title d-block" style={{ color: 'var(--text)' }}>
-        <h2 className="h3 axil-title m-b-xs-20" style={{ color: 'var(--text)' }}>Send Us a Message</h2>
-        <p style={{ color: 'var(--text-secondary)' }}>
-          Your email address will not be published. All the fields are required.
-        </p>
+    <div className="axil-contact-form-block m-b-xs-30" style={{ background: '#171717', color: '#fff' }}>
+      <div className="section-title d-block" style={{ color: '#fff' }}>
+        <h2 className="h3 axil-title m-b-xs-20" style={{ color: '#fff' }}>Send Us a Message</h2>
       </div>
-      <div className="axil-contact-form-wrapper p-t-xs-10" style={{ color: 'var(--text)' }}>
+      <div className="axil-contact-form-wrapper p-t-xs-10" style={{ color: '#fff' }}>
         <form
           className="axil-contact-form row no-gutters"
           ref={form}
@@ -80,8 +77,23 @@ const ContactForm = () => {
             name="contact-message"
             placeholder="Enter your message here"
           />
-          <div className="col-12">
-            <button className="btn btn-primary m-t-xs-0 m-t-lg-20">
+          <div className="col-12" style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
+            <button 
+              className="btn btn-primary m-t-xs-0 m-t-lg-20"
+              style={{
+                borderRadius: "12px",
+                padding: "1.2rem 5rem",
+                fontSize: "1.4rem",
+                fontWeight: "600",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                width: "100%",
+                maxWidth: "400px",
+                backgroundColor: "#FF0000",
+                border: "none",
+                color: "#fff",
+              }}
+            >
               SUBMIT
             </button>
           </div>
@@ -92,31 +104,43 @@ const ContactForm = () => {
         .axil-contact-form input,
         .axil-contact-form textarea,
         .axil-contact-form .form-control {
-          background: var(--background) !important;
-          color: var(--text) !important;
-          border: 1px solid var(--primary-color) !important;
+          background: #171717 !important;
+          color: #fff !important;
+          border: 1px solid #D4AF37 !important;
           border-radius: 6px;
           padding: 12px 15px;
         }
         
         .axil-contact-form input::placeholder,
         .axil-contact-form textarea::placeholder {
-          color: var(--text-secondary) !important;
+          color: #ccc !important;
           opacity: 1 !important;
         }
         
         .axil-contact-form input:focus,
         .axil-contact-form textarea:focus,
         .axil-contact-form .form-control:focus {
-          background: var(--background) !important;
-          color: var(--text) !important;
-          border-color: var(--primary-color) !important;
-          box-shadow: 0 0 0 2px rgba(218, 0, 55, 0.2);
+          background: #171717 !important;
+          color: #fff !important;
+          border-color: #D4AF37 !important;
+          box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
           outline: none;
         }
         
         .axil-contact-form label {
-          color: var(--text) !important;
+          color: #fff !important;
+        }
+        
+        .axil-contact-form .btn-primary {
+          background-color: #FF0000 !important;
+          border: none !important;
+          color: #fff !important;
+        }
+        
+        .axil-contact-form .btn-primary:hover {
+          background-color: #CC0000 !important;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(255, 0, 0, 0.4);
         }
       `}</style>
     </div>
