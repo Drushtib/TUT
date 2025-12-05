@@ -34,6 +34,11 @@ const WidgetCategory = () => {
     setCurrentSlide((prev) => Math.max(prev - 1, 0));
   };
 
+  // Filter out categories that shouldn't be displayed
+  const filteredCategories = categoryData?.filter(
+    (data) => data.slug?.current !== "trusted-brands"
+  );
+
   return (
     <div className="category-widget mb-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -44,6 +49,7 @@ const WidgetCategory = () => {
             className="custom-owl-prev"
             onClick={prevSlide}
             disabled={currentSlide === 0}
+            aria-label="Previous categories"
           >
             <i className="feather icon-chevron-left"></i>
           </button>
@@ -51,6 +57,7 @@ const WidgetCategory = () => {
             className="custom-owl-next"
             onClick={nextSlide}
             disabled={currentSlide === totalSlides}
+            aria-label="Next categories"
           >
             <i className="feather icon-chevron-right"></i>
           </button>
@@ -58,49 +65,53 @@ const WidgetCategory = () => {
       </div>
       <div
         className="category-slider position-relative overflow-hidden"
-        style={{ height: "1000px" }}
+        style={{ height: "720px" }} // 4 items * 180px each
       >
         <div
           className="category-slide-inner transition"
           style={{
-            transform: `translateY(-${currentSlide * 200}px)`,
+            transform: `translateY(-${currentSlide * 180}px)`,
             transition: "transform 0.3s ease-in-out",
           }}
         >
-          {categoryData?.map((data, index) => (
-            <div key={data.slug?.current} className="category-item mb-4">
-              {data.slug?.current === "trusted-brands" ? null : (
-                <Link
-                  className="d-block position-relative overflow-hidden rounded shadow"
-                  href={
-                    data.slug?.current === "magazines"
-                      ? "/magazines"
-                      : `/category/${data.slug?.current}`
-                  }
-                  style={{ height: "180px" }}
+          {filteredCategories?.map((data, index) => (
+            <div key={data.slug?.current || index} className="category-item mb-4">
+              <Link
+                className="d-block position-relative overflow-hidden rounded shadow"
+                href={
+                  data.slug?.current === "magazines"
+                    ? "/magazines"
+                    : `/category/${data.slug?.current}`
+                }
+                style={{ height: "180px" }}
+              >
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    height: "100%",
+                  }}
                 >
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      height: "100%",
+                  <Image
+                    src={data.category_image ? urlFor(data.category_image).url() : '/images/placeholder.png'}
+                    alt={data?.altText || data.title || "Category image"}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    style={{ 
+                      objectFit: 'cover',
+                      width: '100%',
+                      height: '100%'
                     }}
-                  >
-                    <Image
-                      src={data.category_image ? urlFor(data.category_image).url() : '/images/placeholder.png'}
-                      alt={data?.altText || data.title}
-                      layout="fill"
-                      objectFit="cover"
-                    />
-                  </div>
-                  <div
-                    className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-                    style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-                  >
-                    <h4 className="text-white fs-4 fw-bold">{data.title}</h4>
-                  </div>
-                </Link>
-              )}
+                    priority={index < 4} // Load first 4 images eagerly
+                  />
+                </div>
+                <div
+                  className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                  style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+                >
+                  <h4 className="text-white fs-4 fw-bold">{data.title}</h4>
+                </div>
+              </Link>
             </div>
           ))}
         </div>

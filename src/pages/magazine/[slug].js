@@ -9,10 +9,12 @@ import HeadMetaDynamic from "../../components/elements/HeadMetaDynamic";
 import { useMagazineBySlug } from "../../hooks/useMagazines";
 import { useWebProfiles } from "../../hooks/usePosts";
 import { QUERY_LIMITS } from "../../config/constants";
+
 import {
   getMagazineBySlugQuery,
   getAllMagazineSlugsQuery,
 } from "../../lib/sanity/queries/magazines";
+
 import {
   getRelatedArticlesForMagazineQuery,
   getLinkedArticleForMagazineQuery,
@@ -26,28 +28,35 @@ const MagazineDetails = ({
   const router = useRouter();
   const { slug } = router.query;
 
+  /** ---------------- FETCH MAGAZINE CONTENT ---------------- */
   const {
     data: magazineContent,
     isLoading: isLoadingMagazine,
     error: errorMagazine,
   } = useMagazineBySlug(slug, {
-    initialData: initialMagazineContent?.[0],
+    enabled: !!slug,                        // ✅ PREVENT QUERIES BEFORE SLUG EXISTS
+    initialData: initialMagazineContent || null,
   });
 
+  /** ---------------- FETCH RELATED ARTICLES ---------------- */
   const {
     data: allArticles,
     isLoading: isLoadingAllArticles,
     error: errorAllArticles,
   } = useWebProfiles(QUERY_LIMITS.RELATED_POSTS || 3, {
-    initialData: initialAllArticles,
+    enabled: !!slug,                        // ✅ Add enabled condition
+    initialData: initialAllArticles || [],
   });
 
-  // Fetch linked article separately since it's not a standard hook
-  const linkedArticle = initialCurrentMagArticle?.[0] || null;
+  /** ---------------- FIX LINKED ARTICLE FORMAT ---------------- */
+  const linkedArticle =
+    initialCurrentMagArticle?.length ? initialCurrentMagArticle[0] : null;
 
+  /** ---------------- ERROR & LOADING HANDLING ---------------- */
   if (isLoadingMagazine || isLoadingAllArticles) return <Loader />;
   if (errorMagazine) return <ErrorFallback error={errorMagazine} />;
   if (errorAllArticles) return <ErrorFallback error={errorAllArticles} />;
+
   if (!magazineContent) return <div>No magazine content found</div>;
 
   const { issuuLink } = magazineContent;
@@ -55,14 +64,14 @@ const MagazineDetails = ({
   return (
     <>
       <HeadMetaDynamic metaData={magazineContent} />
-
       <HeaderOne />
+
+      {/* ----------- ISSUU VIEWER ------------- */}
       <div
         style={{
           position: "relative",
           height: "90vh",
           width: "100%",
-          paddingBottom: "0px",
           border: "2px solid black",
         }}
       >
@@ -75,18 +84,17 @@ const MagazineDetails = ({
             border: "none",
             width: "100%",
             height: "100%",
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
+            inset: 0,
           }}
           src={issuuLink}
         />
       </div>
+
+      {/* ----------- RELATED ARTICLES SECTION ----------- */}
       <div style={{ marginTop: 0 }}>
         <RelatedArticles
           currentMagArticle={linkedArticle ? [linkedArticle] : []}
-          allMagazinesArticles={allArticles}
+          allMagazinesArticles={allArticles || []}
         />
         <FooterTwo />
       </div>
@@ -96,6 +104,10 @@ const MagazineDetails = ({
 
 export default MagazineDetails;
 
+/* ------------------------------------------------------ */
+/* ------------------- STATIC PROPS ---------------------- */
+/* ------------------------------------------------------ */
+
 export async function getStaticProps({ params }) {
   const { slug } = params;
 
@@ -103,27 +115,32 @@ export async function getStaticProps({ params }) {
   const relatedArticlesQuery = getRelatedArticlesForMagazineQuery(3);
   const linkedArticleQuery = getLinkedArticleForMagazineQuery(slug);
 
-  const [initialMagazineContent, initialAllArticles, initialCurrentMagArticle] = await Promise.all([
-    client.fetch(magazineQuery).then((result) => result?.[0] ? [result[0]] : []),
+  const [magData, relatedArticles, linkedArticle] = await Promise.all([
+    client.fetch(magazineQuery),
     client.fetch(relatedArticlesQuery),
-    client.fetch(linkedArticleQuery).then((result) => result || []),
+    client.fetch(linkedArticleQuery),
   ]);
 
   return {
     props: {
-      initialMagazineContent,
-      initialAllArticles,
-      initialCurrentMagArticle,
+      initialMagazineContent: magData?.[0] || null,   // ✅ normalized
+      initialAllArticles: relatedArticles || [],
+      initialCurrentMagArticle: linkedArticle || [],
     },
+    revalidate: 10,
   };
 }
+
+/* ------------------------------------------------------ */
+/* ------------------- STATIC PATHS --------------------- */
+/* ------------------------------------------------------ */
 
 export async function getStaticPaths() {
   const query = getAllMagazineSlugsQuery();
   const slugs = await client.fetch(query);
 
   const paths = slugs
-    .map((magazine) => magazine?.slug?.current)
+    .map((mag) => mag?.slug?.current)
     .filter(Boolean)
     .map((slug) => ({
       params: { slug },
