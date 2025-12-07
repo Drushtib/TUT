@@ -51,6 +51,9 @@ const OffcanvasMenu = ({ ofcshow, ofcHandleClose }) => {
                     <Link href="/contact">Contact Us</Link>
                   </li>
                   <li>
+                    <Link href="/media-kit">Media Kit</Link>
+                  </li>
+                  <li>
                     <Link href="/advertise-with-us">Advertise With Us</Link>
                   </li>
                 </ul>

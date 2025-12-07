@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { getFileContentBySlug } from "../../lib/api";
 import markdownToHtml from "../../lib/markdownToHtml";
@@ -5,6 +6,8 @@ import Breadcrumb from "../components/common/Breadcrumb";
 import BreadcrumbBanner from "../components/common/BreadcrumbBanner";
 import HeadMeta from "../components/elements/HeadMeta";
 import SectionTitleTwo from "../components/elements/SectionTitleTwo";
+import { useQuery } from "@tanstack/react-query";
+import { client } from "../client";
 
 import HeaderOne from "../components/header/HeaderOne";
 import TeamOne from "../components/team/TeamOne";
@@ -15,7 +18,208 @@ import { removeDuplicates } from "../utils";
 import { authorsData } from "../data/about/TeamData";
 import FooterTwo from "../components/footer/FooterTwo";
 
+// Custom hook for count-up animation
+const useCountUp = (end, duration = 2000, startOnVisible = false, isVisible = false) => {
+  const [count, setCount] = useState(0);
+  const hasStartedRef = useRef(false);
+  const timerRef = useRef(null);
+  const prevVisibleRef = useRef(false);
+
+  useEffect(() => {
+    // Clean up any existing animation
+    if (timerRef.current) {
+      cancelAnimationFrame(timerRef.current);
+      timerRef.current = null;
+    }
+
+    // Reset if visibility changed from true to false
+    if (prevVisibleRef.current && !isVisible && startOnVisible) {
+      setCount(0);
+      hasStartedRef.current = false;
+    }
+    prevVisibleRef.current = isVisible;
+
+    if (startOnVisible) {
+      // If we need to wait for visibility
+      if (!isVisible) {
+        return;
+      }
+
+      // If visible and not started yet, start the animation
+      if (isVisible && !hasStartedRef.current) {
+        hasStartedRef.current = true;
+        setCount(0); // Reset to 0 before starting
+        let startTime = null;
+        const startValue = 0;
+
+        const animate = (currentTime) => {
+          if (!startTime) startTime = currentTime;
+          const progress = Math.min((currentTime - startTime) / duration, 1);
+          
+          // Easing function for smooth animation
+          const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+          const current = Math.floor(startValue + (end - startValue) * easeOutQuart);
+          
+          setCount(current);
+
+          if (progress < 1) {
+            timerRef.current = requestAnimationFrame(animate);
+          } else {
+            setCount(end);
+            timerRef.current = null;
+          }
+        };
+
+        timerRef.current = requestAnimationFrame(animate);
+      }
+    } else {
+      // Start immediately if not waiting for visibility
+      if (!hasStartedRef.current) {
+        hasStartedRef.current = true;
+        let startTime = null;
+        const startValue = 0;
+
+        const animate = (currentTime) => {
+          if (!startTime) startTime = currentTime;
+          const progress = Math.min((currentTime - startTime) / duration, 1);
+          const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+          const current = Math.floor(startValue + (end - startValue) * easeOutQuart);
+          
+          setCount(current);
+
+          if (progress < 1) {
+            timerRef.current = requestAnimationFrame(animate);
+          } else {
+            setCount(end);
+            timerRef.current = null;
+          }
+        };
+
+        timerRef.current = requestAnimationFrame(animate);
+      }
+    }
+
+    return () => {
+      if (timerRef.current) {
+        cancelAnimationFrame(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [end, duration, startOnVisible, isVisible]);
+
+  return count;
+};
+
+// Stat Card Component with count-up animation
+const StatCard = React.forwardRef(({ endValue, suffix, label, isVisible, delay }, ref) => {
+  const count = useCountUp(endValue, 2000, true, isVisible);
+
+  return (
+    <div className="col-lg-3 col-md-6 col-sm-6" style={{ marginBottom: "2rem" }}>
+      <div 
+        ref={ref}
+        style={{ 
+          textAlign: "center", 
+          padding: "2rem 1rem",
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? "scale(1)" : "scale(0.5)",
+          transition: `all 0.6s ease-out ${delay}s`,
+        }}
+      >
+        <div style={{ fontSize: "4.2rem", fontWeight: "800", color: "#d4af37", marginBottom: "0.5rem", fontFamily: "Poppins, sans-serif" }}>
+          {count}{suffix}
+        </div>
+        <div style={{ fontSize: "1.8rem", color: "#999", textTransform: "uppercase", letterSpacing: "2px", fontFamily: "Roboto, sans-serif" }}>
+          {label}
+        </div>
+      </div>
+    </div>
+  );
+});
+
+StatCard.displayName = "StatCard";
+
 const AboutUs = ({ aboutData }) => {
+  // Animation states
+  const [isVisible, setIsVisible] = useState({});
+  const sectionRefs = useRef({});
+
+  useEffect(() => {
+    // Set hero visible immediately
+    setIsVisible((prev) => ({ ...prev, hero: true }));
+
+    const observers = {};
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    };
+
+    // Function to observe all refs
+    const observeRefs = () => {
+      Object.keys(sectionRefs.current).forEach((key) => {
+        if (key === "hero") return; // Skip hero, already visible
+        
+        if (observers[key]) {
+          observers[key].disconnect();
+        }
+        
+        observers[key] = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setIsVisible((prev) => {
+                const newState = { ...prev, [key]: true };
+                // When stats section becomes visible, also make all stat cards visible
+                if (key === "stats") {
+                  newState.stat1 = true;
+                  newState.stat2 = true;
+                  newState.stat3 = true;
+                  newState.stat4 = true;
+                }
+                return newState;
+              });
+            }
+          });
+        }, observerOptions);
+
+        if (sectionRefs.current[key]) {
+          observers[key].observe(sectionRefs.current[key]);
+        }
+      });
+    };
+
+    // Initial observation
+    observeRefs();
+
+    // Re-observe after a short delay to catch any late-rendering components
+    const timeoutId = setTimeout(() => {
+      observeRefs();
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      Object.values(observers).forEach((observer) => {
+        if (observer) observer.disconnect();
+      });
+    };
+  }, []);
+  // Fetch magazines for background collage
+  const magazinesQuery = `
+    *[_type == "magazine"] {
+      title,
+      slug,
+      'featureImg': mainImage.asset->url,
+      publishedAt,
+      _createdAt
+    } | order(_createdAt desc)[0...9]
+  `;
+
+  const { data: magazines } = useQuery({
+    queryKey: ["magazinesForAbout"],
+    queryFn: async () => {
+      const response = await client.fetch(magazinesQuery);
+      return response;
+    },
+  });
   return (
     <>
       <HeadMeta
@@ -28,105 +232,492 @@ const AboutUs = ({ aboutData }) => {
       />
       <HeaderOne />
       <Breadcrumb aPage="About Us" />
+      
+      {/* Modern Hero Section */}
       <div
         style={{
+          backgroundImage: "linear-gradient(135deg, rgba(10, 10, 10, 0.85) 0%, rgba(26, 26, 26, 0.85) 50%, rgba(10, 10, 10, 0.85) 100%), url('/images/about-us-bg.avif')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+          padding: "10rem 2rem",
           position: "relative",
-          width: "100%",
-          height: "auto",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "2rem 0",
         }}
       >
-        {/* Background Image with Overlay */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundImage: `url('/images/About_us.jpg')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            zIndex: -1,
-            // filter: "brightness(0.8)", // Darken the image
-          }}
-        ></div>
-
-        <div
-          style={{
-            width: "90%",
-            height: "100%",
-            maxWidth: "1200px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            padding: "0 1rem",
-            color: "white",
-          }}
+        <div 
+          className="container" 
+          style={{ position: "relative", zIndex: 1 }}
+          ref={(el) => (sectionRefs.current.hero = el)}
         >
-          <p
-            style={{
-              fontSize: "4rem",
-              fontWeight: "bolder",
-              marginBottom: "1rem",
-              color: "white",
+          <div 
+            style={{ 
+              textAlign: "center", 
+              maxWidth: "900px", 
+              margin: "0 auto",
+              opacity: isVisible.hero ? 1 : 0,
+              transform: isVisible.hero ? "translateY(0)" : "translateY(-50px)",
+              transition: "all 0.8s ease-out",
             }}
           >
-            About Us
-          </p>
-          <p
-            style={{
-              fontSize: "2rem",
-              fontWeight: "lighter",
-              color: "white",
-            }}
-          >
-            Welcome to The Entrepreneurial Chronicles Magazine, where we
-            spotlight trailblazers from all sectors transforming the business
-            magazine landscape. Our mission is to inspire and empower new
-            leaders with groundbreaking ideas worldwide. Count on us for
-            reliable insights, advice, and industry trends, supporting both
-            established and aspiring leaders.
-          </p>
+            <h1
+              style={{
+                fontSize: "4.2rem",
+                fontWeight: "800",
+                color: "#ffffff",
+                marginBottom: "2rem",
+                letterSpacing: "-0.02em",
+                lineHeight: "1.4",
+                fontFamily: "Poppins, sans-serif",
+                textShadow: "0 4px 20px rgba(0,0,0,0.5)",
+              }}
+              className="page-title"
+            >
+              About Us
+            </h1>
+            <p
+              style={{
+                fontSize: "1.8rem",
+                color: "#ffffff",
+                lineHeight: "3rem",
+                fontWeight: "400",
+                fontFamily: "Roboto, sans-serif",
+                textShadow: "0 2px 10px rgba(0,0,0,0.3)",
+              }}
+            >
+              Welcome to The Entrepreneurial Chronicles Magazine, where we
+              spotlight trailblazers from all sectors transforming the business
+              magazine landscape. Our mission is to inspire and empower new
+              leaders with groundbreaking ideas worldwide.
+            </p>
+          </div>
         </div>
       </div>
-      {/* <BreadcrumbBanner pageTitle="About Us" /> */}
-      <div className="axil-about-us section-gap-top p-b-xs-20" style={{ backgroundColor: 'var(--background)', color: 'var(--text)' }}>
+
+      {/* Mission, Vision, Values Section - Animated from different directions */}
+      <div 
+        style={{ backgroundColor: "#000", padding: "6rem 0" }}
+        ref={(el) => (sectionRefs.current.foundation = el)}
+      >
         <div className="container">
-          <figure className="m-b-xs-40 text-center">
-            <Image
-              src={aboutData.data.featuredImg}
-              height={451}
-              width={1500}
-              alt="about us"
-              className=" mx-auto"
+          <div
+            style={{
+              opacity: isVisible.foundation ? 1 : 0,
+              transform: isVisible.foundation ? "translateY(0)" : "translateY(30px)",
+              transition: "all 0.8s ease-out",
+            }}
+          >
+            <SectionTitleTwo
+              title="Our Foundation"
+              paragraph="The core principles that drive everything we do"
             />
-          </figure>
-          <div className="row">
-            <div className="col-lg-8">
-              <div className="about-us-content" style={{ color: 'var(--text)' }}>
-                <div
-                  dangerouslySetInnerHTML={{ __html: aboutData.content }}
-                ></div>
+            <div
+              style={{
+                width: "100px",
+                height: "4px",
+                background: "#FF0000",
+                margin: "2rem auto 0",
+                borderRadius: "2px",
+              }}
+            />
+          </div>
+          <div className="row" style={{ marginTop: "4rem", justifyContent: "center" }}>
+            <div className="col-lg-4 col-md-6" style={{ marginBottom: "2rem", display: "flex", justifyContent: "center" }}>
+              <div
+                ref={(el) => (sectionRefs.current.mission = el)}
+                style={{
+                  padding: "3rem 2.5rem",
+                  background: "linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.02) 100%)",
+                  borderRadius: "20px",
+                  border: "1px solid rgba(212,175,55,0.2)",
+                  height: "100%",
+                  transition: "all 0.4s ease",
+                  cursor: "pointer",
+                  opacity: isVisible.mission ? 1 : 0,
+                  transform: isVisible.mission ? "translateX(0)" : "translateX(-100px)",
+                  transition: "all 0.8s ease-out 0.2s",
+                  textAlign: "center",
+                  maxWidth: "100%",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-10px) scale(1.02)";
+                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.4)";
+                  e.currentTarget.style.boxShadow = "0 20px 50px rgba(212,175,55,0.2)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0) scale(1)";
+                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.2)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div style={{ fontSize: "3.5rem", marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>🎯</div>
+                <h3 style={{ fontSize: "2.4rem", fontWeight: "600", marginBottom: "1.2rem", color: "#d4af37", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
+                  Our Mission
+                </h3>
+                <p style={{ color: "#ccc", lineHeight: "2.8rem", fontSize: "1.6rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
+                  To inspire and empower entrepreneurs worldwide by sharing authentic stories of innovation, resilience, and success that drive meaningful change in the business world.
+                </p>
               </div>
             </div>
-            <div className="col-lg-4">
-              <aside className="post-sidebar">
-                <WidgetNewsletter />
-                <WidgetSocialShare />
-              </aside>
+            <div className="col-lg-4 col-md-6" style={{ marginBottom: "2rem", display: "flex", justifyContent: "center" }}>
+              <div
+                ref={(el) => (sectionRefs.current.vision = el)}
+                style={{
+                  padding: "3rem 2.5rem",
+                  background: "linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.02) 100%)",
+                  borderRadius: "20px",
+                  border: "1px solid rgba(212,175,55,0.2)",
+                  height: "100%",
+                  transition: "all 0.4s ease",
+                  cursor: "pointer",
+                  opacity: isVisible.vision ? 1 : 0,
+                  transform: isVisible.vision ? "translateY(0)" : "translateY(100px)",
+                  transition: "all 0.8s ease-out 0.4s",
+                  textAlign: "center",
+                  maxWidth: "100%",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-10px) scale(1.02)";
+                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.4)";
+                  e.currentTarget.style.boxShadow = "0 20px 50px rgba(212,175,55,0.2)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0) scale(1)";
+                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.2)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div style={{ fontSize: "3.5rem", marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>🌟</div>
+                <h3 style={{ fontSize: "2.4rem", fontWeight: "600", marginBottom: "1.2rem", color: "#d4af37", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
+                  Our Vision
+                </h3>
+                <p style={{ color: "#ccc", lineHeight: "2.8rem", fontSize: "1.6rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
+                  To become the world's most trusted platform for entrepreneurial insights, connecting visionary leaders and fostering a global community of innovators.
+                </p>
+              </div>
+            </div>
+            <div className="col-lg-4 col-md-6" style={{ marginBottom: "2rem", display: "flex", justifyContent: "center" }}>
+              <div
+                ref={(el) => (sectionRefs.current.values = el)}
+                style={{
+                  padding: "3rem 2.5rem",
+                  background: "linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.02) 100%)",
+                  borderRadius: "20px",
+                  border: "1px solid rgba(212,175,55,0.2)",
+                  height: "100%",
+                  transition: "all 0.4s ease",
+                  cursor: "pointer",
+                  opacity: isVisible.values ? 1 : 0,
+                  transform: isVisible.values ? "translateX(0)" : "translateX(100px)",
+                  transition: "all 0.8s ease-out 0.6s",
+                  textAlign: "center",
+                  maxWidth: "100%",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-10px) scale(1.02)";
+                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.4)";
+                  e.currentTarget.style.boxShadow = "0 20px 50px rgba(212,175,55,0.2)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0) scale(1)";
+                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.2)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div style={{ fontSize: "3.5rem", marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>💎</div>
+                <h3 style={{ fontSize: "2.4rem", fontWeight: "600", marginBottom: "1.2rem", color: "#d4af37", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
+                  Our Values
+                </h3>
+                <p style={{ color: "#ccc", lineHeight: "2.8rem", fontSize: "1.6rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
+                  Integrity, innovation, and inclusivity guide our work. We believe in authentic storytelling, diverse perspectives, and empowering the next generation of leaders.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="axil-our-team section-gap section-gap-top__with-text" style={{ backgroundColor: 'var(--background)', color: 'var(--text)' }}>
+
+      {/* Statistics Section - Animated from bottom */}
+      <div
+        ref={(el) => (sectionRefs.current.stats = el)}
+        style={{
+          background: "linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)",
+          padding: "5rem 0",
+          borderTop: "1px solid rgba(212,175,55,0.1)",
+          borderBottom: "1px solid rgba(212,175,55,0.1)",
+          opacity: isVisible.stats ? 1 : 0,
+          transform: isVisible.stats ? "translateY(0)" : "translateY(50px)",
+          transition: "all 0.8s ease-out",
+        }}
+      >
         <div className="container">
+          <div className="row">
+            <StatCard
+              ref={(el) => (sectionRefs.current.stat1 = el)}
+              endValue={1000}
+              suffix="+"
+              label="Featured Stories"
+              isVisible={isVisible.stat1}
+              delay={0.1}
+            />
+            <StatCard
+              ref={(el) => (sectionRefs.current.stat2 = el)}
+              endValue={50}
+              suffix="+"
+              label="Global Leaders"
+              isVisible={isVisible.stat2}
+              delay={0.2}
+            />
+            <StatCard
+              ref={(el) => (sectionRefs.current.stat3 = el)}
+              endValue={25}
+              suffix="+"
+              label="Industries Covered"
+              isVisible={isVisible.stat3}
+              delay={0.3}
+            />
+            <StatCard
+              ref={(el) => (sectionRefs.current.stat4 = el)}
+              endValue={100}
+              suffix="K+"
+              label="Monthly Readers"
+              isVisible={isVisible.stat4}
+              delay={0.4}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Who We Are Section */}
+      <div
+        ref={(el) => (sectionRefs.current.whoWeAre = el)}
+        style={{
+          backgroundColor: "#000",
+          padding: "8rem 0",
+          position: "relative",
+          borderTop: "1px solid rgba(212,175,55,0.1)",
+          overflow: "hidden",
+        }}
+      >
+        {/* Animated background elements */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-100px",
+            left: "-100px",
+            width: "300px",
+            height: "300px",
+            background: "radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%)",
+            borderRadius: "50%",
+            opacity: isVisible.whoWeAre ? 1 : 0,
+            transform: isVisible.whoWeAre ? "scale(1)" : "scale(0.5)",
+            transition: "all 1.2s ease-out",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "-150px",
+            right: "-150px",
+            width: "400px",
+            height: "400px",
+            background: "radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%)",
+            borderRadius: "50%",
+            opacity: isVisible.whoWeAre ? 1 : 0,
+            transform: isVisible.whoWeAre ? "scale(1)" : "scale(0.5)",
+            transition: "all 1.5s ease-out 0.3s",
+          }}
+        />
+        
+        <div className="container" style={{ position: "relative", zIndex: 1 }}>
+          <div
+            style={{
+              opacity: isVisible.whoWeAre ? 1 : 0,
+              transform: isVisible.whoWeAre ? "translateX(0)" : "translateX(-100px)",
+              transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
+          >
+            <div className="row">
+              <div className="col-lg-10 mx-auto">
+                <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+                  <h2
+                    style={{
+                      fontSize: "3.5rem",
+                      fontWeight: "800",
+                      color: "#fff",
+                      marginBottom: "2rem",
+                      fontFamily: "Poppins, sans-serif",
+                      lineHeight: "1.2",
+                      opacity: isVisible.whoWeAre ? 1 : 0,
+                      transform: isVisible.whoWeAre ? "translateY(0) scale(1)" : "translateY(-30px) scale(0.9)",
+                      transition: "all 0.8s ease-out 0.2s",
+                    }}
+                  >
+                    Who We Are
+                  </h2>
+                  <div
+                    style={{
+                      width: isVisible.whoWeAre ? "80px" : "0px",
+                      height: "4px",
+                      background: "#FF0000",
+                      marginBottom: "2rem",
+                      borderRadius: "2px",
+                      transition: "width 1s ease-out 0.4s",
+                    }}
+                  />
+                  <div
+                    style={{
+                      opacity: isVisible.whoWeAre ? 1 : 0,
+                      transform: isVisible.whoWeAre ? "translateY(0)" : "translateY(30px)",
+                      transition: "all 0.8s ease-out 0.6s",
+                    }}
+                  >
+                    <p
+                    style={{
+                      fontSize: "1.6rem",
+                      color: "#ccc",
+                      lineHeight: "2.8rem",
+                      fontFamily: "Roboto, sans-serif",
+                      textAlign: "left",
+                    }}
+                  >
+                    The Entrepreneurial Chronicles is a professional magazine platform dedicated to covering everything related to entrepreneurship, innovation, and success. Our focus is on capturing the essence of the entrepreneurial journey — from the spark of an idea to the realization of major business goals. We highlight how entrepreneurship goes beyond starting a business; it's about solving problems, creating value, and making an impact. Our magazine showcases diverse entrepreneurial stories that reflect resilience, creativity, determination, and the drive to innovate.
+                  </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Our Story Section */}
+      <div
+        ref={(el) => (sectionRefs.current.ourStory = el)}
+        style={{
+          backgroundColor: "#0a0a0a",
+          padding: "8rem 0",
+          position: "relative",
+          borderTop: "1px solid rgba(212,175,55,0.1)",
+          overflow: "hidden",
+        }}
+      >
+        {/* Animated background elements */}
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: "500px",
+            height: "500px",
+            background: "radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%)",
+            borderRadius: "50%",
+            opacity: isVisible.ourStory ? 1 : 0,
+            transform: isVisible.ourStory ? "translate(-50%, -50%) scale(1)" : "translate(-50%, -50%) scale(0.3)",
+            transition: "all 1.5s ease-out",
+          }}
+        />
+        
+        <div className="container" style={{ position: "relative", zIndex: 1 }}>
+          <div
+            style={{
+              opacity: isVisible.ourStory ? 1 : 0,
+              transform: isVisible.ourStory ? "translateX(0)" : "translateX(100px)",
+              transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
+          >
+            <div className="row">
+              <div className="col-lg-10 mx-auto">
+                <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+                  <h2
+                    style={{
+                      fontSize: "3.5rem",
+                      fontWeight: "800",
+                      color: "#fff",
+                      marginBottom: "2rem",
+                      fontFamily: "Poppins, sans-serif",
+                      lineHeight: "1.2",
+                      opacity: isVisible.ourStory ? 1 : 0,
+                      transform: isVisible.ourStory ? "translateY(0) scale(1)" : "translateY(-30px) scale(0.9)",
+                      transition: "all 0.8s ease-out 0.2s",
+                    }}
+                  >
+                    Our Story
+                  </h2>
+                  <div
+                    style={{
+                      width: isVisible.ourStory ? "80px" : "0px",
+                      height: "4px",
+                      background: "#FF0000",
+                      marginBottom: "2rem",
+                      borderRadius: "2px",
+                      transition: "width 1s ease-out 0.4s",
+                    }}
+                  />
+                  <div
+                    style={{
+                      opacity: isVisible.ourStory ? 1 : 0,
+                      transform: isVisible.ourStory ? "translateY(0)" : "translateY(30px)",
+                      transition: "all 0.8s ease-out 0.6s",
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontSize: "1.6rem",
+                        color: "#ccc",
+                        lineHeight: "2.8rem",
+                        marginBottom: "2rem",
+                        fontFamily: "Roboto, sans-serif",
+                        textAlign: "left",
+                      }}
+                    >
+                      The Entrepreneurial Chronicles was created with a clear purpose: to capture the true essence of the entrepreneurial journey and bring it to readers in a meaningful, inspiring way. We follow the path entrepreneurs take — from the moment an idea is born to the point it grows into a successful venture.
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "1.6rem",
+                        color: "#ccc",
+                        lineHeight: "2.8rem",
+                        marginBottom: "2rem",
+                        fontFamily: "Roboto, sans-serif",
+                        textAlign: "left",
+                      }}
+                    >
+                      Over time, we have witnessed how entrepreneurship is not just about launching a business. It is a path defined by problem-solving, value creation, and the desire to make a real difference. This understanding became the foundation of our magazine.
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "1.6rem",
+                        color: "#ccc",
+                        lineHeight: "2.8rem",
+                        marginBottom: "2rem",
+                        fontFamily: "Roboto, sans-serif",
+                        textAlign: "left",
+                      }}
+                    >
+                      Our story reflects the stories we tell. We document the resilience of individuals who start with limited resources, the creativity that turns simple ideas into remarkable innovations, and the determination that pushes entrepreneurs through challenges, failures, and turning points. Whether it's a startup working out of a garage or a company expanding onto the global stage, we showcase the full spectrum of entrepreneurial experiences.
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "1.6rem",
+                        color: "#ccc",
+                        lineHeight: "2.8rem",
+                        fontFamily: "Roboto, sans-serif",
+                        textAlign: "left",
+                      }}
+                    >
+                      In our pages, readers find real journeys—stories of risk-taking, breakthrough moments, lessons learned, and the courage required to build something meaningful. The Entrepreneurial Chronicles continues to evolve with each story we publish, staying committed to celebrating the spirit of entrepreneurship and giving a voice to those who shape the future through their ideas and determination.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="axil-our-team section-gap section-gap-top__with-text" style={{ backgroundColor: '#000', color: '#fff' }}>
+        {/* <div className="container">
           <div className="axil-team-grid-wrapper">
             <SectionTitleTwo
               title="Meet Our Company Pillars"
@@ -140,7 +731,7 @@ const AboutUs = ({ aboutData }) => {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <FooterTwo />
     </>
