@@ -3,7 +3,7 @@ import FooterTwo from "../../components/footer/FooterTwo";
 import HeaderOne from "../../components/header/HeaderOne";
 import Breadcrumb from "../../components/common/Breadcrumb";
 import HeadMeta from "../../components/elements/HeadMeta";
-import AdBanner from "../../components/common/AdBanner";
+// import AdBanner from "../../components/common/AdBanner"; // (unused, can remove or keep)
 import WidgetAd from "../../components/widget/WidgetAd";
 import WidgetSocialShare from "../../components/widget/WidgetSocialShare";
 import WidgetPost from "../../components/widget/WidgetPost";
@@ -12,12 +12,18 @@ import WidgetCategory from "../../components/widget/WidgetCategory";
 import Loader from "../../components/common/Loader";
 import ErrorFallback from "../../components/common/ErrorFallback";
 import { useState, useEffect } from "react";
-import { usePaginatedPostsByCategory, usePostsByCategory } from "../../hooks/usePosts";
+import {
+  usePaginatedPostsByCategory,
+  usePostsByCategory,
+} from "../../hooks/usePosts";
 import { PAGINATION } from "../../config/constants";
 import { client } from "../../client";
-import { getPaginatedPostsByCategoryQuery, getPostsByCategoryQuery } from "../../lib/sanity/queries/posts";
+import {
+  getPaginatedPostsByCategoryQuery,
+  getPostsByCategoryQuery,
+} from "../../lib/sanity/queries/posts";
 
-const PostCategory = ({ initialCategory, initialAllPosts }) => {
+const PostCategory = ({ initialCategory }) => {
   const [page, setPage] = useState(0);
 
   const {
@@ -31,9 +37,7 @@ const PostCategory = ({ initialCategory, initialAllPosts }) => {
     PAGINATION.POSTS_PER_PAGE
   );
 
-  const { data: allPosts } = usePostsByCategory(initialCategory, {
-    initialData: initialAllPosts,
-  });
+  const { data: allPosts } = usePostsByCategory(initialCategory);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -71,7 +75,7 @@ const PostCategory = ({ initialCategory, initialAllPosts }) => {
             <div className="col-lg-12">
               <div className="post-title-wrapper">
                 <h2 className="m-b-xs-0 axil-post-title hover-line">
-                  {cateContent?.category.title || "Web Profiles"}
+                  {cateContent?.category?.title || "Web Profiles"}
                 </h2>
               </div>
             </div>
@@ -79,19 +83,29 @@ const PostCategory = ({ initialCategory, initialAllPosts }) => {
         </div>
       </div>
       {/* Banner End here */}
+
       <div className="random-posts section-gap">
         <div className="container">
           <div className="row">
+            {/* LEFT CONTENT */}
             <div className="col-lg-8">
               <div className="axil-content">
-                {postData.map((data) => (
-                  <PostLayoutTwo
-                    data={data}
-                    postSizeMd={true}
-                    key={data.slug.current}
-                  />
-                ))}
+                {postData.map((data) => {
+                  // ✅ Safe slug supports both {slug: {current}} and slug: "string"
+                  const safeSlug =
+                    data?.slug?.current || data?.slug || data?._id || "";
+
+                  return (
+                    <PostLayoutTwo
+                      data={data}
+                      postSizeMd={true}
+                      key={safeSlug}
+                    />
+                  );
+                })}
               </div>
+
+              {/* Pagination */}
               <div className="pagination">
                 <button
                   className="btn btn-primary btn-small"
@@ -104,12 +118,17 @@ const PostCategory = ({ initialCategory, initialAllPosts }) => {
                 <button
                   className="btn btn-primary btn-small"
                   onClick={handleNextPage}
-                  disabled={isPreviousData || postData?.length < PAGINATION.POSTS_PER_PAGE}
+                  disabled={
+                    isPreviousData ||
+                    postData?.length < PAGINATION.POSTS_PER_PAGE
+                  }
                 >
                   Next Page
                 </button>
               </div>
             </div>
+
+            {/* RIGHT SIDEBAR */}
             <div className="col-lg-4">
               <div className="post-sidebar">
                 <WidgetAd />
@@ -126,6 +145,7 @@ const PostCategory = ({ initialCategory, initialAllPosts }) => {
           </div>
         </div>
       </div>
+
       <FooterTwo />
     </>
   );
@@ -133,17 +153,24 @@ const PostCategory = ({ initialCategory, initialAllPosts }) => {
 
 export default PostCategory;
 
+/* ---------------------- SSG + React Query Hydration ---------------------- */
+
 export const getStaticProps = async ({ params }) => {
   const queryClient = new QueryClient();
   const category = params.slug;
 
-  const query = getPaginatedPostsByCategoryQuery(category, 0, PAGINATION.POSTS_PER_PAGE);
+  const paginatedQuery = getPaginatedPostsByCategoryQuery(
+    category,
+    0,
+    PAGINATION.POSTS_PER_PAGE
+  );
   const allPostsQuery = getPostsByCategoryQuery(category);
 
   await queryClient.prefetchQuery({
     queryKey: ["posts", "paginated", 0, category],
-    queryFn: async () => await client.fetch(query),
+    queryFn: async () => await client.fetch(paginatedQuery),
   });
+
   await queryClient.prefetchQuery({
     queryKey: ["posts", "category", category],
     queryFn: async () => await client.fetch(allPostsQuery),
@@ -152,13 +179,16 @@ export const getStaticProps = async ({ params }) => {
   return {
     props: {
       initialCategory: category,
-      initialAllPosts: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClient),
     },
+    revalidate: 10,
   };
 };
 
 export const getStaticPaths = async () => {
-  const { getAllCategoriesQuery } = await import("../../lib/sanity/queries/categories");
+  const { getAllCategoriesQuery } = await import(
+    "../../lib/sanity/queries/categories"
+  );
   const query = getAllCategoriesQuery();
   const categories = await client.fetch(query);
 
