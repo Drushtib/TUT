@@ -17,8 +17,8 @@ const PostVideoOne = ({ data }) => {
       <div className="media post-block grad-overlay__transparent position-absolute m-b-xs-30">
         <div className="media-body media-body__big">
           <div className="axil-media-bottom mt-auto">
-            <h3 className="axil-post-title hover-line hover-line">
-              <Link href={`/post/${data.slug.current}`}>{data.title}</Link>
+            <h3 className="axil-post-title hover-line hover-line" style={{ color: '#ffffff' }}>
+              <Link href={`/post/${data.slug.current}`} style={{ color: '#ffffff' }}>{data.title}</Link>
             </h3>
           </div>
         </div>

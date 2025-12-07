@@ -17,17 +17,18 @@ const WidgetNewsletter = () => {
 
   return (
     <div className="newsletter-widget weekly-newsletter m-b-xs-40" style={{
-      background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%)',
-      border: '1px solid rgba(218, 0, 55, 0.2)',
+      background: '#ffffff',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
       borderRadius: '15px',
       padding: '2rem',
       position: 'relative',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
     }}>
       {/* Enhanced Background with Gradient Overlay */}
       <div
         style={{ 
-          background: 'linear-gradient(135deg, rgba(218, 0, 55, 0.1) 0%, rgba(0, 0, 0, 0.8) 50%, rgba(218, 0, 55, 0.05) 100%)',
+          background: 'linear-gradient(135deg, rgba(218, 0, 55, 0.05) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(218, 0, 55, 0.05) 100%)',
           position: 'absolute',
           top: 0,
           left: 0,
@@ -75,21 +76,20 @@ const WidgetNewsletter = () => {
                   boxShadow: '0 4px 15px rgba(218, 0, 55, 0.3)',
           animation: 'pulse 2s ease-in-out infinite'
         }}>
-          <i className="feather icon-send" style={{ color: 'var(--text-dark)', fontSize: '1.5rem' }} />
+          <i className="feather icon-send" style={{ color: '#ffffff', fontSize: '1.5rem' }} />
         </div>
         
         <div className="section-title" style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <h3 className="axil-title" style={{
-            color: 'var(--text)',
+            color: '#171717',
             fontSize: '1.8rem',
             fontWeight: '700',
-            marginBottom: '1rem',
-            textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+            marginBottom: '1rem'
           }}>
             Subscribe To Our Weekly Newsletter
           </h3>
           <p className="mid" style={{
-            color: 'var(--text-secondary)',
+            color: '#444444',
             fontSize: '1rem',
             lineHeight: '1.6',
             margin: 0
@@ -111,24 +111,25 @@ const WidgetNewsletter = () => {
                 style={{
                   width: '100%',
                   padding: '1rem 1.5rem',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  border: '2px solid rgba(218, 0, 55, 0.3)',
+                  background: '#f8f8f8',
+                  border: '2px solid rgba(0, 0, 0, 0.1)',
                   borderRadius: '50px',
-                  color: 'var(--text)',
+                  color: '#171717',
                   fontSize: '1rem',
                   outline: 'none',
-                  transition: 'all 0.3s ease',
-                  backdropFilter: 'blur(10px)'
+                  transition: 'all 0.3s ease'
                 }}
                 value={emailAddress}
                 onChange={(e) => setEmailAddress(e.target.value)}
                 onFocus={(e) => {
                   e.target.style.borderColor = 'var(--primary-color)';
-                  e.target.style.background = 'rgba(255, 255, 255, 0.15)';
+                  e.target.style.background = '#ffffff';
+                  e.target.style.boxShadow = '0 0 0 3px rgba(218, 0, 55, 0.1)';
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = 'rgba(218, 0, 55, 0.3)';
-                  e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.target.style.borderColor = 'rgba(0, 0, 0, 0.1)';
+                  e.target.style.background = '#f8f8f8';
+                  e.target.style.boxShadow = 'none';
                 }}
               />
             </div>
@@ -191,6 +192,24 @@ const WidgetNewsletter = () => {
         @keyframes pulse {
           0%, 100% { transform: scale(1); }
           50% { transform: scale(1.05); }
+        }
+        
+        .subscription-form input::placeholder {
+          color: #999999;
+          opacity: 1;
+        }
+        
+        .subscription-form input::-webkit-input-placeholder {
+          color: #999999;
+        }
+        
+        .subscription-form input::-moz-placeholder {
+          color: #999999;
+          opacity: 1;
+        }
+        
+        .subscription-form input:-ms-input-placeholder {
+          color: #999999;
         }
         
         /* Responsive Design */

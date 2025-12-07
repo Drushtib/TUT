@@ -3,6 +3,147 @@
  * Magazine-style asymmetric layouts with typography focus
  */
 
+/* Home Page White Background Override */
+.home-page-white,
+.home-page-white *,
+.home-page-white h1,
+.home-page-white h2,
+.home-page-white h3,
+.home-page-white h4,
+.home-page-white h5,
+.home-page-white h6,
+.home-page-white p,
+.home-page-white span,
+.home-page-white div,
+.home-page-white a,
+.home-page-white li,
+.home-page-white td,
+.home-page-white th,
+.home-page-white label,
+.home-page-white input,
+.home-page-white textarea,
+.home-page-white select {
+  color: #171717 !important;
+}
+
+.home-page-white a:hover {
+  color: var(--primary-color) !important;
+}
+
+.home-page-white .axil-post-title,
+.home-page-white .axil-post-title a,
+.home-page-white .axil-title,
+.home-page-white .section-title,
+.home-page-white .section-title * {
+  color: #171717 !important;
+}
+
+.home-page-white .axil-post-title a:hover {
+  color: var(--primary-color) !important;
+}
+
+.home-page-white .btn-link,
+.home-page-white .btn-link * {
+  color: #171717 !important;
+}
+
+.home-page-white .btn-link:hover {
+  color: var(--primary-color) !important;
+}
+
+.home-page-white .post-cat,
+.home-page-white .post-cat * {
+  color: #ffffff !important;
+}
+
+.home-page-white .post-metas,
+.home-page-white .post-metas * {
+  color: #444444 !important;
+}
+
+.home-page-white .axil-img-container .axil-post-title,
+.home-page-white .axil-img-container .axil-post-title a {
+  color: #ffffff !important;
+}
+
+.home-page-white .webprofile-names-list,
+.home-page-white .webprofile-names-list * {
+  color: #171717 !important;
+}
+
+.home-page-white .webprofile-names-list .names-list-title {
+  color: #171717 !important;
+}
+
+.home-page-white .webprofile-names-list .name-item.active,
+.home-page-white .webprofile-names-list .name-item.active * {
+  color: #ffffff !important;
+}
+
+.home-page-white .sidebar-social-share-widget {
+  background: transparent !important;
+}
+
+.home-page-white .sidebar-social-share-widget ul,
+.home-page-white .sidebar-social-share-widget li {
+  background: transparent !important;
+}
+
+/* Allow social media button backgrounds to show through */
+.home-page-white .social-share-list-wrapper li .list-inner.bg-color-facebook {
+  background-color: #1877F2 !important;
+  color: #ffffff !important;
+}
+
+.home-page-white .social-share-list-wrapper li .list-inner.bg-color-twitter {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.home-page-white .social-share-list-wrapper li .list-inner.bg-color-youtube {
+  background-color: #FF0000 !important;
+  color: #ffffff !important;
+}
+
+.home-page-white .social-share-list-wrapper li .list-inner.bg-color-linkedin {
+  background-color: #0077B5 !important;
+  color: #ffffff !important;
+}
+
+.home-page-white .social-share-list-wrapper li .list-inner.bg-color-discord {
+  background-color: #5865F2 !important;
+  color: #ffffff !important;
+}
+
+.home-page-white .social-share-list-wrapper li .list-inner.bg-color-pinterest {
+  background-color: #BD081C !important;
+  color: #ffffff !important;
+}
+
+.home-page-white .social-share-list-wrapper li .list-inner.bg-color-slack {
+  background-color: #4A154B !important;
+  color: #ffffff !important;
+}
+
+.home-page-white .social-share-list-wrapper li .list-inner.bg-color-instagram {
+  background-color: #E4405F !important;
+  color: #ffffff !important;
+}
+
+.home-page-white .social-share-list-wrapper li .list-inner {
+  color: #ffffff !important;
+}
+
+.home-page-white .social-share-list-wrapper li .list-inner i {
+  color: #ffffff !important;
+  font-size: 3.6rem !important;
+}
+
+.home-page-white .social-share-list-wrapper li .counts,
+.home-page-white .social-share-list-wrapper li .title {
+  color: #ffffff !important;
+}
+
 /* ============================================
    Editorial Container Styles
    ============================================ */

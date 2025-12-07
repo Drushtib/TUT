@@ -37,12 +37,12 @@ const BusinessBulletin = () => {
   if (!data) return null;
 
   return (
-    <div style={{ background: 'var(--background)', color: 'var(--text)' }}>
+    <div style={{ background: '#ffffff', color: '#171717' }}>
       <div style={{ marginBottom: '3rem' }}>
         <h2 style={{
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           fontWeight: 800,
-          color: 'var(--text)',
+          color: '#171717',
           marginBottom: '1rem',
           textTransform: 'uppercase',
           letterSpacing: '1px'
@@ -99,11 +99,11 @@ const BusinessBulletin = () => {
               {/* Image Container */}
               <div style={{
                 width: '100%',
-                height: '320px',
+                height: '250px',
                 overflow: 'hidden',
-                borderRadius: '20px',
+                borderRadius: '8px',
                 position: 'relative',
-                marginBottom: '-10px'
+                marginBottom: '100px'
               }}>
                 <Image
                   src={post.featureImg}
@@ -127,14 +127,14 @@ const BusinessBulletin = () => {
               
               {/* Content Container - Half-in, Half-out with Negative Margin */}
               <div style={{ 
-                background: 'var(--background)',
-                border: '1px solid rgba(68, 68, 68, 0.3)',
+                background: '#ffffff',
+                border: '1px solid rgba(0, 0, 0, 0.1)',
                 borderRadius: '8px',
                 padding: '0',
-                marginTop: '-140px',
+                marginTop: '-190px',
                 marginLeft: '1.5rem',
                 marginRight: '1.5rem',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
                 flexGrow: 1,
                 display: 'flex',
                 flexDirection: 'column',
@@ -157,35 +157,35 @@ const BusinessBulletin = () => {
                 </div>
                 
                 {/* Content */}
-                <div style={{ padding: '1.5rem' }}>
-                  <h3 style={{
-                    fontSize: '1.25rem',
-                    fontWeight: 700,
-                    color: 'var(--text)',
-                    marginBottom: '0.75rem',
-                    lineHeight: '1.4',
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden'
-                  }}>
-                    {post.title}
-                  </h3>
-                  
-                  {post.description && (
-                    <p style={{
-                      fontSize: '0.875rem',
-                      color: 'var(--text-muted)',
-                      lineHeight: '1.6',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden'
-                    }}>
-                      {post.description}
-                    </p>
-                  )}
-                </div>
+                    <div style={{ padding: '1.5rem' }}>
+                      <h3 style={{
+                        fontSize: '1.25rem',
+                        fontWeight: 700,
+                        color: '#171717',
+                        marginBottom: '0.75rem',
+                        lineHeight: '1.4',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      }}>
+                        {post.title}
+                      </h3>
+                      
+                      {post.description && (
+                        <p style={{
+                          fontSize: '0.875rem',
+                          color: '#444444',
+                          lineHeight: '1.6',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden'
+                        }}>
+                          {post.description}
+                        </p>
+                      )}
+                    </div>
               </div>
             </div>
           </Link>

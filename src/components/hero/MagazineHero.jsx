@@ -117,32 +117,73 @@ const MagazineHero = () => {
 
   return (
     <>
-      <div className="editorial-container" style={{ minHeight: "80vh", display: "flex", alignItems: "center", position: "relative", zIndex: 1 }}>
-        <div className="editorial-grid-60-40" style={{ width: "100%", alignItems: "center" }}>
-          {/* Typography-Focused Left Side */}
-          <div className="editorial-padding-asymmetric" style={{ position: "relative", zIndex: 2 }}>
+      <div style={{ 
+        width: "100%", 
+        padding: '0', 
+        margin: '0',
+        position: "relative", 
+        zIndex: 1, 
+        backgroundImage: `url(/assest/bg.jpg)`,
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        minHeight: '100%'
+      }}>
+        {/* Background overlay for opacity */}
+        {/* <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(255, 252, 252, 0.3)',
+          zIndex: 1
+        }}></div> */}
+        <div className="editorial-grid-60-40" style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 0 0 4rem', width: "100%", alignItems: "stretch", gap: '0rem', gridTemplateColumns: '1fr 1.5fr', position: 'relative', zIndex: 2 }}>
+          {/* Typography-Focused Left Side - Separate Block */}
+          <div className="editorial-padding-asymmetric" style={{
+            position: "relative", 
+            zIndex: 1,
+            background: 'transparent',
+            backgroundColor: 'transparent',
+            border: 'none',
+            borderRadius: '0',
+            padding: '2rem 0rem',
+            boxShadow: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            overflow: 'hidden',
+            isolation: 'isolate'
+          }}>
             <div style={{ 
               marginBottom: "1.5rem", 
               color: "var(--primary-color)", 
-              opacity: 1, 
+              opacity: 1,
+              backgroundColor: 'transparent',
               fontWeight: 700,
               fontSize: "0.875rem",
               textTransform: "uppercase",
-              letterSpacing: "2px"
+              letterSpacing: "3px",
+              fontFamily: "'Poppins', sans-serif",
+              position: 'relative',
+              zIndex: 11
             }}>
               FEATURED MAGAZINE
             </div>
             
-            <Link href={`/magazine/${currentMagazine.slug?.current || currentMagazine.slug}`} style={{ textDecoration: "none", display: "block" }}>
+            <Link href={`/magazine/${currentMagazine.slug?.current || currentMagazine.slug}`} style={{ textDecoration: "none", display: "block", position: 'relative', zIndex: 11 }}>
               <h1 style={{ 
                 marginBottom: "1rem", 
                 cursor: "pointer", 
-                opacity: 1, 
-                color: "var(--text)",
-                fontWeight: 900,
+                opacity: 1,
+                backgroundColor: 'transparent',
+                color: "#171717",
+                fontWeight: 700,
                 fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
-                lineHeight: "1.1",
-                letterSpacing: "-0.02em"
+                lineHeight: "1.15",
+                letterSpacing: "-0.01em",
+                fontFamily: "'Playfair Display', serif"
               }}>
                 {currentMagazine.title?.toUpperCase() || currentMagazine.title}
               </h1>
@@ -153,17 +194,24 @@ const MagazineHero = () => {
               width: "80px",
               height: "3px",
               background: "var(--primary-color)",
-              marginBottom: "2rem"
+              marginBottom: "2rem",
+              position: 'relative',
+              zIndex: 11
             }}></div>
             
             {currentMagazine.description && (
               <p style={{ 
                 fontSize: "1.125rem", 
                 marginBottom: "2.5rem", 
-                opacity: 1, 
-                color: "var(--text)",
+                opacity: 1,
+                backgroundColor: 'transparent',
+                // color: "#444444",
                 fontWeight: 400,
-                lineHeight: "1.6"
+                lineHeight: "1.7",
+                fontFamily: "'Lora', serif",
+                fontStyle: "italic",
+                position: 'relative',
+                zIndex: 11
               }}>
                 {currentMagazine.description}
               </p>
@@ -173,34 +221,70 @@ const MagazineHero = () => {
               href={`/magazine/${currentMagazine.slug?.current || currentMagazine.slug}`}
               style={{
                 background: "var(--primary-color)",
+                backgroundColor: "var(--primary-color)",
                 color: "var(--text-dark)",
                 padding: "1rem 2.5rem",
                 borderRadius: "0",
                 fontWeight: 700,
                 textTransform: "uppercase",
-                letterSpacing: "1.5px",
+                letterSpacing: "2px",
+                fontFamily: "'Poppins', sans-serif",
                 textDecoration: "none",
                 display: "inline-block",
                 fontSize: "0.875rem",
                 transition: "all 0.3s ease",
-                border: "2px solid var(--primary-color)"
+                border: "2px solid var(--primary-color)",
+                width: 'fit-content',
+                position: 'relative',
+                zIndex: 11,
+                opacity: 1
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.background = "linear-gradient(135deg, #8ad3ff 0%, #003b9c 100%)";
                 e.currentTarget.style.color = "var(--primary-color)";
+                e.currentTarget.style.border = "2px solid white";
+                e.currentTarget.style.border = "2px solid white";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = "var(--primary-color)";
+                e.currentTarget.style.background = "transparent";
                 e.currentTarget.style.color = "var(--text-dark)";
+                e.currentTarget.style.border = "2px solid var(--primary-color)";
               }}
             >
               READ MORE
             </Link>
           </div>
 
-          {/* Magazine Carousel Right Side */}
-          <div className="carousel-container" style={{ position: "relative", height: "600px" }}>
-            <div className="carousel-track">
+          {/* Magazine Carousel Right Side - Separate Block */}
+          <div className="carousel-container" style={{ 
+            position: "relative", 
+            height: "600px",
+            minHeight: "600px",
+            background: 'transparent',
+            backgroundColor: 'transparent',
+            border: 'none',
+            borderRadius: '0',
+            padding: '0',
+            margin: '0',
+            boxShadow: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1,
+            overflow: 'hidden'
+          }}>
+            {/* Dark overlay behind magazines */}
+            {/* <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0, 0, 0, 0.4)',
+              zIndex: 1,
+              pointerEvents: 'none'
+            }}></div> */}
+            <div className="carousel-track" style={{ margin: 0, padding: 0, position: 'relative', zIndex: 2 }}>
               {displayData.map((magazine, index) => {
                 const isCenter = index === currentIndex;
                 const relativePosition = index - currentIndex;
@@ -216,7 +300,6 @@ const MagazineHero = () => {
                 // Create horizontal row with progressive scaling
                 const offset = position * 150;
                 const scale = isCenter ? 1.0 : Math.max(0.2, 1.0 - Math.abs(position) * 0.2);
-                const opacity = isCenter ? 1.0 : Math.max(0.2, 1.0 - Math.abs(position) * 0.2);
                 
                 return (
                   <div
@@ -225,7 +308,7 @@ const MagazineHero = () => {
                     style={{
                       left: `calc(50% + ${offset}px)`,
                       transform: `translateX(-50%) translateY(-50%) scale(${scale})`,
-                      opacity: opacity,
+                      opacity: 1,
                       zIndex: isCenter ? 10 : Math.max(1, 10 - Math.abs(position)),
                     }}
                   >
@@ -280,15 +363,15 @@ const MagazineHero = () => {
       </div>
       
       {/* Separator Line Below Hero */}
-      <div style={{
+      {/* <div style={{
         width: '100%',
         height: '2px',
         background: 'var(--primary-color)',
         marginTop: '3rem'
-      }}></div>
+      }}></div> */}
       
       {/* Featured Magazine Title Below Separator */}
-      <div style={{
+      {/* <div style={{
         marginTop: '1.5rem',
         textAlign: 'left'
       }}>
@@ -296,7 +379,7 @@ const MagazineHero = () => {
           href={`/magazine/${currentMagazine.slug?.current || currentMagazine.slug}`}
           style={{
             textDecoration: 'none',
-            color: 'var(--text)',
+            color: '#171717',
             fontSize: '1.25rem',
             fontWeight: 600,
             transition: 'color 0.3s ease'
@@ -305,22 +388,35 @@ const MagazineHero = () => {
             e.currentTarget.style.color = 'var(--primary-color)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'var(--text)';
+            e.currentTarget.style.color = '#171717';
           }}
         >
           {currentMagazine.title} - {currentMagazine.description || 'Featured Story'}
         </Link>
-      </div>
+      </div> */}
 
       <style jsx>{`
+        .editorial-padding-asymmetric {
+          // background: #ffffff !important;
+          // background-color: #ffffff !important;
+          // opacity: 1 !important;
+        }
+        
+        .editorial-padding-asymmetric * {
+          opacity: 1 !important;
+          color: inherit !important;
+        }
+        
         .carousel-container {
           position: relative;
           width: 100%;
           height: 100%;
-          overflow: visible;
+          overflow: hidden;
           display: flex;
           align-items: center;
           justify-content: center;
+          margin: 0;
+          padding: 0;
         }
 
         .carousel-track {
@@ -351,25 +447,25 @@ const MagazineHero = () => {
           z-index: 1;
         }
 
-        .magazine-card {
-          border-radius: 10px;
-          overflow: hidden;
-          background: transparent;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-          width: 280px;
-          height: 380px;
-          margin: 0;
-          padding: 0;
-          border: 3px solid var(--primary-color);
-          outline: none;
-          transition: all 0.3s ease;
-        }
+         .magazine-card {
+           border-radius: 5px;
+           overflow: hidden;
+          //  background: #ffffff !important;
+           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+           width: 300px;
+           height: auto;
+           margin: 0;
+           padding: 0;
+           border: none;
+           outline: none;
+           transition: all 0.3s ease;
+           opacity: 1 !important;
+         }
         
-        .magazine-card:hover {
-          transform: scale(1.05);
-          box-shadow: 0 12px 40px rgba(187, 5, 5, 0.4);
-          border-color: var(--primary-color);
-        }
+         .magazine-card:hover {
+           transform: scale(1.2);
+           box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+         }
         
         .image-container {
           width: 100%;
@@ -378,7 +474,7 @@ const MagazineHero = () => {
         }
 
         .image-container:hover {
-          transform: scale(1.05);
+          // transform: scale(1.05);
         }
 
         .magazine-card img {
@@ -398,27 +494,29 @@ const MagazineHero = () => {
           outline: none !important;
         }
 
-        @media (max-width: 1200px) {
-          .editorial-grid-60-40 {
-            grid-template-columns: 1fr;
-            gap: 3rem;
-          }
-          
-          .carousel-container {
-            height: 500px;
-          }
-        }
+         @media (max-width: 1200px) {
+           .editorial-grid-60-40 {
+             grid-template-columns: 1fr;
+             gap: 2rem;
+           }
+           
+           .carousel-container {
+             height: 500px;
+             minHeight: 500px;
+           }
+         }
 
-        @media (max-width: 768px) {
-          .carousel-container {
-            height: 400px;
-          }
-          
-          .magazine-card {
-            width: 220px;
-            height: 300px;
-          }
-        }
+         @media (max-width: 768px) {
+           .carousel-container {
+             height: 400px;
+             minHeight: 400px;
+           }
+           
+           .magazine-card {
+             width: 280px;
+             height: 380px;
+           }
+         }
       `}</style>
     </>
   );

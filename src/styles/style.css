@@ -366,13 +366,18 @@ a:hover {
   --color-info: #bb0505;
   --color-danger: #bb0505;
   
-  /* Social Media Colors (all using accent red) */
-  --color-facebook: #bb0505;
-  --color-twitter: #bb0505;
-  --color-youtube: #bb0505;
-  --color-linkedin: #bb0505;
-  --color-pinterest: #bb0505;
-  --color-instagram: #bb0505;
+  /* Social Media Colors */
+  --color-facebook: #1877F2;
+  --color-twitter: #1DA1F2;
+  --color-x: #000000;
+  --color-youtube: #FF0000;
+  --color-linkedin: #0077B5;
+  --color-pinterest: #BD081C;
+  --color-instagram: #E4405F;
+  --color-discord: #5865F2;
+  --color-slack: #4A154B;
+  --color-twitch: #9146FF;
+  --color-vimeo: #1AB7EA;
   --color-vimeo: #bb0505;
   --color-twitch: #bb0505;
   
@@ -3608,28 +3613,34 @@ figure {
   background-color: var(--color-info);
 }
 .bg-color-facebook {
-  background-color: var(--color-facebook);
+  background-color: #1877F2 !important;
 }
 .bg-color-twitter {
-  background-color: var(--color-twitter);
+  background-color: #000000 !important;
 }
 .bg-color-instagram {
-  background-color: var(--color-instagram);
+  background-color: #E4405F !important;
 }
 .bg-color-youtube {
-  background-color: var(--color-youtube);
+  background-color: #FF0000 !important;
 }
 .bg-color-linkedin {
-  background-color: var(--color-linkedin);
+  background-color: #0077B5 !important;
 }
 .bg-color-pinterest {
-  background-color: var(--color-pinterest);
+  background-color: #BD081C !important;
 }
 .bg-color-vimeo {
   background-color: var(--color-vimeo);
 }
 .bg-color-twitch {
   background-color: var(--color-twitch);
+}
+.bg-color-discord {
+  background-color: #5865F2 !important;
+}
+.bg-color-slack {
+  background-color: #4A154B !important;
 }
 .bg-color-green-one {
   background-color: var(--color-green-one);

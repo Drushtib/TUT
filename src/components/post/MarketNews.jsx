@@ -37,7 +37,7 @@ const MarketNews = () => {
   if (!data) return null;
 
   return (
-    <div style={{ background: 'var(--background)' }}>
+    <div style={{ background: '#ffffff' }}>
       <div className="editorial-grid-60-40" style={{ gap: '3rem', alignItems: 'start' }}>
         {/* Large Featured Post (60%) */}
         <div style={{ display: "flex", flexDirection: "column" }}>

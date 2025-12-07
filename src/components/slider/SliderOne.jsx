@@ -33,10 +33,10 @@ const SliderOne = () => {
   const sidePosts = data.slice(1, 4);
 
   return (
-    <div style={{ background: 'var(--background)', position: 'relative' }}>
+    <div style={{ background: '#ffffff', position: 'relative' }}>
       <div className="editorial-grid-70-30" style={{ gap: '3rem', alignItems: 'start' }}>
         {/* Large Featured Post (70%) */}
-        <div className="editorial-card-featured" style={{ padding: '0', overflow: 'hidden' }}>
+        <div className="editorial-card-featured" style={{ padding: '0', overflow: 'hidden', background: '#ffffff' }}>
           <Link href={`/post/${featuredPost.slug.current}`} style={{ textDecoration: 'none', display: 'block' }}>
             <div style={{ position: 'relative', width: '100%', height: '500px', overflow: 'hidden' }}>
               <Image
@@ -70,7 +70,7 @@ const SliderOne = () => {
                 </div>
                 <h2 className="editorial-title" style={{ 
                   marginBottom: '1rem',
-                  color: 'var(--text)',
+                  color: '#ffffff',
                   textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
                 }}>
                   {featuredPost.title}
@@ -118,7 +118,9 @@ const SliderOne = () => {
                 padding: '0',
                 overflow: 'hidden',
                 transition: 'all 0.3s ease',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                background: '#ffffff',
+                border: '1px solid rgba(0, 0, 0, 0.1)'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-4px)';
@@ -126,7 +128,7 @@ const SliderOne = () => {
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'rgba(68, 68, 68, 0.3)';
+                e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.1)';
               }}
               >
                 <div style={{ position: 'relative', width: '100%', height: '150px', overflow: 'hidden' }}>
@@ -154,7 +156,8 @@ const SliderOne = () => {
                   <h3 className="editorial-headline" style={{ 
                     fontSize: '1.25rem',
                     marginBottom: '0.5rem',
-                    lineHeight: '1.4'
+                    lineHeight: '1.4',
+                    color: '#171717'
                   }}>
                     {post.title}
                   </h3>

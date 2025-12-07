@@ -14,11 +14,11 @@ const LogoSlider = () => {
   }, []);
 
   return (
-    <div style={{ background: 'var(--background)' }}>
+    <div style={{ background: '#ffffff' }}>
       <h2 className="editorial-headline" style={{ 
         textAlign: 'center', 
         marginBottom: '2rem',
-        color: 'var(--text)'
+        color: '#171717'
       }}>
         Our Partner Brands
       </h2>
@@ -61,7 +61,7 @@ const LogoSlider = () => {
           justify-content: center;
         }
         .logo-container {
-          background: var(--text);
+          background: #ffffff;
           padding: 10px 15px;
           border-radius: 6px;
           box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -70,7 +70,7 @@ const LogoSlider = () => {
           justify-content: center;
           height: 60px;
           width: 150px;
-          border: 1px solid var(--border);
+          border: 1px solid rgba(0, 0, 0, 0.1);
         }
         @keyframes scroll {
           0% {

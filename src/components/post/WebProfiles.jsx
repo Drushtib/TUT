@@ -35,12 +35,12 @@ const WebProfiles = () => {
   };
 
   return (
-    <div style={{ background: getColor("background"), color: getColor("text") }}>
+    <div style={{ background: '#ffffff', color: '#171717' }}>
       <div style={{ marginBottom: '3rem' }}>
         <h2 style={{
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           fontWeight: 800,
-          color: 'var(--text)',
+          color: '#171717',
           marginBottom: '1rem',
           textTransform: 'uppercase',
           letterSpacing: '1px'
@@ -108,14 +108,15 @@ const WebProfiles = () => {
           
           .webprofile-names-list {
             padding: 20px;
-            background: var(--gradient-background);
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 12px;
-            box-shadow: var(--shadow-card);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             height: fit-content;
           }
           
           .names-list-title {
-            color: var(--gold);
+            color: #171717;
             font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 20px;
@@ -130,11 +131,11 @@ const WebProfiles = () => {
             justify-content: space-between;
             padding: 15px 20px;
             margin-bottom: 10px;
-            background: rgba(237, 237, 237, 0.05);
-            border-radius: var(--radius-xl, 8px);
+            background: #f8f8f8;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            border: 2px solid rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
           }
@@ -168,18 +169,18 @@ const WebProfiles = () => {
           
           .name-item.active {
             background: var(--gradient-primary);
-            color: var(--text-dark);
-            border-color: var(--gold);
-            box-shadow: var(--shadow-gold);
+            color: #ffffff;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 15px rgba(218, 0, 55, 0.3);
           }
           
           .name-item.active .name-text {
-            color: var(--text-dark);
+            color: #ffffff;
             font-weight: 600;
           }
           
           .name-text {
-            color: var(--text);
+            color: #171717;
             font-size: 1rem;
             font-weight: 500;
             transition: all 0.3s ease;
@@ -189,17 +190,17 @@ const WebProfiles = () => {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: rgba(237, 237, 237, 0.3);
+            background: rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
           }
           
           .name-item.active .name-indicator {
-            background: var(--text-dark);
+            background: #ffffff;
             transform: scale(1.2);
           }
           
           .name-item:hover .name-indicator {
-            background: var(--gold);
+            background: var(--primary-color);
             transform: scale(1.1);
           }
         `}</style>

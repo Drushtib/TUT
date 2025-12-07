@@ -32,7 +32,7 @@ const IndustryBlogs = () => {
 
   return (
     <div style={{ 
-      background: 'var(--background)', 
+      background: '#ffffff', 
       padding: '4rem 0',
       margin: '4rem 0'
     }}>
@@ -40,7 +40,7 @@ const IndustryBlogs = () => {
         <h2 style={{
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           fontWeight: 800,
-          color: 'var(--text)',
+          color: '#171717',
           marginBottom: '3rem',
           textAlign: 'center',
           textTransform: 'uppercase',
@@ -119,7 +119,7 @@ const IndustryBlogs = () => {
                 <h3 style={{
                   fontSize: '1.5rem',
                   fontWeight: 700,
-                  color: 'var(--text)',
+                  color: '#171717',
                   marginBottom: '1rem',
                   textTransform: 'uppercase',
                   letterSpacing: '1px'

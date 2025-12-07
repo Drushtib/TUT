@@ -17,7 +17,11 @@ const Home = () => {
   console.log("Home component rendering");
   
   return (
-    <div suppressHydrationWarning style={commonStyles.pageContainer}>
+    <div suppressHydrationWarning className="home-page-white" style={{ 
+      background: '#ffffff', 
+      color: '#171717',
+      minHeight: '100vh'
+    }}>
       <HeadMeta
         metaTitle="The Entrepreneurial Chronicles: A Business Magazine for Inspiring Entrepreneur Stories"
         metaDesc="The Entrepreneurial Chronicles is a business magazine that brings inspiring stories of entrepreneurs who have turned their dreams into reality."
@@ -25,16 +29,16 @@ const Home = () => {
       <HeaderOne />
       
       {/* Hero Section - Full Width */}
-      <div style={{ padding: '3rem 0', background: 'var(--background)' }}>
+      <div style={{ padding: '0', margin: '0', background: 'transparent' }}>
         <MagazineHero />
       </div>
       
       {/* Latest Digital Editions - Horizontal Carousel */}
       <div style={{ 
-        background: 'var(--background)', 
+        background: '#ffffff', 
         padding: '4rem 0',
-        borderTop: '1px solid rgba(68, 68, 68, 0.3)',
-        borderBottom: '1px solid rgba(68, 68, 68, 0.3)'
+        borderTop: '1px solid rgba(0, 0, 0, 0.1)',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.1)'
       }}>
         <Magazines />
       </div>
@@ -44,9 +48,9 @@ const Home = () => {
       
       {/* Featured Posts Section */}
       <div style={{ 
-        background: 'var(--background)', 
+        background: '#ffffff', 
         padding: '4rem 0',
-        borderTop: '1px solid rgba(68, 68, 68, 0.3)'
+        borderTop: '1px solid rgba(0, 0, 0, 0.1)'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <SliderOne />
@@ -55,9 +59,9 @@ const Home = () => {
       
       {/* Main Content Area - Two Column Layout */}
       <div style={{ 
-        background: 'var(--background)', 
+        background: '#ffffff', 
         padding: '4rem 0',
-        borderTop: '1px solid rgba(68, 68, 68, 0.3)'
+        borderTop: '1px solid rgba(0, 0, 0, 0.1)'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <MarketNews />
@@ -66,9 +70,9 @@ const Home = () => {
       
       {/* Business Bulletin Section */}
       <div style={{ 
-        background: 'var(--background)', 
+        background: '#ffffff', 
         padding: '4rem 0',
-        borderTop: '1px solid rgba(68, 68, 68, 0.3)'
+        borderTop: '1px solid rgba(0, 0, 0, 0.1)'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <BusinessBulletin />
@@ -77,9 +81,9 @@ const Home = () => {
       
       {/* Web Profiles Section */}
       <div style={{ 
-        background: 'var(--background)', 
+        background: '#ffffff', 
         padding: '4rem 0',
-        borderTop: '1px solid rgba(68, 68, 68, 0.3)'
+        borderTop: '1px solid rgba(0, 0, 0, 0.1)'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <WebProfiles />
@@ -88,9 +92,9 @@ const Home = () => {
       
       {/* Master Talks Section */}
       <div style={{ 
-        background: 'var(--background)', 
+        background: '#ffffff', 
         padding: '4rem 0',
-        borderTop: '1px solid rgba(68, 68, 68, 0.3)'
+        borderTop: '1px solid rgba(0, 0, 0, 0.1)'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <MasterTalks />
@@ -99,9 +103,9 @@ const Home = () => {
       
       {/* Partner Brands */}
       <div style={{ 
-        background: 'var(--background)', 
+        background: '#ffffff', 
         padding: '3rem 0',
-        borderTop: '1px solid rgba(68, 68, 68, 0.3)'
+        borderTop: '1px solid rgba(0, 0, 0, 0.1)'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <LogoSlider />

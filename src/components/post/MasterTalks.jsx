@@ -43,12 +43,12 @@ const MasterTalks = ({ postData, adBanner, pClass }) => {
 
   if (!data) return null;
   return (
-    <div style={{ background: 'var(--background)' }}>
+    <div style={{ background: '#ffffff' }}>
       <div style={{ marginBottom: '3rem' }}>
         <h2 style={{
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           fontWeight: 800,
-          color: 'var(--text)',
+          color: '#171717',
           marginBottom: '1rem',
           textTransform: 'uppercase',
           letterSpacing: '1px'
@@ -77,7 +77,7 @@ const MasterTalks = ({ postData, adBanner, pClass }) => {
         </Link>
       </div>
       
-      <div className="editorial-grid-65-35" style={{ gap: '3rem', alignItems: 'stretch' }}>
+      <div className="editorial-grid-65-35" style={{ gap: '3rem', alignItems: 'start' }}>
         {/* Main Content - Card Grid */}
         <div>
           <div style={{
@@ -91,35 +91,35 @@ const MasterTalks = ({ postData, adBanner, pClass }) => {
                 href={`/post/${post.slug.current}`}
                 style={{ textDecoration: 'none' }}
               >
-                <div className="editorial-card" style={{
+                <div style={{
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
                   transition: 'all 0.3s ease',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  position: 'relative'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-5px)';
-                  e.currentTarget.style.borderColor = 'var(--primary-color)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.borderColor = 'rgba(68, 68, 68, 0.3)';
                 }}
                 >
-                  {/* Image */}
+                  {/* Image Container */}
                   <div style={{
                     width: '100%',
-                    height: '200px',
+                    height: '320px',
                     overflow: 'hidden',
-                    borderRadius: '8px 8px 0 0',
-                    marginBottom: '1rem'
+                    borderRadius: '8px',
+                    position: 'relative',
+                    marginBottom: '100px'
                   }}>
                     <Image
                       src={post.featureImg}
                       alt={post.altText || post.title}
                       width={400}
-                      height={300}
+                      height={400}
                       style={{
                         width: '100%',
                         height: '100%',
@@ -135,52 +135,67 @@ const MasterTalks = ({ postData, adBanner, pClass }) => {
                     />
                   </div>
                   
-                  {/* Content */}
-                  <div style={{ padding: '0 0.5rem 1rem', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                  {/* Content Container - Half-in, Half-out with Negative Margin */}
+                  <div style={{ 
+                    background: '#ffffff',
+                    border: '1px solid rgba(0, 0, 0, 0.1)',
+                    borderRadius: '8px',
+                    padding: '0',
+                    marginTop: '-180px',
+                    marginLeft: '1.5rem',
+                    marginRight: '1.5rem',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                    flexGrow: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    position: 'relative',
+                    zIndex: 2,
+                    overflow: 'hidden'
+                  }}>
+                    {/* Red Banner at Top */}
                     <div style={{
-                      display: 'inline-block',
                       background: 'var(--primary-color)',
                       color: 'var(--text-dark)',
-                      padding: '0.25rem 0.75rem',
-                      borderRadius: '4px',
+                      padding: '0.5rem 1.5rem',
                       fontSize: '0.75rem',
-                      fontWeight: 600,
+                      fontWeight: 700,
                       textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                      marginBottom: '0.75rem',
-                      width: 'fit-content'
+                      letterSpacing: '1px',
+                      width: '100%'
                     }}>
-                      {post.category?.title || 'Master Talks'}
+                      {post.category?.title?.toUpperCase() || 'MASTER TALKS'}
                     </div>
                     
-                    <h3 style={{
-                      fontSize: '1.125rem',
-                      fontWeight: 700,
-                      color: 'var(--text)',
-                      marginBottom: '0.5rem',
-                      lineHeight: '1.4',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden'
-                    }}>
-                      {post.title}
-                    </h3>
-                    
-                    {post.description && (
-                      <p style={{
-                        fontSize: '0.875rem',
-                        color: 'var(--text-muted)',
-                        lineHeight: '1.6',
-                        marginTop: 'auto',
+                    {/* Content */}
+                    <div style={{ padding: '1.5rem' }}>
+                      <h3 style={{
+                        fontSize: '1.25rem',
+                        fontWeight: 700,
+                        color: '#171717',
+                        marginBottom: '0.75rem',
+                        lineHeight: '1.4',
                         display: '-webkit-box',
-                        WebkitLineClamp: 3,
+                        WebkitLineClamp: 2,
                         WebkitBoxOrient: 'vertical',
                         overflow: 'hidden'
                       }}>
-                        {post.description}
-                      </p>
-                    )}
+                        {post.title}
+                      </h3>
+                      
+                      {post.description && (
+                        <p style={{
+                          fontSize: '0.875rem',
+                          color: '#444444',
+                          lineHeight: '1.6',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden'
+                        }}>
+                          {post.description}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </Link>
@@ -191,40 +206,43 @@ const MasterTalks = ({ postData, adBanner, pClass }) => {
         {/* Sidebar - Compact */}
         <div style={{ 
           display: 'flex', 
-          flexDirection: 'column',
-          height: '100%'
+          flexDirection: 'column'
         }}>
           <div className="post-sidebar" style={{ 
             display: "flex", 
             flexDirection: "column",
             gap: "0.75rem",
-            height: '100%',
-            justifyContent: 'flex-start'
+            justifyContent: 'flex-start',
+            overflow: 'visible'
           }}>
             <div style={{ 
               transform: 'scale(0.8)', 
               transformOrigin: 'top left',
-              marginBottom: '-5%'
+              marginBottom: '-5%',
+              overflow: 'visible'
             }}>
               <WidgetNewsletter />
             </div>
             <div style={{ 
-              transform: 'scale(0.8)', 
+              transform: 'scale(0.85)', 
               transformOrigin: 'top left',
-              marginBottom: '-5%'
+              marginBottom: '-5%',
+              overflow: 'visible'
             }}>
-              <WidgetCategory cateData={data} />
+              <WidgetCategory cateData={data} compact={true} />
             </div>
             <div style={{ 
               transform: 'scale(0.8)', 
               transformOrigin: 'top left',
-              marginBottom: '-5%'
+              marginBottom: '-5%',
+              overflow: 'visible'
             }}>
               <WidgetSocialShare />
             </div>
             <div style={{ 
               transform: 'scale(0.8)', 
-              transformOrigin: 'top left'
+              transformOrigin: 'top left',
+              overflow: 'visible'
             }}>
               <WidgetPost dataPost={data} />
             </div>

@@ -20,12 +20,12 @@ const Magazines = () => {
   if (!data || data.length === 0) return null;
 
   return (
-    <div style={{ background: 'var(--background)' }}>
+    <div style={{ background: '#ffffff' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
         <h2 style={{
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           fontWeight: 800,
-          color: 'var(--text)',
+          color: '#171717',
           marginBottom: '3rem',
           textAlign: 'center',
           textTransform: 'uppercase',

@@ -5,9 +5,9 @@ import { client, urlFor } from "../../client";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../common/Loader";
 
-const WidgetCategory = () => {
+const WidgetCategory = ({ compact = false }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const categoriesPerPage = 4;
+  const categoriesPerPage = compact ? 2 : 4;
 
   const {
     isLoading,
@@ -58,17 +58,17 @@ const WidgetCategory = () => {
       </div>
       <div
         className="category-slider position-relative overflow-hidden"
-        style={{ height: "1000px" }}
+        style={{ height: compact ? "400px" : "1000px" }}
       >
         <div
           className="category-slide-inner transition"
           style={{
-            transform: `translateY(-${currentSlide * 200}px)`,
+            transform: `translateY(-${currentSlide * (compact ? 140 : 200)}px)`,
             transition: "transform 0.3s ease-in-out",
           }}
         >
           {categoryData?.map((data, index) => (
-            <div key={data.slug?.current} className="category-item mb-4">
+            <div key={data.slug?.current} className="category-item" style={{ marginBottom: compact ? "0.75rem" : "1rem" }}>
               {data.slug?.current === "trusted-brands" ? null : (
                 <Link
                   className="d-block position-relative overflow-hidden rounded shadow"
@@ -77,7 +77,7 @@ const WidgetCategory = () => {
                       ? "/magazines"
                       : `/category/${data.slug?.current}`
                   }
-                  style={{ height: "180px" }}
+                  style={{ height: compact ? "120px" : "180px" }}
                 >
                   <div
                     style={{
@@ -97,7 +97,10 @@ const WidgetCategory = () => {
                     className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
                     style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
                   >
-                    <h4 className="text-white fs-4 fw-bold">{data.title}</h4>
+                    <h4 className="text-white" style={{ 
+                      fontSize: compact ? "0.875rem" : "1.25rem",
+                      fontWeight: 700
+                    }}>{data.title}</h4>
                   </div>
                 </Link>
               )}
