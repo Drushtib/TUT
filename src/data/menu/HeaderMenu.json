@@ -21,6 +21,10 @@
     "path": "/contact"
   },
   {
+    "label": "Media Kit",
+    "path": "/media-kit"
+  },
+  {
     "label": "Advertise With Us",
     "path": "/advertise-with-us"
   }

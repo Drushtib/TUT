@@ -9,12 +9,27 @@ import SectionTitleTwo from "../components/elements/SectionTitleTwo";
 import HeaderOne from "../components/header/HeaderOne";
 import FooterTwo from "../components/footer/FooterTwo";
 import emailjs from "@emailjs/browser";
-import { useRef } from "react";
-import { commonStyles, getColor, getSpacing } from "../lib/utils/theme";
+import { useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 
 const ContactPage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Handle scroll to map when hash is present in URL
+    if (router.asPath.includes('#')) {
+      const hash = router.asPath.split('#')[1];
+      setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [router.asPath]);
+
   return (
-    <div style={commonStyles.pageContainer}>
+    <div style={{ background: '#171717', color: '#fff', minHeight: '100vh' }}>
       <HeadMeta
         metaTitle="Connect and Share Your Story with The Entrepreneurial Chronicles Magazine
 "
@@ -61,65 +76,180 @@ const ContactPage = () => {
             justifyContent: "center",
             alignItems: "center",
             textAlign: "center",
-            padding: `0 ${getSpacing("md")}`,
-            color: getColor("text"),
+            padding: "0 1rem",
+            color: "white",
           }}
         >
           <p
             style={{
               fontSize: "4rem",
               fontWeight: "bolder",
-              marginBottom: getSpacing("md"),
-              color: getColor("text"),
+              marginBottom: "1rem",
+              color: "white",
             }}
           >
             Contact Us
-          </p>
-          <p
-            style={{
-              fontSize: "2rem",
-              fontWeight: "lighter",
-              color: getColor("text"),
-            }}
-          >
-            Welcome to The Entrepreneurial Chronicles Magazine, where we
-            spotlight trailblazers from all sectors transforming the business
-            magazine landscape. Our mission is to inspire and empower new
-            leaders with groundbreaking ideas worldwide. Count on us for
-            reliable insights, advice, and industry trends, supporting both
-            established and aspiring leaders.
           </p>
         </div>
       </div>
       {/* <BreadcrumbBanner pageTitle="Contact Us" /> */}
 
-      <div className="contact-form section-gap" style={{ background: getColor("background"), color: getColor("text") }}>
+      <div className="contact-form section-gap" style={{ background: '#171717', color: '#fff', paddingTop: "4rem", paddingBottom: "4rem" }}>
         <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-7">
-              <ContactForm />
+          <div className="row align-items-stretch">
+            {/* Form Box with Animation */}
+            <div className="col-lg-6" style={{ marginBottom: "2rem", display: "flex" }}>
+              <div
+                className="contact-form-box"
+                style={{
+                  background: "#171717",
+                  borderRadius: "20px",
+                  padding: "2rem",
+                  border: "1px solid rgba(212,175,55,0.3)",
+                  boxShadow: "0 15px 50px rgba(0,0,0,0.6), 0 0 30px rgba(212,175,55,0.1)",
+                  animation: "slideInLeft 0.8s ease-out",
+                  transition: "all 0.3s ease",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-5px)";
+                  e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(212,175,55,0.2)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 15px 50px rgba(0,0,0,0.6), 0 0 30px rgba(212,175,55,0.1)";
+                }}
+              >
+                <ContactForm />
+              </div>
             </div>
-            <div className="col-lg-5">
-              <ContactInfo />
+
+            {/* Address Box with Animation */}
+            <div className="col-lg-6" style={{ marginBottom: "2rem", display: "flex" }}>
+              <div
+                className="contact-info-box"
+                style={{
+                  background: "#171717",
+                  borderRadius: "20px",
+                  padding: "2rem",
+                  border: "1px solid rgba(212,175,55,0.3)",
+                  boxShadow: "0 15px 50px rgba(0,0,0,0.6), 0 0 30px rgba(212,175,55,0.1)",
+                  animation: "slideInRight 0.8s ease-out",
+                  transition: "all 0.3s ease",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-5px)";
+                  e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(212,175,55,0.2)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 15px 50px rgba(0,0,0,0.6), 0 0 30px rgba(212,175,55,0.1)";
+                }}
+              >
+                <ContactInfo />
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Animation Styles */}
+        <style jsx>{`
+          @keyframes slideInLeft {
+            from {
+              opacity: 0;
+              transform: translateX(-50px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+          
+          @keyframes slideInRight {
+            from {
+              opacity: 0;
+              transform: translateX(50px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+        `}</style>
       </div>
-      <div className="section-gap our-location section-gap-top__with-text" style={{ background: getColor("background"), color: getColor("text") }}>
+      <div className="section-gap our-location section-gap-top__with-text" style={{ background: '#171717', color: '#fff' }}>
         <div className="container">
-          <div className="section-title" style={{ color: getColor("text") }}>
-            <h2 className="axil-title m-b-xs-40" style={{ color: getColor("text") }}>Our Location</h2>
-          </div>
+          <div className="section-title" style={{ color: '#fff' }}>
+            <h2 className="axil-title m-b-xs-40" style={{ color: '#fff' }}>Our Locations</h2>
+          </div> 
           {/* End of .section-title */}
-          <div className="axil-map-wrapper m-b-xs-30">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d65323685.5466851!2d-90.41887654143267!3d2.137822078029002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8838935d05ab2f23%3A0x9c971993f29450fc!2s6555%2C%206605%20Longshore%20St%2C%20Dublin%2C%20OH%2043017%2C%20USA!5e0!3m2!1sen!2sin!4v1715191335841!5m2!1sen!2sin"
-              width={600}
-              height={450}
-              allowFullScreen
-            />
+        </div>
+        {/* End of .container */}
+        <div className="container">
+          <div style={{ 
+            display: "flex",
+            gap: "2rem",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            alignItems: "stretch"
+          }}>
+            {/* USA Location Map */}
+            <div id="usa-map" style={{ 
+              flex: "1 1 50%",
+              minWidth: "300px",
+              marginBottom: "2rem"
+            }}>
+              <div className="axil-map-wrapper" style={{ 
+                width: "100%", 
+                border: "2px solid #FF0000",
+                borderRadius: "8px",
+                overflow: "hidden",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)"
+              }}>
+                <iframe
+                  src="https://www.google.com/maps?q=6605+Longshore+St,+Dublin,+OH+43017,+USA&output=embed"
+                  width="100%"
+                  height={350}
+                  style={{ border: 0, width: "100%", display: "block" }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="6605 Longshore St, Dublin, OH 43017, USA"
+                />
+              </div>
+            </div>
+
+            {/* Germany Location Map */}
+            <div id="germany-map" style={{ 
+              flex: "1 1 50%",
+              minWidth: "300px",
+              marginBottom: "2rem"
+            }}>
+              <div className="axil-map-wrapper" style={{ 
+                width: "100%", 
+                border: "2px solid #FF0000",
+                borderRadius: "8px",
+                overflow: "hidden",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)"
+              }}>
+                <iframe
+                  src="https://www.google.com/maps?q=He%C3%9Fstra%C3%9Fe+36,+80798+M%C3%BCnchen,+Germany&output=embed"
+                  width="100%"
+                  height={350}
+                  style={{ border: 0, width: "100%", display: "block" }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Heßstraße 36, 80798 München, Germany"
+                />
+              </div>
+            </div>
           </div>
-          {/* End of .axil-map-wrapper */}
         </div>
         {/* End of .container */}
       </div>
