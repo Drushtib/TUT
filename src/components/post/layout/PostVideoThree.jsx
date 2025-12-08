@@ -3,9 +3,17 @@ import Link from "next/link";
 import { slugify } from "../../../utils";
 
 const PostVideoThree = ({ data, imgWidth, imgHeight }) => {
+  // Guard against null/undefined slug
+  if (!data || !data.slug || !data.slug.current) {
+    return null; // Don't render if slug is missing
+  }
+
+  const slug = data.slug.current;
+  const postUrl = `/post/${slug}`;
+
   return (
     <div className="axil-img-container flex-height-container video-container__type-2 m-b-xs-30">
-      <Link className="d-block h-100" href={`/post/${data.slug.current}`}>
+      <Link className="d-block h-100" href={postUrl}>
         <Image
           src={data.featureImg}
           alt={data?.altText || data.title}
@@ -30,7 +38,7 @@ const PostVideoThree = ({ data, imgWidth, imgHeight }) => {
               </Link> */}
             </div>
             <h3 className="axil-post-title hover-line">
-              <Link href={`/post/${data.slug.current}`}>{data.title}</Link>
+              <Link href={postUrl}>{data.title}</Link>
             </h3>
           </div>
         </div>

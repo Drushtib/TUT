@@ -2,9 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 
 const PostVideoOne = ({ data }) => {
+  // Guard against null/undefined slug
+  if (!data || !data.slug || !data.slug.current) {
+    return null; // Don't render if slug is missing
+  }
+
+  const slug = data.slug.current;
+  const postUrl = `/post/${slug}`;
+
   return (
     <div className="axil-img-container flex-height-container">
-      <Link className="d-block h-100" href={`/post/${data.slug.current}`}>
+      <Link className="d-block h-100" href={postUrl}>
         <Image
           src={data.featureImg}
           alt={data?.altText || data.title}
@@ -18,7 +26,7 @@ const PostVideoOne = ({ data }) => {
         <div className="media-body media-body__big">
           <div className="axil-media-bottom mt-auto">
             <h3 className="axil-post-title hover-line hover-line" style={{ color: '#ffffff' }}>
-              <Link href={`/post/${data.slug.current}`} style={{ color: '#ffffff' }}>{data.title}</Link>
+              <Link href={postUrl} style={{ color: '#ffffff' }}>{data.title}</Link>
             </h3>
           </div>
         </div>

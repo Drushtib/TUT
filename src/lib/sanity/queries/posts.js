@@ -47,7 +47,7 @@ export const getPostBySlugQuery = (slug) => `
  * Get posts by category slug
  */
 export const getPostsByCategoryQuery = (categorySlug) => `
-  *[_type == "${SANITY_TYPES.POST}" && categories[0]._ref == *[_type == "${SANITY_TYPES.CATEGORY}" && slug.current == "${categorySlug}"][0]._id] {
+  *[_type == "${SANITY_TYPES.POST}" && categories[0]->slug.current == "${categorySlug}"] {
     ${basePostFields}
   } | order(publishedAt desc)
 `;
@@ -56,7 +56,7 @@ export const getPostsByCategoryQuery = (categorySlug) => `
  * Get paginated posts by category
  */
 export const getPaginatedPostsByCategoryQuery = (categorySlug, start = 0, limit = 6) => `
-  *[_type == "${SANITY_TYPES.POST}" && categories[0]._ref == *[_type == "${SANITY_TYPES.CATEGORY}" && slug.current == "${categorySlug}"][0]._id] {
+  *[_type == "${SANITY_TYPES.POST}" && categories[0]->slug.current == "${categorySlug}"] {
     ${basePostFields}
   } | order(publishedAt desc)[${start}...${start + limit}]
 `;
@@ -79,7 +79,7 @@ export const getFeaturedPostsQuery = (limit = 5) => `
  * Get posts for web profiles section
  */
 export const getWebProfilesQuery = (limit = 5) => `
-  *[_type == "${SANITY_TYPES.POST}" && categories[0]._ref == *[_type == "${SANITY_TYPES.CATEGORY}" && slug.current == "web-profiles"][0]._id] {
+  *[_type == "${SANITY_TYPES.POST}" && categories[0]->slug.current == "web-profiles"] {
     title,
     slug,
     'featureImg': mainImage.asset->url,
@@ -96,7 +96,7 @@ export const getWebProfilesQuery = (limit = 5) => `
  * Get posts for market news section
  */
 export const getMarketNewsQuery = (limit = 3) => `
-  *[_type == "${SANITY_TYPES.POST}" && categories[0]._ref == *[_type == "${SANITY_TYPES.CATEGORY}" && slug.current == "market-news"][0]._id] {
+  *[_type == "${SANITY_TYPES.POST}" && categories[0]->slug.current == "market-news"] {
     ${basePostFields}
   } | order(publishedAt desc)[0...${limit}]
 `;
@@ -105,7 +105,7 @@ export const getMarketNewsQuery = (limit = 3) => `
  * Get posts for business bulletin section
  */
 export const getBusinessBulletinQuery = (limit = 3) => `
-  *[_type == "${SANITY_TYPES.POST}" && categories[0]._ref == *[_type == "${SANITY_TYPES.CATEGORY}" && slug.current == "business-bulletin"][0]._id] {
+  *[_type == "${SANITY_TYPES.POST}" && categories[0]->slug.current == "business-bulletin"] {
     ${basePostFields}
   } | order(publishedAt desc)[0...${limit}]
 `;
