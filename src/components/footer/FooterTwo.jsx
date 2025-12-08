@@ -79,6 +79,42 @@ const FooterTwo = () => {
         .social-share i {
           font-size: 20px !important;
         }
+        .page-footer,
+        .page-footer * {
+          color: white !important;
+        }
+        .page-footer a {
+          color: white !important;
+        }
+        .page-footer .footer-bottom-links,
+        .page-footer .footer-bottom-links li,
+        .page-footer .footer-bottom-links a,
+        .page-footer .footer-bottom-links li a,
+        .footer-bottom-links,
+        .footer-bottom-links li,
+        .footer-bottom-links a,
+        .footer-bottom-links li a,
+        .bg-grey-dark-key .footer-bottom-links,
+        .bg-grey-dark-key .footer-bottom-links li,
+        .bg-grey-dark-key .footer-bottom-links a,
+        .bg-grey-dark-key .footer-bottom-links li a {
+          color: white !important;
+        }
+        .page-footer p,
+        .page-footer .footer-bottom-links p {
+          color: white !important;
+        }
+        .page-footer h4,
+        .page-footer .footer-bottom-links h4 {
+          color: white !important;
+        }
+        .page-footer li,
+        .page-footer .footer-bottom-links li {
+          color: white !important;
+        }
+        .page-footer ul.footer-bottom-links li a {
+          color: white !important;
+        }
       `}</style>
       
       {/* Newsletter Section - Full Width at Top */}
@@ -434,26 +470,26 @@ const FooterTwo = () => {
               lineHeight: "2",
               textAlign: "center"
             }}
-            className="footer-bottom-links "
+            className="footer-bottom-links"
           >
-            <li>
-              <Link href="/">Home</Link>
+            <li style={{ color: "white" }}>
+              <Link href="/" style={{ color: "white", textDecoration: "none" }}>Home</Link>
             </li>
-            <li>
-              <Link href="/magazines">Magazine</Link>
+            <li style={{ color: "white" }}>
+              <Link href="/magazines" style={{ color: "white", textDecoration: "none" }}>Magazine</Link>
             </li>
-            <li>
-              <Link href="/about-us">About Us</Link>
+            <li style={{ color: "white" }}>
+              <Link href="/about-us" style={{ color: "white", textDecoration: "none" }}>About Us</Link>
             </li>
           
-            <li>
-              <Link href="/blogs">Blogs</Link>
+            <li style={{ color: "white" }}>
+              <Link href="/blogs" style={{ color: "white", textDecoration: "none" }}>Blogs</Link>
             </li>
-            <li>
-              <Link href="/contact">Contact Us</Link>
+            <li style={{ color: "white" }}>
+              <Link href="/contact" style={{ color: "white", textDecoration: "none" }}>Contact Us</Link>
             </li>
-            <li>
-              <Link href="/guest-post">Guest Post</Link>
+            <li style={{ color: "white" }}>
+              <Link href="/guest-post" style={{ color: "white", textDecoration: "none" }}>Guest Post</Link>
             </li>
           </ul>
         </div>
@@ -571,7 +607,7 @@ const FooterTwo = () => {
            </div>
          </div>
       </div>
-       <p style={{ textAlign: "center", marginTop: "1.5rem", fontWeight: 400 }}>
+       <p style={{ textAlign: "center", marginTop: "1.5rem", fontWeight: 400, color: "white" }}>
          &copy;Copyright 2025 | The Entrepreneurial Chronicles| All Rights
          Reserved.
        </p>
