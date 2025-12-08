@@ -8,8 +8,7 @@
     "NEXT_PUBLIC_SANITY_PROJECT_ID": "@sanity_project_id",
     "NEXT_PUBLIC_SANITY_DATASET": "@sanity_dataset",
     "NEXT_PUBLIC_SANITY_API_VERSION": "@sanity_api_version",
-    "NEXT_PUBLIC_SANITY_USE_CDN": "@sanity_use_cdn",
-    "NEXT_PUBLIC_SITE_URL": "@site_url"
+    "NEXT_PUBLIC_SANITY_USE_CDN": "@sanity_use_cdn"
   }
 }
 
