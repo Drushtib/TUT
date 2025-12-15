@@ -299,7 +299,7 @@ const MarketNews = () => {
         }
 
         .news-description {
-          font-size: 1.05rem;
+          font-size: 1.2rem;
           color: #666666;
           line-height: 1.6;
           margin: 0;
@@ -341,7 +341,7 @@ const MarketNews = () => {
           }
 
           .news-description {
-            font-size: 1rem;
+            font-size: 1.1rem;
           }
         }
 
@@ -367,7 +367,7 @@ const MarketNews = () => {
           }
 
           .news-description {
-            font-size: 0.95rem;
+            font-size: 1rem;
           }
         }
       `}</style>
