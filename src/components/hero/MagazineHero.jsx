@@ -117,17 +117,37 @@ const MagazineHero = () => {
 
   return (
     <>
-      <div style={{ 
+      <style jsx global>{`
+        .read-more-button,
+        a.read-more-button {
+          color: #ffffff !important;
+        }
+        .read-more-button *,
+        .read-more-button span,
+        a.read-more-button *,
+        a.read-more-button span {
+          color: #ffffff !important;
+        }
+        .editorial-padding-asymmetric .read-more-button,
+        .editorial-padding-asymmetric a.read-more-button,
+        .editorial-padding-asymmetric .read-more-button *,
+        .editorial-padding-asymmetric .read-more-button span {
+          color: #ffffff !important;
+        }
+      `}</style>
+      <div className="hero-background-container" style={{ 
         width: "100%", 
         padding: '0', 
         margin: '0',
         position: "relative", 
         zIndex: 1, 
-        backgroundImage: `url(/assest/bg.jpg)`,
-        backgroundSize: 'contain',
+        backgroundImage: `url(/assest/bf9abef8-a5f5-4363-8751-61fae2f18c61.jpg)`,
+        backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        minHeight: '100%'
+        backgroundAttachment: 'fixed',
+        minHeight: '100%',
+        opacity: 1
       }}>
         {/* Background overlay for opacity */}
         {/* <div style={{
@@ -156,13 +176,13 @@ const MagazineHero = () => {
             overflow: 'hidden',
             isolation: 'isolate'
           }}>
-            <div style={{ 
+            <div className="hero-text-white" style={{ 
               marginBottom: "1.5rem", 
-              color: "var(--primary-color)", 
+              color: "#ffffff", 
               opacity: 1,
               backgroundColor: 'transparent',
               fontWeight: 700,
-              fontSize: "0.875rem",
+              fontSize: "1.5rem",
               textTransform: "uppercase",
               letterSpacing: "3px",
               fontFamily: "'Poppins', sans-serif",
@@ -172,86 +192,94 @@ const MagazineHero = () => {
               FEATURED MAGAZINE
             </div>
             
-            <Link href={`/magazine/${currentMagazine.slug?.current || currentMagazine.slug}`} style={{ textDecoration: "none", display: "block", position: 'relative', zIndex: 11 }}>
-              <h1 style={{ 
+            <Link href={`/magazine/${currentMagazine.slug?.current || currentMagazine.slug}`} style={{ textDecoration: "none", display: "block", position: 'relative', zIndex: 11, color: "#ffffff" }}>
+              <h1 className="hero-title-white" style={{ 
                 marginBottom: "1rem", 
                 cursor: "pointer", 
                 opacity: 1,
                 backgroundColor: 'transparent',
-                color: "#171717",
+                color: "#ffffff",
                 fontWeight: 700,
-                fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+                fontSize: "clamp(2rem, 4vw, 3.5rem)",
                 lineHeight: "1.15",
                 letterSpacing: "-0.01em",
-                fontFamily: "'Playfair Display', serif"
+                fontFamily: "'Playfair Display', serif",
+                textTransform: "none"
               }}>
-                {currentMagazine.title?.toUpperCase() || currentMagazine.title}
+                {currentMagazine.title ? currentMagazine.title.charAt(0).toUpperCase() + currentMagazine.title.slice(1).toLowerCase() : currentMagazine.title}
               </h1>
             </Link>
             
-            {/* Red-orange accent line separator */}
+            {/* White accent line separator */}
             <div style={{
               width: "80px",
               height: "3px",
-              background: "var(--primary-color)",
+              background: "#ffffff",
               marginBottom: "2rem",
               position: 'relative',
               zIndex: 11
             }}></div>
             
             {currentMagazine.description && (
-              <p style={{ 
-                fontSize: "1.125rem", 
+              <p className="hero-text-white" style={{ 
+                fontSize: "0.95rem", 
                 marginBottom: "2.5rem", 
                 opacity: 1,
                 backgroundColor: 'transparent',
-                // color: "#444444",
+                color: "#ffffff",
                 fontWeight: 400,
                 lineHeight: "1.7",
                 fontFamily: "'Lora', serif",
-                fontStyle: "italic",
+                fontStyle: "normal",
+                textTransform: "none",
                 position: 'relative',
                 zIndex: 11
               }}>
-                {currentMagazine.description}
+                {currentMagazine.description.charAt(0).toUpperCase() + currentMagazine.description.slice(1).toLowerCase()}
               </p>
             )}
             
             <Link 
               href={`/magazine/${currentMagazine.slug?.current || currentMagazine.slug}`}
+              className="read-more-button"
               style={{
-                background: "var(--primary-color)",
-                backgroundColor: "var(--primary-color)",
-                color: "var(--text-dark)",
-                padding: "1rem 2.5rem",
+                background: "#545454",
+                backgroundColor: "#545454",
+                color: "#ffffff",
+                padding: "1.25rem 3rem",
                 borderRadius: "0",
-                fontWeight: 700,
+                fontWeight: 600,
                 textTransform: "uppercase",
                 letterSpacing: "2px",
                 fontFamily: "'Poppins', sans-serif",
                 textDecoration: "none",
                 display: "inline-block",
-                fontSize: "0.875rem",
+                fontSize: "1.25rem",
                 transition: "all 0.3s ease",
-                border: "2px solid var(--primary-color)",
+                border: "2px solid #545454",
                 width: 'fit-content',
                 position: 'relative',
                 zIndex: 11,
-                opacity: 1
+                opacity: 1,
+                transform: "scale(1)",
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)"
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "linear-gradient(135deg, #8ad3ff 0%, #003b9c 100%)";
-                e.currentTarget.style.color = "var(--primary-color)";
-                e.currentTarget.style.border = "2px solid white";
-                e.currentTarget.style.border = "2px solid white";
+                e.currentTarget.style.background = "#545454";
+                e.currentTarget.style.color = "#ffffff";
+                e.currentTarget.style.border = "2px solid #545454";
+                e.currentTarget.style.transform = "scale(1.05) translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.4)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = "transparent";
-                e.currentTarget.style.color = "var(--text-dark)";
-                e.currentTarget.style.border = "2px solid var(--primary-color)";
+                e.currentTarget.style.background = "#545454";
+                e.currentTarget.style.color = "#ffffff";
+                e.currentTarget.style.border = "2px solid #545454";
+                e.currentTarget.style.transform = "scale(1) translateY(0)";
+                e.currentTarget.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.2)";
               }}
             >
-              READ MORE
+              <span style={{ color: "#ffffff" }}>READ MORE</span>
             </Link>
           </div>
 
@@ -348,7 +376,7 @@ const MagazineHero = () => {
                     width: currentIndex === index ? "24px" : "8px",
                     height: "8px",
                     borderRadius: "4px",
-                    background: currentIndex === index ? "var(--primary-color)" : "rgba(255, 255, 255, 0.3)",
+                    background: currentIndex === index ? "#C6A054" : "rgba(255, 255, 255, 0.3)",
                     border: "none",
                     cursor: "pointer",
                     transition: "all 0.3s ease",
@@ -396,6 +424,10 @@ const MagazineHero = () => {
       </div> */}
 
       <style jsx>{`
+        .hero-background-container {
+          opacity: 1 !important;
+        }
+        
         .editorial-padding-asymmetric {
           // background: #ffffff !important;
           // background-color: #ffffff !important;
@@ -404,7 +436,108 @@ const MagazineHero = () => {
         
         .editorial-padding-asymmetric * {
           opacity: 1 !important;
-          color: inherit !important;
+        }
+        
+        .editorial-padding-asymmetric h1,
+        .editorial-padding-asymmetric h1 *,
+        .editorial-padding-asymmetric h2,
+        .editorial-padding-asymmetric h2 *,
+        .editorial-padding-asymmetric p,
+        .editorial-padding-asymmetric p *,
+        .editorial-padding-asymmetric div,
+        .editorial-padding-asymmetric div *,
+        .editorial-padding-asymmetric a,
+        .editorial-padding-asymmetric a *,
+        .editorial-padding-asymmetric span,
+        .editorial-padding-asymmetric span *,
+        .editorial-padding-asymmetric > div,
+        .editorial-padding-asymmetric > div > * {
+          color: #ffffff !important;
+        }
+        
+        .editorial-grid-60-40 .editorial-padding-asymmetric h1,
+        .editorial-grid-60-40 .editorial-padding-asymmetric h2,
+        .editorial-grid-60-40 .editorial-padding-asymmetric p,
+        .editorial-grid-60-40 .editorial-padding-asymmetric div,
+        .editorial-grid-60-40 .editorial-padding-asymmetric a {
+          color: #ffffff !important;
+        }
+        
+        .hero-title-white,
+        .hero-title-white * {
+          color: #ffffff !important;
+          text-transform: none !important;
+        }
+        
+        .hero-text-white,
+        .hero-text-white * {
+          color: #ffffff !important;
+        }
+        
+        .editorial-padding-asymmetric .hero-title-white,
+        .editorial-padding-asymmetric .hero-text-white {
+          color: #ffffff !important;
+        }
+        
+        .editorial-grid-60-40 .hero-title-white,
+        .editorial-grid-60-40 .hero-text-white {
+          color: #ffffff !important;
+        }
+        
+        .read-more-button,
+        a.read-more-button,
+        .read-more-button span,
+        a.read-more-button span,
+        .read-more-button *,
+        a.read-more-button * {
+          color: #ffffff !important;
+          background: #545454 !important;
+          background-color: #545454 !important;
+          border-color: #545454 !important;
+        }
+        
+        .editorial-padding-asymmetric .read-more-button,
+        .editorial-padding-asymmetric a.read-more-button,
+        .editorial-padding-asymmetric .read-more-button *,
+        .editorial-padding-asymmetric .read-more-button span,
+        .editorial-padding-asymmetric a.read-more-button *,
+        .editorial-padding-asymmetric a.read-more-button span {
+          color: #ffffff !important;
+        }
+        
+        .read-more-button:hover,
+        a.read-more-button:hover {
+          background: #545454 !important;
+          background-color: #545454 !important;
+          border-color: #545454 !important;
+          color: #ffffff !important;
+          transform: scale(1.05) translateY(-2px) !important;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4) !important;
+        }
+        .read-more-button:hover span,
+        a.read-more-button:hover span,
+        .read-more-button:hover *,
+        a.read-more-button:hover * {
+          color: #ffffff !important;
+        }
+        
+        /* Force white text on all states */
+        .read-more-button:active,
+        .read-more-button:focus,
+        .read-more-button:visited,
+        a.read-more-button:active,
+        a.read-more-button:focus,
+        a.read-more-button:visited {
+          color: #ffffff !important;
+        }
+        
+        .read-more-button:active *,
+        .read-more-button:focus *,
+        .read-more-button:visited *,
+        a.read-more-button:active *,
+        a.read-more-button:focus *,
+        a.read-more-button:visited * {
+          color: #ffffff !important;
         }
         
         .carousel-container {

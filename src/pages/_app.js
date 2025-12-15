@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import LoadingPage from "../components/common/LoadingPage";
 import ErrorBoundary from "../components/common/ErrorBoundary";
+import NewsletterPopup from "../components/common/NewsletterPopup";
 import { useState, useEffect } from "react";
 import { commonStyles } from "../lib/utils/theme";
 
@@ -37,6 +38,7 @@ function MyApp({ Component, pageProps }) {
         <QueryClientProvider client={queryClient}>
           {isLoading && <LoadingPage />}
           <Component {...pageProps} />
+          <NewsletterPopup />
           {process.env.NODE_ENV === 'development' && (
             <ReactQueryDevtools initialIsOpen={false} />
           )}

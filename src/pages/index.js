@@ -5,11 +5,13 @@ import MasterTalks from "../components/post/MasterTalks";
 import LogoSlider from "../components/post/LogoSlider";
 import Magazines from "../components/post/Magazines";
 import BusinessBulletin from "../components/post/BusinessBulletin";
-import SliderOne from "../components/slider/SliderOne";
 import WebProfiles from "../components/post/WebProfiles";
 import MarketNews from "../components/post/MarketNews";
 import MagazineHero from "../components/hero/MagazineHero";
 import IndustryBlogs from "../components/post/IndustryBlogs";
+import CompactBlogs from "../components/post/CompactBlogs";
+import CompactArticles from "../components/post/CompactArticles";
+import OurPartners from "../components/post/OurPartners";
 import ScrollToTop from "../components/common/ScrollToTop";
 import { commonStyles } from "../lib/utils/theme";
 
@@ -33,35 +35,30 @@ const Home = () => {
         <MagazineHero />
       </div>
       
+      {/* Compact Blogs Section */}
+      <CompactBlogs />
+      
+      {/* Articles Section */}
+      <CompactArticles />
+      
       {/* Latest Digital Editions - Horizontal Carousel */}
       <div style={{ 
         background: '#ffffff', 
-        padding: '4rem 0',
-        borderTop: '1px solid rgba(0, 0, 0, 0.1)',
-        borderBottom: '1px solid rgba(0, 0, 0, 0.1)'
+        padding: '4rem 0'
       }}>
         <Magazines />
       </div>
       
+      {/* Our Partners Section */}
+      <OurPartners />
+      
       {/* Industry Blogs Section */}
       <IndustryBlogs />
-      
-      {/* Featured Posts Section */}
-      <div style={{ 
-        background: '#ffffff', 
-        padding: '4rem 0',
-        borderTop: '1px solid rgba(0, 0, 0, 0.1)'
-      }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
-          <SliderOne />
-        </div>
-      </div>
       
       {/* Main Content Area - Two Column Layout */}
       <div style={{ 
         background: '#ffffff', 
-        padding: '4rem 0',
-        borderTop: '1px solid rgba(0, 0, 0, 0.1)'
+        padding: '4rem 0'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <MarketNews />

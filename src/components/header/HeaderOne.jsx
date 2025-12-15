@@ -704,65 +704,18 @@ const HeaderOne = () => {
 
   return (
     <>
-      <header className="page-header sticky-top">
-        <div className="header-top bg-grey-dark-one">
-          <div className="container">
-            <div className="row align-items-center">
-              <div className="col-md">
-                <ul className="header-top-nav list-inline justify-content-center justify-content-md-start">
-
-                  <li>
-                    <Link href="/about-us">About</Link>
-                  </li>
-                  <li>
-                    <Link href="/contact">Contact</Link>
-                  </li>
-                  <li>
-                    <Link href="/media-kit">Media Kit</Link>
-                  </li>
-                  <li>
-                    <Link href="/advertise-with-us">Advertise With Us</Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-md-auto">
-                <ul className="ml-auto social-share header-top__social-share">
-                  <li>
-                    <a href={SocialLink.fb.url}>
-                      <i className={SocialLink.fb.icon} />
-                    </a>
-                  </li>
-                  <li>
-                    <a href={SocialLink.twitter.url}>
-                      <i className={SocialLink.twitter.icon} />
-                    </a>
-                  </li>
-                  <li>
-                    <a href={SocialLink.instagram.url}>
-                      <i className={SocialLink.instagram.icon} />
-                    </a>
-                  </li>
-                  <li>
-                    <a href={SocialLink.linked.url}>
-                      <i className={SocialLink.linked.icon} />
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <nav className="navbar bg-black">
-          <div className="container">
-            <div className="navbar-inner">
+      <header className="page-header sticky-top" style={{ marginTop: '1.8rem' }}>
+        <nav className="navbar bg-black" style={{ paddingTop: '0.3rem', paddingBottom: '0.3rem', minHeight: 'auto', height: 'auto', lineHeight: '1' }}>
+          <div className="container" style={{ paddingTop: '0.3rem', paddingBottom: '0.3rem', paddingLeft: '0' }}>
+            <div className="navbar-inner" style={{ padding: '0', minHeight: 'auto', height: 'auto', lineHeight: '1' }}>
               <div className="brand-logo-container">
                 <Link href="/">
                   <Image
                     src="/logos/chronicle_logo.png"
                     alt="chronicles-logo"
-                    width={200}
-                    height={80}
-                    style={{ objectFit: "contain" }}
+                    width={280}
+                    height={50}
+                    style={{ objectFit: "contain", height: '50px', maxHeight: '50px' }}
                   />
                 </Link>
               </div>
@@ -918,20 +871,88 @@ const HeaderOne = () => {
       </header>
 
       <style jsx global>{`
-        .navbar {
+        .page-header,
+        header.page-header {
+          margin-top: 1.8rem !important;
+        }
+        
+        .navbar,
+        nav.navbar,
+        .page-header .navbar,
+        .bg-black.navbar,
+        nav.bg-black.navbar {
           background-color: var(--background-dark) !important;
-          border-bottom: 3px solid var(--primary-color);
+          border-bottom: 3px solid #C6A054 !important;
+          padding-top: 0.3rem !important;
+          padding-bottom: 0.3rem !important;
+          min-height: auto !important;
+          height: auto !important;
+          line-height: 1 !important;
+        }
+        
+        .navbar .container,
+        nav.navbar .container,
+        .page-header .navbar .container,
+        nav.bg-black.navbar .container {
+          padding-top: 0.3rem !important;
+          padding-bottom: 0.3rem !important;
+          padding-left: 0 !important;
+        }
+        
+        .navbar-inner,
+        .navbar .navbar-inner,
+        nav.navbar .navbar-inner {
+          padding: 0 !important;
+          min-height: auto !important;
+          height: auto !important;
+          line-height: 1 !important;
         }
 
         .navbar-inner {
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: flex-start;
           width: 100%;
+          gap: 2rem;
         }
 
         .brand-logo-container {
           flex-shrink: 0;
+          padding-left: 0;
+          margin-left: -1.5rem;
+          margin-right: 2rem;
+          margin-bottom: 1rem;
+        }
+        
+        .brand-logo-container img,
+        .brand-logo-container Image,
+        .brand-logo-container img[src*="chronicle"],
+        .brand-logo-container Image[src*="chronicle"] {
+          height: 50px !important;
+          width: auto !important;
+          max-height: 50px !important;
+          object-fit: contain !important;
+        }
+        
+        .navbar .container {
+          padding-left: 0 !important;
+        }
+        
+        @media (max-width: 991px) {
+          .navbar,
+          nav.navbar,
+          .page-header .navbar,
+          .bg-black.navbar,
+          nav.bg-black.navbar {
+            padding-top: 0.3rem !important;
+            padding-bottom: 0.3rem !important;
+          }
+          
+          .navbar .container,
+          nav.navbar .container {
+            padding-top: 0.3rem !important;
+            padding-bottom: 0.3rem !important;
+          }
         }
 
         .navbar-nav-links {
@@ -945,7 +966,7 @@ const HeaderOne = () => {
 
         .navbar-nav-links .nav-link {
           color: var(--text) !important;
-          font-size: 14px !important;
+          font-size: 16px !important;
           font-weight: 500;
           text-decoration: none;
           transition: all 0.3s ease;
@@ -955,7 +976,7 @@ const HeaderOne = () => {
         }
 
         .navbar-nav-links .nav-link:hover {
-          color: var(--primary-color) !important;
+          color: #C6A054 !important;
           text-decoration: none;
         }
 
