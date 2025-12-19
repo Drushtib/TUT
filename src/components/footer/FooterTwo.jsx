@@ -58,7 +58,7 @@ const FooterTwo = () => {
   return (
     <footer
       className="page-footer bg-grey-dark-key"
-      style={{ color: "white", paddingBottom: "1px", backgroundColor: "#000" }}
+      style={{ color: "white", paddingBottom: "1px", backgroundColor: "#1F1F1F" }}
     >
       <style jsx>{`
         .footer-description-paragraph {
@@ -66,12 +66,12 @@ const FooterTwo = () => {
           letter-spacing: -0.3px !important;
         }
         .newsletter-subscribe-button {
-          color: #000 !important;
-          background-color: #fff !important;
+          color: #fff !important;
+          background-color: var(--primary-color) !important;
         }
         .newsletter-subscribe-button:hover {
-          color: #000 !important;
-          background-color: #f0f0f0 !important;
+          color: #fff !important;
+          background-color: rgba(187, 5, 5, 0.9) !important;
         }
         .footer-social-share i {
           font-size: 20px !important;
@@ -120,17 +120,17 @@ const FooterTwo = () => {
       {/* Newsletter Section - Full Width at Top */}
       <div style={{
         width: "100%",
-        padding: "0 2rem",
-        backgroundColor: "#000",
+        padding: "0 1rem 0",
+        backgroundColor: "#1F1F1F",
         borderBottom: "1px solid rgba(255,255,255,0.2)",
       }}>
         <div className="container" style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "2rem", padding: "0 0 2rem 0" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "1.5rem", padding: "0 0 1rem 0", marginTop: "-8px" }}>
             <div style={{ flex: "1 1 300px" }}>
-              <h3 style={{ color: "white", fontSize: "2.5rem", fontWeight: "bold", marginBottom: "0.5rem", fontStyle: "initial" }}>
+              <h3 style={{ color: "white", fontSize: "2.1rem", fontWeight: "bold", marginTop: 0, marginBottom: "0.3rem", fontStyle: "initial" }}>
                 Join The Newsletter
               </h3>
-              <p style={{ color: "white", fontSize: "1.6rem", fontWeight: 200 }}>
+              <p style={{ color: "white", fontSize: "1.3rem", fontWeight: 200, margin: 0 }}>
                 Subscribe to our newsletter now and stay informed!
               </p>
             </div>
@@ -144,25 +144,25 @@ const FooterTwo = () => {
                   required
                   style={{
                     flex: "1",
-                    padding: "1rem 1.2rem",
-                    backgroundColor: "#000",
+                    padding: "0.75rem 1rem",
+                    backgroundColor: "#1F1F1F",
                     border: "1px solid #fff",
                     borderRight: "none",
                     borderRadius: "8px 0 0 8px",
                   color: "white",
-                  fontSize: "1.3rem",
+                  fontSize: "1.2rem",
                   outline: "none",
                     transition: "all 0.3s ease",
-                    height: "48px",
+                    height: "40px",
                     boxSizing: "border-box",
                   }}
                   onFocus={(e) => {
                     e.target.style.borderColor = "#fff";
-                    e.target.style.backgroundColor = "#000";
+                    e.target.style.backgroundColor = "#1F1F1F";
                   }}
                   onBlur={(e) => {
                     e.target.style.borderColor = "#fff";
-                    e.target.style.backgroundColor = "#000";
+                    e.target.style.backgroundColor = "#1F1F1F";
                   }}
                 />
                 <button
@@ -171,31 +171,31 @@ const FooterTwo = () => {
                   disabled={isSubmitting}
                   className="newsletter-subscribe-button"
                   style={{
-                    padding: "1rem 3.5rem",
-                    backgroundColor: "#fff",
-                    color: "#000",
-                    border: "1px solid #fff",
+                    padding: "0.75rem 2.4rem",
+                    backgroundColor: "var(--primary-color)",
+                    color: "#fff",
+                    border: "1px solid var(--primary-color)",
                     borderLeft: "none",
                   borderRadius: "0 8px 8px 0",
-                  fontSize: "1.2rem",
+                  fontSize: "1.1rem",
                   fontWeight: "600",
                     cursor: isSubmitting ? "not-allowed" : "pointer",
                     transition: "all 0.3s ease",
                     opacity: isSubmitting ? 0.7 : 1,
                     whiteSpace: "nowrap",
-                    height: "48px",
+                    height: "40px",
                     boxSizing: "border-box",
-                    minWidth: "180px",
+                    minWidth: "150px",
                   }}
                   onMouseEnter={(e) => {
                     if (!isSubmitting) {
-                      e.target.style.backgroundColor = "#f0f0f0";
+                      e.target.style.backgroundColor = "rgba(187, 5, 5, 0.9)";
                       e.target.style.transform = "translateY(-2px)";
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!isSubmitting) {
-                      e.target.style.backgroundColor = "#fff";
+                      e.target.style.backgroundColor = "var(--primary-color)";
                       e.target.style.transform = "translateY(0)";
                     }
                   }}

@@ -3,11 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { client } from "../../client";
- 
+import HeaderLogo from "../../assest/Logo_The Unicorn Times_2.png";
+
 import SocialLink from "../../data/social/SocialLink.json";
 
 const HeaderOne = () => {
- 
+
 
 
   // Header Search
@@ -55,9 +56,9 @@ const HeaderOne = () => {
     // Find first match and scroll to it
     const firstMatch = findFirstMatch(searchQuery.toLowerCase());
     if (firstMatch) {
-      firstMatch.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'center' 
+      firstMatch.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
       });
     }
 
@@ -70,7 +71,7 @@ const HeaderOne = () => {
   const handleSearchInput = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-    
+
     // Simple: search ONLY magazines by title from Sanity, show suggestions, navigate on click
     if (query.trim().length > 0) {
       const pattern = `*${query}*`;
@@ -97,7 +98,7 @@ const HeaderOne = () => {
       setShowResults(false);
       return;
     }
-    
+
     if (query.trim().length > 0) {
       // Global search through entire website content
       const searchTerm = query.toLowerCase();
@@ -181,9 +182,9 @@ const HeaderOne = () => {
         // Search in all text elements
         const textElements = document.querySelectorAll('span, div, strong, em, li, td, th');
         textElements.forEach((element, index) => {
-          if (element.textContent.toLowerCase().includes(searchTerm) && 
-              element.textContent.trim().length > 0 && 
-              element.textContent.trim().length < 150) {
+          if (element.textContent.toLowerCase().includes(searchTerm) &&
+            element.textContent.trim().length > 0 &&
+            element.textContent.trim().length < 150) {
             results.push({
               type: 'text',
               element: element,
@@ -247,10 +248,10 @@ const HeaderOne = () => {
           // Extract magazine title or person name
           const titleElement = card.querySelector('h1, h2, h3, h4, h5, h6, .title, .magazine-title, .post-title');
           const imageElement = card.querySelector('img');
-          const magazineTitle = titleElement ? titleElement.textContent.trim() : 
-                               card.textContent.trim().split('\n')[0] || 
-                               card.textContent.trim().substring(0, 50);
-          
+          const magazineTitle = titleElement ? titleElement.textContent.trim() :
+            card.textContent.trim().split('\n')[0] ||
+            card.textContent.trim().substring(0, 50);
+
           results.push({
             type: 'magazine',
             element: card,
@@ -309,9 +310,9 @@ const HeaderOne = () => {
       // Search in spans and divs for person names
       const textElements = document.querySelectorAll('span, div, strong, em');
       textElements.forEach((element, index) => {
-        if (element.textContent.toLowerCase().includes(searchTerm) && 
-            element.textContent.trim().length > 0 && 
-            element.textContent.trim().length < 100) {
+        if (element.textContent.toLowerCase().includes(searchTerm) &&
+          element.textContent.trim().length > 0 &&
+          element.textContent.trim().length < 100) {
           results.push({
             type: 'text',
             element: element,
@@ -323,10 +324,10 @@ const HeaderOne = () => {
 
       // Search ALL magazine people from the carousel data
       const allMagazinePeople = [
-        'Anchel Gupta', 'Jorden', 'Manuel', 'Suzanne', 'Nilmini', 
+        'Anchel Gupta', 'Jorden', 'Manuel', 'Suzanne', 'Nilmini',
         'Shabnam', 'Valenia', 'Ross', 'Khalid'
       ];
-      
+
       // Always show ALL magazine people that match the search
       allMagazinePeople.forEach((person, index) => {
         if (person.toLowerCase().includes(searchTerm)) {
@@ -344,17 +345,17 @@ const HeaderOne = () => {
       const searchForClientMagazines = (searchTerm) => {
         // Look for magazine cards and carousel items that contain the search term
         const magazineElements = document.querySelectorAll('.magazine-card, .carousel-item, .post-container, .carousel-track .carousel-item');
-        
+
         magazineElements.forEach((element, index) => {
           const elementText = element.textContent.toLowerCase();
           const elementHTML = element.innerHTML.toLowerCase();
-          
+
           // Check if the search term appears in the magazine content
           if (elementText.includes(searchTerm) || elementHTML.includes(searchTerm)) {
             // Extract the magazine title/name
             const titleElement = element.querySelector('h1, h2, h3, h4, h5, h6, .title, .magazine-title');
             const magazineTitle = titleElement ? titleElement.textContent.trim() : elementText.substring(0, 50);
-            
+
             results.push({
               type: 'client-magazine',
               element: element,
@@ -388,12 +389,12 @@ const HeaderOne = () => {
       const searchMagazinesPage = (searchTerm) => {
         // Look for magazine grid items and post containers
         const magazineGridItems = document.querySelectorAll('[style*="grid"], .post-container, [class*="magazine"], [class*="post"]');
-        
+
         magazineGridItems.forEach((item, index) => {
           if (item.textContent.toLowerCase().includes(searchTerm)) {
             const imageElement = item.querySelector('img');
             const titleElement = item.querySelector('h1, h2, h3, h4, h5, h6, .title');
-            
+
             results.push({
               type: 'magazine-grid',
               element: item,
@@ -432,16 +433,16 @@ const HeaderOne = () => {
       const searchMagazineContent = (searchTerm) => {
         // Search in all elements that might contain magazine information
         const allElements = document.querySelectorAll('*');
-        
+
         allElements.forEach((element, index) => {
-          if (element.textContent && 
-              element.textContent.toLowerCase().includes(searchTerm) && 
-              element.textContent.trim().length > 0 && 
-              element.textContent.trim().length < 200) {
-            
+          if (element.textContent &&
+            element.textContent.toLowerCase().includes(searchTerm) &&
+            element.textContent.trim().length > 0 &&
+            element.textContent.trim().length < 200) {
+
             // Check if it's magazine-related content
             const isMagazineContent = element.closest('.magazine-card, .carousel-item, .post-container, .carousel-track, .magazine-hero, .carousel-container, .magazine-content, .magazine-section');
-            
+
             if (isMagazineContent) {
               results.push({
                 type: 'client-magazine',
@@ -502,15 +503,15 @@ const HeaderOne = () => {
       // Enhanced search for magazine content - look for any text containing the search term
       const allElements = document.querySelectorAll('*');
       allElements.forEach((element, index) => {
-        if (element.textContent && 
-            element.textContent.toLowerCase().includes(searchTerm) && 
-            element.textContent.trim().length > 0 && 
-            element.textContent.trim().length < 200 &&
-            !element.querySelector('*')) { // Only leaf nodes to avoid duplicates
-          
+        if (element.textContent &&
+          element.textContent.toLowerCase().includes(searchTerm) &&
+          element.textContent.trim().length > 0 &&
+          element.textContent.trim().length < 200 &&
+          !element.querySelector('*')) { // Only leaf nodes to avoid duplicates
+
           // Check if it's magazine-related content
           const isMagazineContent = element.closest('.carousel-item, .magazine-card, .carousel-track, .magazine-hero');
-          
+
           if (isMagazineContent) {
             results.push({
               type: 'magazine',
@@ -539,14 +540,14 @@ const HeaderOne = () => {
       if (results.length === 0) {
         // Try searching for partial matches
         const partialMatches = [];
-        
+
         // Search for partial matches in all text content
         const allTextElements = document.querySelectorAll('*');
         allTextElements.forEach((element, index) => {
-          if (element.textContent && 
-              element.textContent.toLowerCase().includes(searchTerm.substring(0, 3)) && 
-              element.textContent.trim().length > 0 && 
-              element.textContent.trim().length < 200) {
+          if (element.textContent &&
+            element.textContent.toLowerCase().includes(searchTerm.substring(0, 3)) &&
+            element.textContent.trim().length > 0 &&
+            element.textContent.trim().length < 200) {
             partialMatches.push({
               type: 'partial-match',
               element: element,
@@ -556,7 +557,7 @@ const HeaderOne = () => {
             });
           }
         });
-        
+
         // If still no results, add some default suggestions
         if (partialMatches.length === 0) {
           const defaultSuggestions = [
@@ -571,7 +572,7 @@ const HeaderOne = () => {
       }
 
       // Remove duplicates and sort by relevance
-      const uniqueResults = results.filter((result, index, self) => 
+      const uniqueResults = results.filter((result, index, self) =>
         index === self.findIndex(r => r.text === result.text)
       );
 
@@ -704,27 +705,59 @@ const HeaderOne = () => {
 
   return (
     <>
-      <header className="page-header sticky-top" style={{ marginTop: '1.8rem' }}>
-        <nav className="navbar bg-black" style={{ paddingTop: '0.3rem', paddingBottom: '0.3rem', minHeight: 'auto', height: 'auto', lineHeight: '1' }}>
-          <div className="container" style={{ paddingTop: '0.3rem', paddingBottom: '0.3rem', paddingLeft: '0' }}>
+      <header className="page-header sticky-top">
+        <nav className="navbar bg-black" style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', minHeight: 'auto', height: 'auto', lineHeight: '1' }}>
+          <div className="container" style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem' }}>
             <div className="navbar-inner" style={{ padding: '0', minHeight: 'auto', height: 'auto', lineHeight: '1' }}>
               <div className="brand-logo-container">
                 <Link href="/">
                   <Image
-                    src="/logos/chronicle_logo.png"
+                    src={HeaderLogo}
                     alt="chronicles-logo"
-                    width={280}
-                    height={50}
-                    style={{ objectFit: "contain", height: '50px', maxHeight: '50px' }}
+                    width={350}
+                    height={70}
+                    style={{
+                      objectFit: "contain",
+                      height: "70px",
+                      maxHeight: "70px",
+                      transform: "translateX(-20px)", 
+                    }}
                   />
+
                 </Link>
               </div>
-              
+
               {/* Navigation Links - Desktop Only */}
               <div className="navbar-nav-links desktop-nav">
                 <Link href="/" className="nav-link">Home</Link>
                 <Link href="/magazines" className="nav-link">Magazines</Link>
                 <Link href="/blogs" className="nav-link">Blogs</Link>
+                <div className="nav-dropdown">
+                  <Link href="/industry" className="nav-link nav-dropdown-toggle">
+                    Industries
+                    <span className="nav-caret" />
+                  </Link>
+                  <div className="nav-dropdown-menu">
+                    <Link href="/industry/finance" className="nav-dropdown-item">Finance</Link>
+                    <Link href="/industry/healthcare" className="nav-dropdown-item">Healthcare</Link>
+                    <Link href="/industry/legal" className="nav-dropdown-item">Legal</Link>
+                    <div className="nav-dropdown-sub">
+                      <Link href="/industry/tech-ai" className="nav-dropdown-item nav-dropdown-sub-toggle">
+                        Tech/AI
+                        <span className="nav-caret-sub" />
+                      </Link>
+                      <div className="nav-dropdown-submenu">
+                        <Link href="/industry/tech-ai/ai" className="nav-dropdown-item">AI</Link>
+                        <Link href="/industry/tech-ai/cybersecurity" className="nav-dropdown-item">Cybersecurity</Link>
+                        <Link href="/industry/tech-ai/e-commerce" className="nav-dropdown-item">E-commerce</Link>
+                        <Link href="/industry/tech-ai/security" className="nav-dropdown-item">Security</Link>
+                        <Link href="/industry/tech-ai/robotics" className="nav-dropdown-item">Robotics</Link>
+                      </div>
+                    </div>
+                    <Link href="/industry/manufacturing-products" className="nav-dropdown-item">Manufacturing/Products</Link>
+                    <Link href="/industry/transportation" className="nav-dropdown-item">Transportation</Link>
+                  </div>
+                </div>
                 <Link href="/about-us" className="nav-link">About Us</Link>
                 <Link href="/contact" className="nav-link">Contact</Link>
                 <Link href="/media-kit" className="nav-link">Media Kit</Link>
@@ -735,9 +768,8 @@ const HeaderOne = () => {
               <div className="navbar-extra-features">
                 <form
                   onSubmit={handleSearch}
-                  className={`navbar-search ${
-                    searchshow ? "show-nav-search" : ""
-                  }`}
+                  className={`navbar-search ${searchshow ? "show-nav-search" : ""
+                    }`}
                 >
                   <div className="search-field">
                     <input
@@ -767,7 +799,7 @@ const HeaderOne = () => {
                 </button>
 
                 {/* Mobile Hamburger Menu */}
-                <button 
+                <button
                   className="mobile-menu-toggle"
                   onClick={toggleMobileMenu}
                   aria-label="Toggle mobile menu"
@@ -806,8 +838,8 @@ const HeaderOne = () => {
             </div>
             <div className="search-suggestions-list">
               {searchResults.map((result, index) => (
-                <div 
-                  key={result.id} 
+                <div
+                  key={result.id}
                   className="search-suggestion-item"
                   data-type={result.type}
                   onClick={() => handleSuggestionClick(result)}
@@ -815,8 +847,8 @@ const HeaderOne = () => {
                   <div className="suggestion-content">
                     {result.hasImage && result.imageSrc && (
                       <div className="suggestion-image">
-                        <img 
-                          src={result.imageSrc} 
+                        <img
+                          src={result.imageSrc}
                           alt={result.imageAlt || result.text}
                           className="suggestion-img"
                         />
@@ -873,7 +905,7 @@ const HeaderOne = () => {
       <style jsx global>{`
         .page-header,
         header.page-header {
-          margin-top: 1.8rem !important;
+          margin-top: 0 !important;
         }
         
         .navbar,
@@ -881,10 +913,10 @@ const HeaderOne = () => {
         .page-header .navbar,
         .bg-black.navbar,
         nav.bg-black.navbar {
-          background-color: var(--background-dark) !important;
-          border-bottom: 3px solid #C6A054 !important;
-          padding-top: 0.3rem !important;
-          padding-bottom: 0.3rem !important;
+          background-color: #1F1F1F !important;
+          border-bottom: 3px solid var(--primary-color) !important;
+          padding-top: 0.25rem !important;
+          padding-bottom: 0.25rem !important;
           min-height: auto !important;
           height: auto !important;
           line-height: 1 !important;
@@ -894,9 +926,10 @@ const HeaderOne = () => {
         nav.navbar .container,
         .page-header .navbar .container,
         nav.bg-black.navbar .container {
-          padding-top: 0.3rem !important;
-          padding-bottom: 0.3rem !important;
-          padding-left: 0 !important;
+          padding-top: 0.25rem !important;
+          padding-bottom: 0.25rem !important;
+          padding-left: 16px !important;
+          padding-right: 16px !important;
         }
         
         .navbar-inner,
@@ -911,7 +944,7 @@ const HeaderOne = () => {
         .navbar-inner {
           display: flex;
           align-items: center;
-          justify-content: flex-start;
+          justify-content: space-between;
           width: 100%;
           gap: 2rem;
         }
@@ -919,18 +952,18 @@ const HeaderOne = () => {
         .brand-logo-container {
           flex-shrink: 0;
           padding-left: 0;
-          margin-left: -1.5rem;
-          margin-right: 2rem;
-          margin-bottom: 1rem;
+          margin-left: -3rem;
+          margin-right: 3rem;
+          margin-bottom: 0;
         }
         
         .brand-logo-container img,
         .brand-logo-container Image,
         .brand-logo-container img[src*="chronicle"],
         .brand-logo-container Image[src*="chronicle"] {
-          height: 50px !important;
+          height: 70px !important;
           width: auto !important;
-          max-height: 50px !important;
+          max-height: 70px !important;
           object-fit: contain !important;
         }
         
@@ -958,21 +991,25 @@ const HeaderOne = () => {
         .navbar-nav-links {
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 6px;
           flex: 1;
           justify-content: flex-end;
-          margin-right: 20px;
+          margin-left: auto;
+          margin-right: 0;
+          flex-wrap: nowrap;
+          white-space: nowrap;
         }
 
         .navbar-nav-links .nav-link {
           color: var(--text) !important;
-          font-size: 16px !important;
+          font-size: 14px !important;
           font-weight: 500;
           text-decoration: none;
           transition: all 0.3s ease;
-          padding: 10px 8px;
+          padding: 8px 6px;
           display: block;
           position: relative;
+          white-space: nowrap;
         }
 
         .navbar-nav-links .nav-link:hover {
@@ -980,19 +1017,143 @@ const HeaderOne = () => {
           text-decoration: none;
         }
 
+        .nav-dropdown {
+          position: relative;
+          display: flex;
+          align-items: center;
+        }
+
+        .nav-dropdown-toggle {
+          display: inline-flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          position: relative;
+          line-height: 1;
+          white-space: nowrap;
+        }
+
+        .nav-caret {
+          display: inline-block;
+          width: 0;
+          height: 0;
+          border-left: 7px solid transparent;
+          border-right: 7px solid transparent;
+          border-bottom: 9px solid #ffffff;
+          transition: border-color 0.15s ease;
+        }
+
+        .nav-dropdown:hover .nav-caret {
+          border-bottom: 0;
+          border-top: 9px solid #ffffff;
+        }
+
+        .nav-dropdown-menu {
+          position: absolute;
+          top: calc(100% + 10px);
+          left: 0;
+          min-width: 220px;
+          background: #0b0b0b;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          padding: 10px 0;
+          display: none;
+          z-index: 2000;
+          gap:2rem;
+        }
+
+        .nav-dropdown-menu::before {
+          content: "";
+          position: absolute;
+          top: -10px;
+          left: 0;
+          right: 0;
+          height: 10px;
+          background: transparent;
+        }
+
+        .nav-dropdown:hover .nav-dropdown-menu {
+          display: block;
+        }
+
+        .nav-dropdown-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 12px;
+          color: var(--text) !important;
+          -webkit-text-fill-color: var(--text) !important;
+          font-weight: 600;
+          text-decoration: none;
+          font-size: 14px;
+          white-space: nowrap;
+        }
+
+        .nav-dropdown-item:hover,
+        .nav-dropdown-item:focus {
+          background: rgba(187, 5, 5, 0.25);
+          color: var(--primary-color) !important;
+          -webkit-text-fill-color: var(--primary-color) !important;
+        }
+
+        .nav-dropdown-sub {
+          position: relative;
+        }
+
+        .nav-caret-sub {
+          display: inline-block;
+          width: 0;
+          height: 0;
+          border-top: 6px solid transparent;
+          border-bottom: 6px solid transparent;
+          border-left: 7px solid #ffffff;
+          transition: transform 0.15s ease;
+        }
+
+        .nav-dropdown-submenu {
+          position: absolute;
+          top: 0;
+          left: 100%;
+          min-width: 220px;
+          background: #0b0b0b;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          padding: 10px 0;
+          display: none;
+          z-index: 2001;
+        }
+
+        .nav-dropdown-sub:hover .nav-dropdown-submenu {
+          display: block;
+        }
+
+        .nav-dropdown-sub:hover .nav-caret-sub {
+          transform: translateX(2px);
+        }
+
         .navbar-extra-features {
           display: flex;
           align-items: center;
           gap: 15px;
           flex-shrink: 0;
+          margin-left: 1rem;
         }
 
         .navbar-extra-features button {
-          color: var(--text) !important;
+          color: #ffffff !important;
+        }
+
+        .navbar-extra-features button i,
+        .nav-search-field-toggler i {
+          color: #ffffff !important;
         }
 
         .navbar-extra-features button:hover,
         .navbar .nav-search-field-toggler:hover {
+          color: var(--primary-color) !important;
+        }
+
+        .navbar-extra-features button:hover i,
+        .navbar .nav-search-field-toggler:hover i {
           color: var(--primary-color) !important;
         }
 
@@ -1116,7 +1277,7 @@ const HeaderOne = () => {
         }
 
         .search-suggestion-item:hover {
-          background-color: var(--background-dark);
+          background-color: #1F1F1F;
           transform: translateX(5px);
         }
 

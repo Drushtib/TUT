@@ -18,17 +18,7 @@ const WebProfiles = () => {
 
   if (!data || data.length === 0) return null;
 
-  // Reorder data to put Anchel first
   const reorderedData = [...data];
-  const anchelIndex = reorderedData.findIndex(item => 
-    item.title.toLowerCase().includes('anchel') || 
-    item.title.toLowerCase().includes('aanchal')
-  );
-  
-  if (anchelIndex > 0) {
-    const anchelItem = reorderedData.splice(anchelIndex, 1)[0];
-    reorderedData.unshift(anchelItem);
-  }
 
   const handleProfileClick = (index) => {
     setSelectedProfile(index);

@@ -4,10 +4,8 @@ import "../styles/magazines.css";
 import "../styles/home.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import LoadingPage from "../components/common/LoadingPage";
 import ErrorBoundary from "../components/common/ErrorBoundary";
 import NewsletterPopup from "../components/common/NewsletterPopup";
-import { useState, useEffect } from "react";
 import { commonStyles } from "../lib/utils/theme";
 
 const queryClient = new QueryClient({
@@ -21,22 +19,10 @@ const queryClient = new QueryClient({
 });
 
 function MyApp({ Component, pageProps }) {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Show loading page for initial load
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000); // 2 seconds loading time
-
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <ErrorBoundary>
       <div style={commonStyles.pageContainer}>
         <QueryClientProvider client={queryClient}>
-          {isLoading && <LoadingPage />}
           <Component {...pageProps} />
           <NewsletterPopup />
           {process.env.NODE_ENV === 'development' && (

@@ -51,6 +51,29 @@
   color: var(--primary-color) !important;
 }
 
+/* Keep WidgetPost tab text white on hover/active (override home-page-white forced black text) */
+.home-page-white .sidebar-post-widget .nav-pills .nav-item a:hover,
+.home-page-white .sidebar-post-widget .nav-pills .nav-item a.active {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* WidgetPost tabs: ensure label is visible in normal state (not only on hover) */
+.home-page-white .sidebar-post-widget .nav-pills .nav-link {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  background: #ffffff !important;
+}
+
+.home-page-white .sidebar-post-widget .nav-pills .nav-link:hover,
+.home-page-white .sidebar-post-widget .nav-pills .nav-link.active,
+.home-page-white .sidebar-post-widget .nav-pills .nav-link.active:hover {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
 .home-page-white .post-cat,
 .home-page-white .post-cat * {
   color: #ffffff !important;
@@ -59,6 +82,65 @@
 .home-page-white .post-metas,
 .home-page-white .post-metas * {
   color: #444444 !important;
+}
+
+/* Make WidgetPost list items more compact (reduce empty space between leaders) */
+.home-page-white .sidebar-post-widget .post-block__small {
+  margin-bottom: 2.2rem !important;
+}
+
+.home-page-white .sidebar-post-widget .post-block__small .axil-post-title {
+  margin-bottom: 0.25rem !important;
+  line-height: 1.4 !important;
+}
+
+.home-page-white .sidebar-post-widget {
+  margin-bottom: 0 !important;
+}
+
+.home-page-white .sidebar-post-widget.m-b-xs-40 {
+  margin-bottom: 0 !important;
+}
+
+/* Web Profiles widget: bring text closer to image */
+.home-page-white .sidebar-post-widget .post-block__small > a {
+  margin-right: 0.75rem !important;
+}
+
+/* WidgetPost tabs: enforce the same thumbnail box size for Next/Image (wrapper span) */
+.home-page-white .sidebar-post-widget .post-block__small > a {
+  width: 12.5rem !important;
+  min-width: 12.5rem !important;
+  height: 8.5rem !important;
+  display: block !important;
+  overflow: hidden !important;
+}
+
+.home-page-white .sidebar-post-widget .post-block__small > a > span {
+  width: 12.5rem !important;
+  height: 8.5rem !important;
+  display: block !important;
+}
+
+/* Web Profiles widget: wider thumbnails + no hover zoom (prevents cropping) */
+.home-page-white .sidebar-post-widget .post-block__small > a img {
+  max-width: 12.5rem !important;
+  width: 12.5rem !important;
+  height: auto !important;
+  transform: none !important;
+}
+
+/* Ensure all WidgetPost tabs (Web Profiles / Market News / Business Bulletins) keep the same thumbnail width */
+.home-page-white .sidebar-post-widget .post-block__small img {
+  max-width: 12.5rem !important;
+  width: 12.5rem !important;
+  height: 8.5rem !important;
+  object-fit: contain !important;
+  transform: none !important;
+}
+
+.home-page-white .sidebar-post-widget .post-block__small:hover > a img {
+  transform: none !important;
 }
 
 .home-page-white .axil-img-container .axil-post-title,

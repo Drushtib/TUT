@@ -243,8 +243,8 @@ const MagazineHero = () => {
               href={`/magazine/${currentMagazine.slug?.current || currentMagazine.slug}`}
               className="read-more-button"
               style={{
-                background: "#545454",
-                backgroundColor: "#545454",
+                background: "var(--primary-color)",
+                backgroundColor: "var(--primary-color)",
                 color: "#ffffff",
                 padding: "1.25rem 3rem",
                 borderRadius: "0",
@@ -256,7 +256,7 @@ const MagazineHero = () => {
                 display: "inline-block",
                 fontSize: "1.25rem",
                 transition: "all 0.3s ease",
-                border: "2px solid #545454",
+                border: "2px solid var(--primary-color)",
                 width: 'fit-content',
                 position: 'relative',
                 zIndex: 11,
@@ -265,16 +265,16 @@ const MagazineHero = () => {
                 boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)"
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#545454";
+                e.currentTarget.style.background = "#990000";
                 e.currentTarget.style.color = "#ffffff";
-                e.currentTarget.style.border = "2px solid #545454";
+                e.currentTarget.style.border = "2px solid #990000";
                 e.currentTarget.style.transform = "scale(1.05) translateY(-2px)";
                 e.currentTarget.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.4)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = "#545454";
+                e.currentTarget.style.background = "var(--primary-color)";
                 e.currentTarget.style.color = "#ffffff";
-                e.currentTarget.style.border = "2px solid #545454";
+                e.currentTarget.style.border = "2px solid var(--primary-color)";
                 e.currentTarget.style.transform = "scale(1) translateY(0)";
                 e.currentTarget.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.2)";
               }}
@@ -286,8 +286,8 @@ const MagazineHero = () => {
           {/* Magazine Carousel Right Side - Separate Block */}
           <div className="carousel-container" style={{ 
             position: "relative", 
-            height: "600px",
-            minHeight: "600px",
+            height: "650px",
+            minHeight: "650px",
             background: 'transparent',
             backgroundColor: 'transparent',
             border: 'none',

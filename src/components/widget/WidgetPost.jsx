@@ -5,8 +5,11 @@ import { client } from "../../client";
 import Loader from "../common/Loader";
 
 const WidgetPost = () => {
+  const webProfilesLimit = 7;
+  const marketNewsLimit = 7;
+  const businessBulletinsLimit = 7;
   const queryWebProfiles = `
-*[_type == "post" && categories[0]._ref == *[_type == "category" && slug.current == "web-profiles"][0]._id] 
+*[_type == "post" && "web-profiles" in categories[]->slug.current] 
  {
     title,
     slug,
@@ -18,18 +21,45 @@ const WidgetPost = () => {
     },
     publishedAt
 
-} | order(publishedAt desc)[0...5] 
+} | order(publishedAt desc)[0...${webProfilesLimit}] 
 `;
   const { data: webProfileData } = useQuery({
-    queryKey: ["web-profile"],
+    queryKey: ["web-profile", webProfilesLimit],
     queryFn: async () => {
       const response = await client.fetch(queryWebProfiles);
       return response;
     },
   });
 
+  const orderedWebProfiles = (() => {
+    if (!webProfileData || webProfileData.length === 0) return [];
+
+    const desiredOrder = [
+      "ben sadgrove",
+      "shoumo mitra",
+      "magnolia yace",
+      "devang raja",
+      "aanchal gupta",
+      "jordan meinster",
+      "manuel rendon",
+    ];
+
+    const remaining = [...webProfileData];
+    const picked = [];
+
+    desiredOrder.forEach((needle) => {
+      const idx = remaining.findIndex((p) => (p.title || "").toLowerCase().includes(needle));
+      if (idx >= 0) {
+        picked.push(remaining[idx]);
+        remaining.splice(idx, 1);
+      }
+    });
+
+    return picked.concat(remaining);
+  })();
+
   const queryMarketNews = `
-*[_type == "post" && categories[0]._ref == *[_type == "category" && slug.current == "market-news"][0]._id] 
+*[_type == "post" && "market-news" in categories[]->slug.current] 
  {
     title,
     slug,
@@ -41,10 +71,10 @@ const WidgetPost = () => {
     },
     publishedAt
 
-} | order(publishedAt desc)[0...5] 
+} | order(publishedAt desc)[0...${marketNewsLimit}] 
 `;
   const { data: marketNewsData } = useQuery({
-    queryKey: ["market-news"],
+    queryKey: ["market-news", marketNewsLimit],
     queryFn: async () => {
       const response = await client.fetch(queryMarketNews);
       return response;
@@ -52,7 +82,7 @@ const WidgetPost = () => {
   });
 
   const queryBusinessBulletins = `
-*[_type == "post" && categories[0]._ref == *[_type == "category" && slug.current == "business-bulletin"][0]._id] 
+*[_type == "post" && "business-bulletin" in categories[]->slug.current] 
  {
     title,
     slug,
@@ -64,10 +94,10 @@ const WidgetPost = () => {
     },
     publishedAt
 
-} | order(publishedAt desc)[0...5] 
+} | order(publishedAt desc)[0...${businessBulletinsLimit}] 
 `;
   const { data: businessBulletinData } = useQuery({
-    queryKey: ["business-bulletin"],
+    queryKey: ["business-bulletin", businessBulletinsLimit],
     queryFn: async () => {
       const response = await client.fetch(queryBusinessBulletins);
       return response;
@@ -91,9 +121,9 @@ const WidgetPost = () => {
 
         <Tab.Content>
           <Tab.Pane eventKey="recent">
-            {webProfileData && webProfileData?.length > 0 ? (
-              webProfileData
-                .slice(0, 4)
+            {orderedWebProfiles && orderedWebProfiles?.length > 0 ? (
+              orderedWebProfiles
+                .slice(0, webProfilesLimit)
                 .map((data, index) => (
                   <PostVideoTwo data={data} pClass="" key={index} />
                 ))
@@ -104,7 +134,7 @@ const WidgetPost = () => {
           <Tab.Pane eventKey="popular">
             {marketNewsData && marketNewsData?.length > 0 ? (
               marketNewsData
-                .slice(0, 4)
+                .slice(0, marketNewsLimit)
                 .map((data, index) => (
                   <PostVideoTwo data={data} pClass="" key={index} />
                 ))
@@ -115,7 +145,7 @@ const WidgetPost = () => {
           <Tab.Pane eventKey="comments">
             {businessBulletinData && businessBulletinData.length > 0 ? (
               businessBulletinData
-                .slice(0, 4)
+                .slice(0, businessBulletinsLimit)
                 .map((data, index) => (
                   <PostVideoTwo data={data} pClass="" key={index} />
                 ))

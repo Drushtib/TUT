@@ -26,13 +26,21 @@ const PostFormatText = ({ postData, allData }) => {
                     </h2>
                   </div>
 
-                  <Image
+                  <img
                     className="mb-4 w-full h-auto object-cover"
-                    src={postData?.featureImg}
-                    alt={postData?.altText || postData?.title}
-                    layout="responsive"
-                    width={500}
-                    height={300}
+                    src={postData?.featureImg || "/images/placeholder.png"}
+                    alt={postData?.altText || postData?.title || "Post image"}
+                    style={{
+                      width: "100%",
+                      height: "300px",
+                      objectFit: "cover",
+                      background: "#f2f2f2",
+                      display: "block",
+                    }}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "/images/placeholder.png";
+                    }}
                   />
 
                   <PortableText

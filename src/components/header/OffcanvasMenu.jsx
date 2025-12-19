@@ -1,6 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import SocialLink from "../../data/social/SocialLink.json";
+import HeaderLogo from "../../assest/Logo_The Unicorn Times_2.png";
 
 const OffcanvasMenu = ({ ofcshow, ofcHandleClose }) => {
   return (
@@ -16,6 +18,29 @@ const OffcanvasMenu = ({ ofcshow, ofcHandleClose }) => {
       ></Offcanvas.Header>
       <div className="side-nav">
         <div className="side-nav-inner nicescroll-container">
+          <div style={{ padding: "16px 0 8px" }}>
+            <Link
+              href="/"
+              onClick={ofcHandleClose}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                textDecoration: "none",
+              }}
+            >
+              <Image
+                src={HeaderLogo}
+                alt="The Unicorn Time logo"
+                width={44}
+                height={44}
+                style={{ objectFit: "contain", height: "44px", width: "44px" }}
+              />
+              <span style={{ fontWeight: 700, fontSize: "18px", lineHeight: 1.1 }}>
+                The Unicorn Time
+              </span>
+            </Link>
+          </div>
           <form action="#" className="side-nav-search-form">
             <div className="form-group search-field">
               <input

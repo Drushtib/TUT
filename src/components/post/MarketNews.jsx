@@ -34,82 +34,83 @@ const MarketNews = () => {
 
   // Images from assets folder - different image for each news item
   const assetImages = [
+    "/assest/bg.jpg",
+    "/assest/bf9abef8-a5f5-4363-8751-61fae2f18c61.jpg",
+    "/assest/wavy_background_4.jpg",
+    "/assest/herobackground.avif",
     "/assest/hero1.jpg",
     "/assest/bg.jpg",
-    "/assest/wavy_background_4.jpg",
-    "/assest/bf9abef8-a5f5-4363-8751-61fae2f18c61.jpg",
-    "/images/posts/post_1.jpg",
-    "/images/posts/post_2.jpg",
-    "/images/posts/post_3.jpg",
-    "/images/posts/post_4.jpg",
-    "/images/posts/post_5.jpg",
-    "/images/posts/post_6.jpg",
   ];
 
   // Create news items with images from assets folder
   let newsItems = [];
+  const fallbackItems = [
+    {
+      title: "Bentleyville named 'Best Holiday Light Display' by USA Today for fourth year in a row",
+      slug: { current: "bentleyville-holiday-lights" },
+      image: assetImages[0],
+      category: "NEWS",
+      updated: "17 hours ago",
+      author: "Marisa Ornat",
+      description: "This is Bentleyville's 22nd season, and its sixth win since 2018.",
+    },
+    {
+      title: "3 Wisconsin Department of Corrections employees on leave after Morgan Geyser escape",
+      slug: { current: "wisconsin-corrections-leave" },
+      image: assetImages[1],
+      category: "POLITICS",
+      updated: "20 hours ago",
+      author: "Vanessa Kjeldsen",
+      description:
+        "The Department of Corrections has more than a 20% vacancy rate for staff in their Electronic Monitoring Center.",
+    },
+    {
+      title: "'The Nutcracker: A Duluth Tale' returns to the DECC",
+      slug: { current: "nutcracker-duluth-tale" },
+      image: assetImages[2],
+      category: "COMMUNITY",
+      updated: "21 hours ago",
+      author: "Hannah Morgan",
+      description:
+        "While it follows the classic 'Nutcracker' story, it has ties into the Northland.",
+    },
+    {
+      title: "Keeping the tradition alive: how Duluth's sea shanty group began",
+      slug: { current: "duluth-sea-shanty-group" },
+      image: assetImages[3],
+      category: "COMMUNITY",
+      updated: "21 hours ago",
+      author: "Hannah Morgan",
+      description:
+        "The group, now known as All Hands, meets at the Duluth Folk School in Lincoln Park.",
+    },
+    {
+      title: "Minnesota lawmakers discuss rural health",
+      slug: { current: "minnesota-rural-health" },
+      image: assetImages[4],
+      category: "TWIN PORTS",
+      updated: "Dec. 11, 2025 at 8:53 AM GMT+5:30",
+      author: "Hannah Morgan",
+      description:
+        "The group included DFL Senator Grant Hauschild and republican representative Cal Warwas.",
+    },
+    {
+      title: "Ashland asks for transparency after $870,000 in local taxes go to private school vouchers",
+      slug: { current: "ashland-school-vouchers" },
+      image: assetImages[5],
+      category: "NW WISCONSIN",
+      updated: "Dec. 11, 2025 at 6:40 AM GMT+5:30",
+      author: "Kyre Johnson",
+      description: "They say public funds generated from taxes often end",
+    },
+  ];
   
   if (!data || data.length === 0) {
     // Use placeholder data with images from assets
-    newsItems = [
-      {
-        title: "Bentleyville named 'Best Holiday Light Display' by USA Today for fourth year in a row",
-        slug: { current: "bentleyville-holiday-lights" },
-        image: assetImages[0],
-        category: "NEWS",
-        updated: "17 hours ago",
-        author: "Marisa Ornat",
-        description: "This is Bentleyville's 22nd season, and its sixth win since 2018."
-      },
-      {
-        title: "3 Wisconsin Department of Corrections employees on leave after Morgan Geyser escape",
-        slug: { current: "wisconsin-corrections-leave" },
-        image: assetImages[1],
-        category: "POLITICS",
-        updated: "20 hours ago",
-        author: "Vanessa Kjeldsen",
-        description: "The Department of Corrections has more than a 20% vacancy rate for staff in their Electronic Monitoring Center."
-      },
-      {
-        title: "'The Nutcracker: A Duluth Tale' returns to the DECC",
-        slug: { current: "nutcracker-duluth-tale" },
-        image: assetImages[2],
-        category: "COMMUNITY",
-        updated: "21 hours ago",
-        author: "Hannah Morgan",
-        description: "While it follows the classic 'Nutcracker' story, it has ties into the Northland."
-      },
-      {
-        title: "Keeping the tradition alive: how Duluth's sea shanty group began",
-        slug: { current: "duluth-sea-shanty-group" },
-        image: assetImages[3],
-        category: "COMMUNITY",
-        updated: "21 hours ago",
-        author: "Hannah Morgan",
-        description: "The group, now known as All Hands, meets at the Duluth Folk School in Lincoln Park."
-      },
-      {
-        title: "Minnesota lawmakers discuss rural health",
-        slug: { current: "minnesota-rural-health" },
-        image: assetImages[4],
-        category: "TWIN PORTS",
-        updated: "Dec. 11, 2025 at 8:53 AM GMT+5:30",
-        author: "Hannah Morgan",
-        description: "The group included DFL Senator Grant Hauschild and republican representative Cal Warwas."
-      },
-      {
-        title: "Ashland asks for transparency after $870,000 in local taxes go to private school vouchers",
-        slug: { current: "ashland-school-vouchers" },
-        image: assetImages[5],
-        category: "NW WISCONSIN",
-        updated: "Dec. 11, 2025 at 6:40 AM GMT+5:30",
-        author: "Kyre Johnson",
-        description: "They say public funds generated from taxes often end"
-      },
-    ];
+    newsItems = fallbackItems;
   } else {
     // Use Sanity data but replace images with assets folder images
-    newsItems = data.slice(0, 6).map((post, index) => ({
+    const mapped = data.slice(0, 6).map((post, index) => ({
       title: post.title,
       slug: post.slug,
       image: assetImages[index] || post.featureImg,
@@ -118,6 +119,13 @@ const MarketNews = () => {
       author: "Editor",
       description: post.description || ""
     }));
+
+    if (mapped.length < 6) {
+      const needed = 6 - mapped.length;
+      newsItems = mapped.concat(fallbackItems.slice(mapped.length, mapped.length + needed));
+    } else {
+      newsItems = mapped;
+    }
   }
 
   // Split into left and right columns (3 items each)
@@ -160,7 +168,6 @@ const MarketNews = () => {
           letter-spacing: 1px;
           margin: 0 0 2.5rem 0;
           padding-bottom: 1rem;
-          border-bottom: 2px solid #e0e0e0;
           text-align: center;
         }
 
@@ -274,7 +281,7 @@ const MarketNews = () => {
         }
 
         .news-title {
-          font-size: 1.5rem;
+          font-size: 1.75rem;
           font-weight: 700;
           color: #000000;
           margin: 0;
@@ -289,17 +296,17 @@ const MarketNews = () => {
         }
 
         .news-title a:hover {
-          color: #545454;
+          color: #393939 !important;
         }
 
         .news-meta {
-          font-size: 1rem;
+          font-size: 1.15rem;
           color: #666666;
           margin-bottom: 0.75rem;
         }
 
         .news-description {
-          font-size: 1.2rem;
+          font-size: 1.35rem;
           color: #666666;
           line-height: 1.6;
           margin: 0;
@@ -333,15 +340,15 @@ const MarketNews = () => {
           }
 
           .news-title {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
           }
 
           .news-meta {
-            font-size: 0.95rem;
+            font-size: 1.1rem;
           }
 
           .news-description {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
           }
         }
 
@@ -359,15 +366,15 @@ const MarketNews = () => {
           }
 
           .news-title {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
           }
 
           .news-meta {
-            font-size: 0.9rem;
+            font-size: 1.05rem;
           }
 
           .news-description {
-            font-size: 1rem;
+            font-size: 1.15rem;
           }
         }
       `}</style>
@@ -380,7 +387,6 @@ const MarketNews = () => {
             {leftColumnItems.map((item, index) => (
               <div key={index} className="news-card">
                 <div className="news-image-wrapper">
-                  <div className="category-badge">{item.category}</div>
                   <Link href={`/post/${item.slug.current}`}>
                     <Image
                       src={item.image}
@@ -416,7 +422,6 @@ const MarketNews = () => {
             {rightColumnItems.map((item, index) => (
               <div key={index} className="news-card">
                 <div className="news-image-wrapper">
-                  <div className="category-badge">{item.category}</div>
                   <Link href={`/post/${item.slug.current}`}>
                     <Image
                       src={item.image}

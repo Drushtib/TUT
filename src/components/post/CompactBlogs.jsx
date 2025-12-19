@@ -53,8 +53,8 @@ const CompactBlogs = () => {
           color: #000000 !important;
         }
         .view-all-link:hover {
-          color: #545454 !important;
-          text-decoration-color: #545454 !important;
+          color: var(--primary-color) !important;
+          text-decoration-color: var(--primary-color) !important;
         }
         @media (max-width: 991px) {
           .blog-layout-grid {
@@ -112,8 +112,8 @@ const CompactBlogs = () => {
               transition: "color 0.3s ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.color = "#545454";
-              e.currentTarget.style.textDecorationColor = "#545454";
+              e.currentTarget.style.color = "var(--primary-color)";
+              e.currentTarget.style.textDecorationColor = "var(--primary-color)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = "#000000";

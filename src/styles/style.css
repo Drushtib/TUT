@@ -40,6 +40,16 @@ a:hover {
   color: var(--gold) !important;
 }
 
+ .navbar .nav-link:hover,
+ .navbar .nav-link:focus,
+ .navbar .nav-dropdown-menu a:hover,
+ .navbar .nav-dropdown-menu a:focus,
+ .mobile-menu-dropdown .mobile-nav-link:hover,
+ .mobile-menu-dropdown .mobile-nav-link:focus {
+   color: var(--primary-color) !important;
+   -webkit-text-fill-color: var(--primary-color) !important;
+ }
+
 /* WebProfiles Section - Fully Black */
 .axil-video-posts {
   background: var(--background) !important;

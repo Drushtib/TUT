@@ -31,9 +31,8 @@ const ContactPage = () => {
   return (
     <div style={{ background: '#171717', color: '#fff', minHeight: '100vh' }}>
       <HeadMeta
-        metaTitle="Connect and Share Your Story with The Entrepreneurial Chronicles Magazine
-"
-        metaDesc="Share your entrepreneurial journey and inspire others with The Entrepreneurial Chronicles Magazine. Connect with a global community of business leaders, innovators, and changemakers by contributing your unique story and insights."
+        metaTitle="Contact Us | The Unicorn Time"
+        metaDesc="Share your entrepreneurial journey and inspire others with The Unicorn Time. Connect with a global community of business leaders, innovators, and changemakers by contributing your unique story and insights."
       />
 
       <HeaderOne />

@@ -15,6 +15,7 @@ const PostVideoTwo = ({ data, pClass }) => {
       className={`media post-block post-block__small ${
         pClass ?? "post-block__on-dark-bg m-b-xs-30"
       }`}
+      style={{ gap: "0.75rem" }}
     >
       <Link className="align-self-center" href={postUrl}>
         <Image
@@ -27,16 +28,10 @@ const PostVideoTwo = ({ data, pClass }) => {
       </Link>
 
       <div className="media-body my-auto">
-        <div className="post-cat-group">
-          <Link
-            className={`post-cat ${"bg-color-blue-one"}`}
-            href={`/category/${data.category?.slug}`}
-          >
-            {data.category?.title}
+        <h3 className="axil-post-title">
+          <Link href={postUrl} style={{ color: "#000000" }}>
+            {data?.title}
           </Link>
-        </div>
-        <h3 className="axil-post-title hover-line hover-line">
-          <Link href={postUrl}>{data?.title}</Link>
         </h3>
       </div>
     </div>

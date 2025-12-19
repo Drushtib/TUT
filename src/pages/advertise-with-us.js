@@ -55,8 +55,8 @@ const AdvertiseWithUs = () => {
   return (
     <>
       <HeadMeta
-        metaTitle="Advertise With Us - The Entrepreneurial Chronicles Magazine"
-        metaDesc="Partner with The Entrepreneurial Chronicles Magazine to reach entrepreneurs and business leaders worldwide. Discover our advertising opportunities and connect with your target audience."
+        metaTitle="Advertise With Us | The Unicorn Time"
+        metaDesc="Partner with The Unicorn Time to reach entrepreneurs and business leaders worldwide. Discover our advertising opportunities and connect with your target audience."
       />
 
       <HeaderOne />

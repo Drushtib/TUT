@@ -27,6 +27,12 @@ const CompactArticles = () => {
   return (
     <>
       <style jsx global>{`
+        .articles-container {
+          max-width: 100% !important;
+          padding-left: 2rem !important;
+          padding-right: 2rem !important;
+        }
+
         .articles-section {
           animation: fadeIn 0.8s ease-out;
         }
@@ -75,6 +81,7 @@ const CompactArticles = () => {
           border-radius: 4px;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
           animation: cardFadeIn 0.6s ease-out both;
+          padding: 0 !important;
         }
         
         @keyframes cardFadeIn {
@@ -144,8 +151,8 @@ const CompactArticles = () => {
         
         .articles-header .view-all-articles-link:hover,
         .view-all-articles-link:hover {
-          color: #545454 !important;
-          text-decoration-color: #545454 !important;
+          color: var(--primary-color) !important;
+          text-decoration-color: var(--primary-color) !important;
         }
         
         .articles-header .view-all-articles-link:active,
@@ -163,7 +170,7 @@ const CompactArticles = () => {
         /* Desktop (1025px - 1399px) */
         @media (max-width: 1399px) and (min-width: 1025px) {
           .articles-container {
-            max-width: 1200px !important;
+            max-width: 100% !important;
             padding: 0 1.5rem !important;
           }
           
@@ -211,7 +218,7 @@ const CompactArticles = () => {
           }
           
           .article-card {
-            padding: 1.25rem !important;
+            padding: 0 !important;
             gap: 1.25rem !important;
           }
           
@@ -267,7 +274,7 @@ const CompactArticles = () => {
           
           .article-card {
             flex-direction: row !important;
-            padding: 1rem !important;
+            padding: 0 !important;
             gap: 1rem !important;
             align-items: center !important;
           }
@@ -327,7 +334,7 @@ const CompactArticles = () => {
           
           .article-card {
             flex-direction: row !important;
-            padding: 0.875rem !important;
+            padding: 0 !important;
             gap: 0.75rem !important;
             align-items: center !important;
           }
@@ -372,7 +379,7 @@ const CompactArticles = () => {
           }
           
           .article-card {
-            padding: 0.75rem !important;
+            padding: 0 !important;
             gap: 0.625rem !important;
           }
           
@@ -397,7 +404,7 @@ const CompactArticles = () => {
           marginTop: "0",
         }}
       >
-        <div className="articles-container" style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2rem" }}>
+        <div className="articles-container" style={{ maxWidth: "100%", margin: "0 auto", padding: "0 2rem" }}>
           {/* Section Header */}
           <div className="articles-header" style={{ position: "relative", marginBottom: "2rem" }}>
             <h2
@@ -439,7 +446,7 @@ const CompactArticles = () => {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "1.5rem",
+              gap: "3rem",
             }}
           >
             {articles.map((article, index) => (
@@ -452,8 +459,8 @@ const CompactArticles = () => {
                   display: "flex",
                   flexDirection: "row",
                   background: "#ffffff",
-                  padding: "1.5rem",
-                  gap: "1.5rem",
+                  padding: "0",
+                  gap: "0.1rem",
                   alignItems: "center",
                   borderRadius: "4px",
                   boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
@@ -474,7 +481,8 @@ const CompactArticles = () => {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      padding: "10px",
+                      padding: "0",
+                      transform: "translateX(-17px)",
                     }}
                   >
                     <Image
@@ -497,6 +505,7 @@ const CompactArticles = () => {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
+                    padding: "1.25rem 1.25rem 1.25rem 0.5rem",
                   }}
                 >
                   <h3
@@ -505,7 +514,7 @@ const CompactArticles = () => {
                       fontSize: "1.6rem",
                       fontWeight: 600,
                       color: "#000000",
-                      margin: 0,
+                      margin: "0 0 0 -30px",
                       lineHeight: "1.6",
                       display: "-webkit-box",
                       WebkitLineClamp: 3,
@@ -516,6 +525,22 @@ const CompactArticles = () => {
                   >
                     {article.title}
                   </h3>
+                  {article.description && (
+                    <p
+                      style={{
+                        margin: "0.5rem 0 0 -30px",
+                        fontSize: "1.2rem",
+                        lineHeight: "1.6",
+                        color: "#444444",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 4,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {article.description}
+                    </p>
+                  )}
                 </div>
               </Link>
             ))}

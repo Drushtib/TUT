@@ -224,10 +224,10 @@ const AboutUs = ({ aboutData }) => {
     <>
       <HeadMeta
         metaTitle={
-          "Learn About The Entrepreneurial Chronicles | A Leading Global Business Magazine"
+          "About Us | The Unicorn Time"
         }
         metaDesc={
-          "The Entrepreneurial Chronicles is a global business magazine featuring Visionary business leaders, Industry tycoons, and Entrepreneurial Minds from around the world "
+          "The Unicorn Time is a global business magazine featuring visionary business leaders, industry experts, and entrepreneurial minds from around the world."
         }
       />
       <HeaderOne />

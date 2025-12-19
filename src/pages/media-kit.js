@@ -48,8 +48,8 @@ const MediaKitPage = () => {
   return (
     <div style={{ background: '#000', color: '#fff', minHeight: '100vh' }}>
       <HeadMeta
-        metaTitle="Media Kit - The Entrepreneurial Chronicles Magazine"
-        metaDesc="Download our media kit to learn more about advertising opportunities and editorial features in The Entrepreneurial Chronicles Magazine."
+        metaTitle="Media Kit | The Unicorn Time"
+        metaDesc="Download our media kit to learn more about advertising opportunities and editorial features in The Unicorn Time."
       />
 
       <HeaderOne />

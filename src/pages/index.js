@@ -25,13 +25,13 @@ const Home = () => {
       minHeight: '100vh'
     }}>
       <HeadMeta
-        metaTitle="The Entrepreneurial Chronicles: A Business Magazine for Inspiring Entrepreneur Stories"
-        metaDesc="The Entrepreneurial Chronicles is a business magazine that brings inspiring stories of entrepreneurs who have turned their dreams into reality."
+        metaTitle="The Unicorn Time"
+        metaDesc="The Unicorn Time is a business magazine that brings inspiring stories of entrepreneurs who have turned their dreams into reality."
       />
       <HeaderOne />
       
       {/* Hero Section - Full Width */}
-      <div style={{ padding: '0', margin: '0', background: 'transparent' }}>
+      <div style={{ padding: '0 0 3rem', margin: '0', background: 'transparent' }}>
         <MagazineHero />
       </div>
       
@@ -68,8 +68,7 @@ const Home = () => {
       {/* Business Bulletin Section */}
       <div style={{ 
         background: '#ffffff', 
-        padding: '4rem 0',
-        borderTop: '1px solid rgba(0, 0, 0, 0.1)'
+        padding: '4rem 0'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <BusinessBulletin />
@@ -77,21 +76,20 @@ const Home = () => {
       </div>
       
       {/* Web Profiles Section */}
-      <div style={{ 
+     {/* <div style={{ 
         background: '#ffffff', 
-        padding: '4rem 0',
-        borderTop: '1px solid rgba(0, 0, 0, 0.1)'
+        padding: '4rem 0'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <WebProfiles />
         </div>
-      </div>
+      </div> */}
       
       {/* Master Talks Section */}
       <div style={{ 
         background: '#ffffff', 
         padding: '4rem 0',
-        borderTop: '1px solid rgba(0, 0, 0, 0.1)'
+        borderTop: 'none'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <MasterTalks />
@@ -101,8 +99,8 @@ const Home = () => {
       {/* Partner Brands */}
       <div style={{ 
         background: '#ffffff', 
-        padding: '3rem 0',
-        borderTop: '1px solid rgba(0, 0, 0, 0.1)'
+        padding: '4rem 0',
+        borderTop: 'none'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <LogoSlider />
