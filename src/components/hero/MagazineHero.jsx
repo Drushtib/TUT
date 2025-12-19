@@ -141,11 +141,8 @@ const MagazineHero = () => {
         margin: '0',
         position: "relative", 
         zIndex: 1, 
-        backgroundImage: `url(/assest/bf9abef8-a5f5-4363-8751-61fae2f18c61.jpg)`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed',
+        backgroundImage: 'none',
+        backgroundColor: '#ffffff',
         minHeight: '100%',
         opacity: 1
       }}>
@@ -168,7 +165,7 @@ const MagazineHero = () => {
             backgroundColor: 'transparent',
             border: 'none',
             borderRadius: '0',
-            padding: '2rem 0rem',
+            padding: '1.25rem 0rem',
             boxShadow: 'none',
             display: 'flex',
             flexDirection: 'column',
@@ -286,8 +283,8 @@ const MagazineHero = () => {
           {/* Magazine Carousel Right Side - Separate Block */}
           <div className="carousel-container" style={{ 
             position: "relative", 
-            height: "650px",
-            minHeight: "650px",
+            height: "540px",
+            minHeight: "540px",
             background: 'transparent',
             backgroundColor: 'transparent',
             border: 'none',
@@ -452,7 +449,7 @@ const MagazineHero = () => {
         .editorial-padding-asymmetric span *,
         .editorial-padding-asymmetric > div,
         .editorial-padding-asymmetric > div > * {
-          color: #ffffff !important;
+          color: #000000 !important;
         }
         
         .editorial-grid-60-40 .editorial-padding-asymmetric h1,
@@ -460,28 +457,28 @@ const MagazineHero = () => {
         .editorial-grid-60-40 .editorial-padding-asymmetric p,
         .editorial-grid-60-40 .editorial-padding-asymmetric div,
         .editorial-grid-60-40 .editorial-padding-asymmetric a {
-          color: #ffffff !important;
+          color: #000000 !important;
         }
         
         .hero-title-white,
         .hero-title-white * {
-          color: #ffffff !important;
+          color: #000000 !important;
           text-transform: none !important;
         }
         
         .hero-text-white,
         .hero-text-white * {
-          color: #ffffff !important;
+          color: #000000 !important;
         }
         
         .editorial-padding-asymmetric .hero-title-white,
         .editorial-padding-asymmetric .hero-text-white {
-          color: #ffffff !important;
+          color: #000000 !important;
         }
         
         .editorial-grid-60-40 .hero-title-white,
         .editorial-grid-60-40 .hero-text-white {
-          color: #ffffff !important;
+          color: #000000 !important;
         }
         
         .read-more-button,
@@ -634,20 +631,20 @@ const MagazineHero = () => {
            }
            
            .carousel-container {
-             height: 500px;
-             minHeight: 500px;
+             height: 440px;
+             minHeight: 440px;
            }
          }
 
          @media (max-width: 768px) {
            .carousel-container {
-             height: 400px;
-             minHeight: 400px;
+             height: 380px;
+             minHeight: 380px;
            }
            
            .magazine-card {
              width: 280px;
-             height: 380px;
+             height: 340px;
            }
          }
       `}</style>

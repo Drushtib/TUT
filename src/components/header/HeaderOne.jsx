@@ -913,7 +913,7 @@ const HeaderOne = () => {
         .page-header .navbar,
         .bg-black.navbar,
         nav.bg-black.navbar {
-          background-color: #1F1F1F !important;
+          background-color: #ffffff !important;
           border-bottom: 3px solid var(--primary-color) !important;
           padding-top: 0.25rem !important;
           padding-bottom: 0.25rem !important;
@@ -1001,7 +1001,7 @@ const HeaderOne = () => {
         }
 
         .navbar-nav-links .nav-link {
-          color: var(--text) !important;
+          color: #000000 !important;
           font-size: 14px !important;
           font-weight: 500;
           text-decoration: none;
@@ -1040,13 +1040,13 @@ const HeaderOne = () => {
           height: 0;
           border-left: 7px solid transparent;
           border-right: 7px solid transparent;
-          border-bottom: 9px solid #ffffff;
+          border-bottom: 9px solid #000000;
           transition: border-color 0.15s ease;
         }
 
         .nav-dropdown:hover .nav-caret {
           border-bottom: 0;
-          border-top: 9px solid #ffffff;
+          border-top: 9px solid #000000;
         }
 
         .nav-dropdown-menu {
@@ -1054,8 +1054,8 @@ const HeaderOne = () => {
           top: calc(100% + 10px);
           left: 0;
           min-width: 220px;
-          background: #0b0b0b;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: #ffffff;
+          border: 1px solid rgba(0, 0, 0, 0.12);
           padding: 10px 0;
           display: none;
           z-index: 2000;
@@ -1081,8 +1081,8 @@ const HeaderOne = () => {
           align-items: center;
           justify-content: space-between;
           padding: 10px 12px;
-          color: var(--text) !important;
-          -webkit-text-fill-color: var(--text) !important;
+          color: #000000 !important;
+          -webkit-text-fill-color: #000000 !important;
           font-weight: 600;
           text-decoration: none;
           font-size: 14px;
@@ -1091,7 +1091,7 @@ const HeaderOne = () => {
 
         .nav-dropdown-item:hover,
         .nav-dropdown-item:focus {
-          background: rgba(187, 5, 5, 0.25);
+          background: rgba(187, 5, 5, 0.12);
           color: var(--primary-color) !important;
           -webkit-text-fill-color: var(--primary-color) !important;
         }
@@ -1106,7 +1106,7 @@ const HeaderOne = () => {
           height: 0;
           border-top: 6px solid transparent;
           border-bottom: 6px solid transparent;
-          border-left: 7px solid #ffffff;
+          border-left: 7px solid #000000;
           transition: transform 0.15s ease;
         }
 
@@ -1115,8 +1115,8 @@ const HeaderOne = () => {
           top: 0;
           left: 100%;
           min-width: 220px;
-          background: #0b0b0b;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: #ffffff;
+          border: 1px solid rgba(0, 0, 0, 0.12);
           padding: 10px 0;
           display: none;
           z-index: 2001;
@@ -1139,12 +1139,12 @@ const HeaderOne = () => {
         }
 
         .navbar-extra-features button {
-          color: #ffffff !important;
+          color: #000000 !important;
         }
 
         .navbar-extra-features button i,
         .nav-search-field-toggler i {
-          color: #ffffff !important;
+          color: #000000 !important;
         }
 
         .navbar-extra-features button:hover,
@@ -1158,38 +1158,38 @@ const HeaderOne = () => {
         }
 
         .navbar .navbar-search-field {
-          background-color: var(--background) !important;
-          background: var(--background) !important;
-          color: var(--text) !important;
-          border: 1px solid var(--border) !important;
+          background-color: #ffffff !important;
+          background: #ffffff !important;
+          color: #000000 !important;
+          border: 1px solid rgba(0, 0, 0, 0.25) !important;
         }
 
         .navbar .navbar-search-field:focus {
-          background-color: var(--background) !important;
-          background: var(--background) !important;
-          color: var(--text) !important;
-          border: 1px solid var(--border) !important;
+          background-color: #ffffff !important;
+          background: #ffffff !important;
+          color: #000000 !important;
+          border: 1px solid rgba(0, 0, 0, 0.35) !important;
           outline: none !important;
         }
 
         .navbar .navbar-search-field::placeholder {
-          color: var(--text-muted) !important;
+          color: rgba(0, 0, 0, 0.55) !important;
         }
 
         .navbar .navbar-search-field::-webkit-input-placeholder {
-          color: var(--text-muted) !important;
+          color: rgba(0, 0, 0, 0.55) !important;
         }
 
         .navbar .navbar-search-field::-moz-placeholder {
-          color: var(--text-muted) !important;
+          color: rgba(0, 0, 0, 0.55) !important;
         }
 
         .navbar .navbar-search-field:-ms-input-placeholder {
-          color: var(--text-muted) !important;
+          color: rgba(0, 0, 0, 0.55) !important;
         }
 
         .navbar .navbar-search-btn {
-          color: var(--text) !important;
+          color: #000000 !important;
         }
 
         .navbar .navbar-search-btn:hover {
@@ -1202,8 +1202,8 @@ const HeaderOne = () => {
           top: 100%;
           left: 0;
           right: 0;
-          background: var(--background);
-          border: 1px solid var(--border);
+          background: #ffffff;
+          border: 1px solid rgba(0, 0, 0, 0.15);
           border-top: none;
           max-height: 300px;
           overflow-y: auto;
@@ -1219,11 +1219,11 @@ const HeaderOne = () => {
 
         .search-suggestions-header {
           padding: 10px 20px;
-          border-bottom: 1px solid var(--border);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.12);
         }
 
         .search-suggestions-header h4 {
-          color: var(--text);
+          color: #000000;
           margin: 0;
           font-size: 14px;
         }
@@ -1242,7 +1242,7 @@ const HeaderOne = () => {
 
         .search-suggestion-item {
           padding: 12px 20px;
-          border-bottom: 1px solid var(--border);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.08);
           cursor: pointer;
           transition: all 0.2s;
         }
@@ -1259,7 +1259,7 @@ const HeaderOne = () => {
           height: 50px;
           border-radius: 8px;
           overflow: hidden;
-          background: var(--background-light);
+          background: rgba(0, 0, 0, 0.04);
         }
 
         .suggestion-img {
@@ -1277,7 +1277,7 @@ const HeaderOne = () => {
         }
 
         .search-suggestion-item:hover {
-          background-color: #1F1F1F;
+          background-color: rgba(0, 0, 0, 0.05);
           transform: translateX(5px);
         }
 
@@ -1354,7 +1354,7 @@ const HeaderOne = () => {
         }
 
         .suggestion-text {
-          color: var(--text);
+          color: #000000;
           font-size: 14px;
           line-height: 1.3;
           font-weight: 500;
@@ -1365,7 +1365,7 @@ const HeaderOne = () => {
         }
 
         .suggestion-link span {
-          color: var(--text-muted);
+          color: rgba(0, 0, 0, 0.55);
           font-size: 11px;
           text-decoration: none;
         }
@@ -1396,7 +1396,7 @@ const HeaderOne = () => {
         }
 
         .no-suggestions p {
-          color: var(--text-muted);
+          color: rgba(0, 0, 0, 0.55);
           margin: 0 0 10px 0;
           font-size: 14px;
         }
@@ -1404,9 +1404,9 @@ const HeaderOne = () => {
         .search-tips {
           margin-top: 15px;
           padding: 10px;
-          background: var(--background-dark);
+          background: rgba(0, 0, 0, 0.03);
           border-radius: 5px;
-          border: 1px solid var(--border);
+          border: 1px solid rgba(0, 0, 0, 0.12);
         }
         
         .search-tips p {
