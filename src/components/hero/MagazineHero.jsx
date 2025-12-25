@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../../client";
 import Loader from "../common/Loader";
+import HeroBackgroundImage from "../../assest/bf9abef8-a5f5-4363-8751-61fae2f18c61.jpg";
 
 const MagazineHero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -141,7 +142,10 @@ const MagazineHero = () => {
         margin: '0',
         position: "relative", 
         zIndex: 1, 
-        backgroundImage: 'none',
+        backgroundImage: `url(${HeroBackgroundImage.src})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
         backgroundColor: '#ffffff',
         minHeight: '100%',
         opacity: 1
@@ -449,7 +453,7 @@ const MagazineHero = () => {
         .editorial-padding-asymmetric span *,
         .editorial-padding-asymmetric > div,
         .editorial-padding-asymmetric > div > * {
-          color: #000000 !important;
+          color: #ffffff !important;
         }
         
         .editorial-grid-60-40 .editorial-padding-asymmetric h1,
@@ -457,28 +461,28 @@ const MagazineHero = () => {
         .editorial-grid-60-40 .editorial-padding-asymmetric p,
         .editorial-grid-60-40 .editorial-padding-asymmetric div,
         .editorial-grid-60-40 .editorial-padding-asymmetric a {
-          color: #000000 !important;
+          color: #ffffff !important;
         }
         
         .hero-title-white,
         .hero-title-white * {
-          color: #000000 !important;
+          color: #ffffff !important;
           text-transform: none !important;
         }
         
         .hero-text-white,
         .hero-text-white * {
-          color: #000000 !important;
+          color: #ffffff !important;
         }
         
         .editorial-padding-asymmetric .hero-title-white,
         .editorial-padding-asymmetric .hero-text-white {
-          color: #000000 !important;
+          color: #ffffff !important;
         }
         
         .editorial-grid-60-40 .hero-title-white,
         .editorial-grid-60-40 .hero-text-white {
-          color: #000000 !important;
+          color: #ffffff !important;
         }
         
         .read-more-button,

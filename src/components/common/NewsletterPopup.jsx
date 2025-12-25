@@ -79,8 +79,8 @@ const NewsletterPopup = () => {
           
           <div className="newsletter-popup-content">
             <div className="newsletter-popup-header">
-              <h2 className="newsletter-popup-title" style={{ color: '#333333', fontWeight: '700' }}>JOIN OUR NEWSLETTER</h2>
-              <p className="newsletter-popup-subtitle" style={{ color: '#333333', fontWeight: '600' }}>Stay Informed with our exclusive updates</p>
+              <h2 className="newsletter-popup-title" style={{ fontWeight: '700' }}>JOIN OUR NEWSLETTER</h2>
+              <p className="newsletter-popup-subtitle" style={{ fontWeight: '600' }}>Stay Informed with our exclusive updates</p>
             </div>
 
             <div className="newsletter-popup-body">
@@ -127,9 +127,7 @@ const NewsletterPopup = () => {
                 )}
               </form>
 
-              <p className="newsletter-privacy-note">
-                We respect your privacy. Unsubscribe at any time.
-              </p>
+             
             </div>
           </div>
         </div>
@@ -180,14 +178,14 @@ const NewsletterPopup = () => {
         .newsletter-popup-inner {
           position: relative;
           background: #ffffff;
-          border: 3px solid #DAA520;
+          border: 3px solid #111111;
           border-radius: 20px;
-          max-width: 420px;
+          max-width: 560px;
           width: 90%;
           max-height: 90vh;
           overflow-y: auto;
           box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
-                      0 0 0 1px rgba(218, 165, 32, 0.2),
+                      0 0 0 1px rgba(17, 17, 17, 0.2),
                       inset 0 1px 0 rgba(255, 255, 255, 0.1);
           transform: scale(0.9) translateY(20px);
           transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -216,9 +214,9 @@ const NewsletterPopup = () => {
           width: 40px;
           height: 40px;
           background: transparent;
-          border: 2px solid #666666;
+          border: 2px solid #bb0505;
           border-radius: 50%;
-          color: #555555;
+          color: #bb0505 !important;
           font-size: 28px;
           font-weight: 400;
           line-height: 1;
@@ -232,14 +230,16 @@ const NewsletterPopup = () => {
         }
 
         .newsletter-popup-close:hover {
-          background: #666666;
-          color: #ffffff;
+          background: #bb0505;
+          color: #ffffff !important;
           transform: rotate(90deg);
-          border-color: #555555;
+          border-color: #bb0505;
         }
 
         .newsletter-popup-content {
           padding: 35px 30px 30px;
+          color: #111111 !important;
+          -webkit-text-fill-color: #111111 !important;
         }
 
         .newsletter-popup-header {
@@ -250,7 +250,7 @@ const NewsletterPopup = () => {
         .newsletter-popup-title {
           font-size: 26px !important;
           font-weight: 700 !important;
-          color: #333333 !important;
+          color: #111111 !important;
           margin: 0 0 10px 0 !important;
           letter-spacing: 1.5px;
           text-transform: uppercase;
@@ -259,12 +259,12 @@ const NewsletterPopup = () => {
 
         .newsletter-popup-title,
         h2.newsletter-popup-title {
-          color: #333333 !important;
+          color: #111111 !important;
         }
 
         .newsletter-popup-subtitle {
           font-size: 15px !important;
-          color: #333333 !important;
+          color: #111111 !important;
           margin: 0 !important;
           font-weight: 600 !important;
           letter-spacing: 0.5px;
@@ -272,7 +272,7 @@ const NewsletterPopup = () => {
 
         .newsletter-popup-subtitle,
         p.newsletter-popup-subtitle {
-          color: #333333 !important;
+          color: #111111 !important;
         }
 
         .newsletter-popup-body {
@@ -281,7 +281,7 @@ const NewsletterPopup = () => {
 
         .newsletter-popup-description {
           font-size: 14px;
-          color: #444444;
+          color: #111111;
           line-height: 1.6;
           margin: 0 0 25px 0;
         }
@@ -298,19 +298,20 @@ const NewsletterPopup = () => {
           width: 100%;
           padding: 14px 18px;
           font-size: 15px;
-          border: 2px solid #DAA520;
+          border: 2px solid #111111;
           border-radius: 50px;
           background: #fafafa;
-          color: #333333;
+          color: #111111;
+          caret-color: #111111;
           outline: none;
           transition: all 0.3s ease;
           box-sizing: border-box;
         }
 
         .newsletter-email-input:focus {
-          border-color: #8B4513;
+          border-color: #bb0505;
           background: #ffffff;
-          box-shadow: 0 0 0 4px rgba(218, 165, 32, 0.15);
+          box-shadow: 0 0 0 4px rgba(187, 5, 5, 0.15);
         }
 
         .newsletter-email-input::placeholder {
@@ -327,8 +328,8 @@ const NewsletterPopup = () => {
           padding: 14px 25px;
           font-size: 15px;
           font-weight: 700;
-          color: #ffffff;
-          background: linear-gradient(135deg, #DAA520 0%, #8B4513 100%);
+          color: #ffffff !important;
+          background: #bb0505;
           border: none;
           border-radius: 50px;
           cursor: pointer;
@@ -339,13 +340,17 @@ const NewsletterPopup = () => {
           align-items: center;
           justify-content: center;
           gap: 10px;
-          box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
+          box-shadow: 0 4px 15px rgba(187, 5, 5, 0.35);
+        }
+
+        .newsletter-subscribe-btn * {
+          color: #ffffff !important;
         }
 
         .newsletter-subscribe-btn:hover:not(:disabled) {
           transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(218, 165, 32, 0.5);
-          background: linear-gradient(135deg, #8B4513 0%, #DAA520 100%);
+          box-shadow: 0 6px 20px rgba(187, 5, 5, 0.45);
+          background: #8f0404;
         }
 
         .newsletter-subscribe-btn:active:not(:disabled) {
@@ -367,19 +372,19 @@ const NewsletterPopup = () => {
 
         .newsletter-message.success {
           background: #d4edda;
-          color: #155724;
+          color: #111111;
           border: 1px solid #c3e6cb;
         }
 
         .newsletter-message.error {
           background: #f8d7da;
-          color: #721c24;
+          color: #111111;
           border: 1px solid #f5c6cb;
         }
 
         .newsletter-privacy-note {
           font-size: 11px;
-          color: #555555;
+          color: #111111;
           margin: 18px 0 0 0;
           font-style: italic;
         }

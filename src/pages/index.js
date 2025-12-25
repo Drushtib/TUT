@@ -97,7 +97,7 @@ const Home = () => {
       </div>
       
       {/* Partner Brands */}
-      <div style={{ 
+      {/* <div style={{ 
         background: '#ffffff', 
         padding: '4rem 0',
         borderTop: 'none'
@@ -105,7 +105,7 @@ const Home = () => {
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <LogoSlider />
         </div>
-      </div>
+      </div> */}
       
       <FooterTwo />
       <ScrollToTop />

@@ -119,15 +119,16 @@ const OurPartners = () => {
           justify-content: center;
           padding: 1.5rem;
           background: #ffffff;
+          border: 1px solid #e7e7e7;
           border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
           transition: all 0.3s ease;
           position: relative;
           z-index: 1;
         }
         
         .partner-logo-item:hover {
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
           transform: translateY(-4px);
           z-index: 2;
         }

@@ -7,7 +7,7 @@ import Loader from "../../components/common/Loader";
 import ErrorFallback from "../../components/common/ErrorFallback";
 import { client } from "../../client";
 
-import ImgAbstract from "../../assest/abstract.jpg";
+import ImgAbstract from "../../assest/stacks-coins-arranged-bar-graph.jpg";
 import ImgBg from "../../assest/bg.jpg";
 import ImgWit from "../../assest/34378620_v915-wit-002-k.jpg";
 import ImgAbout from "../../assest/about us img.avif";

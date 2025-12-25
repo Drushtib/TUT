@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import SocialLink from "../../data/social/SocialLink.json";
-import HeaderLogo from "../../assest/Logo_The Unicorn Times_2.png";
+import HeaderLogo from "../../assest/Logo_The Unicorn Times_2.jpg";
 
 const OffcanvasMenu = ({ ofcshow, ofcHandleClose }) => {
   return (
