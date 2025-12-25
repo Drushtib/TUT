@@ -35,7 +35,7 @@ const Magazines = () => {
   if (isLoading) return <Loader />;
   if (error)
     return (
-      <div style={{ color: "gold", textAlign: "center" }}>
+      <div style={{ color: "#111", textAlign: "center" }}>
         Error fetching magazines
       </div>
     );
@@ -56,7 +56,7 @@ const Magazines = () => {
 
       <HeaderOne />
 
-      <div style={{ width: "100%", minHeight: "100vh", background: "#000" }}>
+      <div className="magazines-page" style={{ width: "100%", minHeight: "100vh", background: "#fff" }}>
         {/* Simple local search (magazine titles only) */}
         <div style={{
           display: 'flex',
@@ -72,12 +72,13 @@ const Magazines = () => {
             style={{
               width: '100%',
               maxWidth: '640px',
-              background: '#000',
-              color: '#fff',
-              border: '1px solid #333',
+              background: '#fff',
+              color: '#111',
+              border: '1px solid rgba(0,0,0,0.25)',
               outline: 'none',
               padding: '12px 16px',
               borderRadius: '8px',
+              boxShadow: '0 10px 26px rgba(0,0,0,0.08)',
             }}
           />
         </div>
@@ -147,14 +148,15 @@ const Magazines = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: "#101820", // optional contrast
+              backgroundColor: "#ffffff",
+              border: "1px solid rgba(0,0,0,0.12)",
             }}
           >
             <h2
               style={{
-                fontSize: "2.2rem",
+                fontSize: "2.4rem",
                 margin: 0,
-                color: "#ae8625", // golden color for visibility
+                color: "#111",
                 fontWeight: "bold",
               }}
             >
@@ -182,7 +184,7 @@ const Magazines = () => {
           ) : (
             <p
               style={{
-                color: "white",
+                color: "#111",
                 textAlign: "center",
                 width: "100%",
               }}
@@ -193,9 +195,31 @@ const Magazines = () => {
         </div>
       </div>
 
+      <style jsx global>{`
+        .magazines-page {
+          background: #ffffff !important;
+          color: #111111 !important;
+          -webkit-text-fill-color: #111111 !important;
+        }
+
+        .magazines-page h2,
+        .magazines-page h3,
+        .magazines-page h4,
+        .magazines-page p,
+        .magazines-page a {
+          color: #111111 !important;
+          -webkit-text-fill-color: #111111 !important;
+        }
+
+        .magazines-page a:hover {
+          color: #111111 !important;
+          -webkit-text-fill-color: #111111 !important;
+        }
+      `}</style>
+
       <FooterTwo />
     </>
   );
 };
 
-export default Magazines; 
+export default Magazines;

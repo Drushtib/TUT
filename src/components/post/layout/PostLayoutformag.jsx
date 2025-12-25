@@ -10,7 +10,7 @@ const PostLayoutformag = ({ data }) => {
             src={data.featureImg}
             alt={data?.altText || data.title}
             width={750}   // slightly increased width
-            height={900}  // slightly increased height
+            height={840}  // slightly reduced height
             className="img-fluid"
           />
         </div>
@@ -20,12 +20,12 @@ const PostLayoutformag = ({ data }) => {
         <h4
           style={{
             marginTop: "1rem",
-            fontSize: "1.3rem",
-            color: "var(--text)",
+            fontSize: "1.55rem",
+            color: "#111",
             textAlign: "center",
           }}
         >
-          <Link href={`/magazine/${data.slug.current}`} style={{ color: "var(--text)" }}>
+          <Link href={`/magazine/${data.slug.current}`} style={{ color: "#111" }}>
             {data.title}
           </Link>
         </h4>
@@ -42,19 +42,25 @@ const PostLayoutformag = ({ data }) => {
           border-radius: 10px;
           overflow: hidden;
           transition: transform 0.3s ease, box-shadow 0.3s ease;
-          border: 3px solid var(--primary-color);
+          border: 0;
+          box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
         }
 
         .image-container:hover {
           transform: scale(1.03);
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
         }
 
         .line {
           width: 100%;
           height: 4px;
-          background-color: var(--text);
+          background-color: #111;
           margin: 1rem 0;
+        }
+
+        .title-container h4,
+        .title-container h4 a {
+          color: #111111 !important;
         }
 
         /* Layout styling for 4 per row */
