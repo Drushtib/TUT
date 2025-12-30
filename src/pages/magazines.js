@@ -138,6 +138,7 @@ const Magazines = () => {
           }}
         >
           <div
+            className="year-badge"
             style={{
               width: "30%",
               maxWidth: "40rem",
@@ -148,15 +149,14 @@ const Magazines = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: "#ffffff",
-              border: "1px solid rgba(0,0,0,0.12)",
+              backgroundColor: "#bb0505",
+              border: "none",
             }}
           >
             <h2
               style={{
                 fontSize: "2.4rem",
                 margin: 0,
-                color: "#111",
                 fontWeight: "bold",
               }}
             >
@@ -212,8 +212,13 @@ const Magazines = () => {
         }
 
         .magazines-page a:hover {
-          color: #111111 !important;
-          -webkit-text-fill-color: #111111 !important;
+          color: #bb0505 !important;
+          -webkit-text-fill-color: #bb0505 !important;
+        }
+
+        .magazines-page .year-badge h2 {
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
         }
       `}</style>
 

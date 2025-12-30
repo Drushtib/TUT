@@ -5294,6 +5294,9 @@ input[type="radio"] + label::after {
 /*--Breadcrumb--*/
 .breadcrumb-wrapper {
   padding: 2rem 0;
+  background: #ffffff;
+  border-top: 1px solid #111111;
+  border-bottom: 1px solid #111111;
 }
 .breadcrumb {
   background: transparent;
@@ -5305,7 +5308,7 @@ input[type="radio"] + label::after {
 .breadcrumb a {
   font-size: 1.4rem;
   line-height: 2.2rem;
-  color: var(--grey-dark-four);
+  color: #111111;
   text-transform: capitalize;
 }
 .breadcrumb li.active,
@@ -5319,7 +5322,7 @@ input[type="radio"] + label::after {
 }
 .breadcrumb-item + .breadcrumb-item::before {
   padding: 0 1rem;
-  color: var(--grey-dark-four);
+  color: #111111;
 }
 /*--Shapes--*/
 .axil-shape-circle {

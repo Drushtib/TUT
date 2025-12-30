@@ -120,16 +120,21 @@ const StatCard = React.forwardRef(({ endValue, suffix, label, isVisible, delay }
         ref={ref}
         style={{ 
           textAlign: "center", 
-          padding: "2rem 1rem",
-          opacity: isVisible ? 1 : 0,
-          transform: isVisible ? "scale(1)" : "scale(0.5)",
-          transition: `all 0.6s ease-out ${delay}s`,
+          padding: "2.2rem 1.4rem",
+          background: "#ffffff",
+          border: "1px solid rgba(0,0,0,0.12)",
+          borderRadius: "18px",
+          boxShadow: "0 14px 40px rgba(0, 0, 0, 0.08)",
+          opacity: 1,
+          transform: "none",
+          transition: "none",
         }}
       >
-        <div style={{ fontSize: "4.2rem", fontWeight: "800", color: "#d4af37", marginBottom: "0.5rem", fontFamily: "Poppins, sans-serif" }}>
+        <div style={{ fontSize: "4.2rem", fontWeight: "800", color: "#111111", marginBottom: "0.6rem", fontFamily: "Poppins, sans-serif" }}>
           {count}{suffix}
         </div>
-        <div style={{ fontSize: "1.8rem", color: "#999", textTransform: "uppercase", letterSpacing: "2px", fontFamily: "Roboto, sans-serif" }}>
+        <div style={{ width: "46px", height: "3px", background: "#bb0505", borderRadius: "999px", margin: "0 auto 1.2rem" }} />
+        <div style={{ fontSize: "1.8rem", color: "#111111", textTransform: "uppercase", letterSpacing: "2px", fontFamily: "Roboto, sans-serif" }}>
           {label}
         </div>
       </div>
@@ -221,7 +226,7 @@ const AboutUs = ({ aboutData }) => {
     },
   });
   return (
-    <>
+    <div className="about-us-page">
       <HeadMeta
         metaTitle={
           "About Us | The Unicorn Time"
@@ -231,17 +236,12 @@ const AboutUs = ({ aboutData }) => {
         }
       />
       <HeaderOne />
-      <Breadcrumb aPage="About Us" />
       
       {/* Modern Hero Section */}
       <div
         style={{
-          backgroundImage: "linear-gradient(135deg, rgba(10, 10, 10, 0.85) 0%, rgba(26, 26, 26, 0.85) 50%, rgba(10, 10, 10, 0.85) 100%), url('/images/about-us-bg.avif')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          backgroundAttachment: "fixed",
-          padding: "10rem 2rem",
+          backgroundColor: "#ffffff",
+          padding: "6rem 2rem 4rem",
           position: "relative",
         }}
       >
@@ -264,39 +264,40 @@ const AboutUs = ({ aboutData }) => {
               style={{
                 fontSize: "4.2rem",
                 fontWeight: "800",
-                color: "#ffffff",
+                color: "#111111",
                 marginBottom: "2rem",
                 letterSpacing: "-0.02em",
                 lineHeight: "1.4",
                 fontFamily: "Poppins, sans-serif",
-                textShadow: "0 4px 20px rgba(0,0,0,0.5)",
+                textShadow: "none",
               }}
               className="page-title"
             >
               About Us
             </h1>
+
             <p
               style={{
-                fontSize: "1.8rem",
-                color: "#ffffff",
-                lineHeight: "3rem",
-                fontWeight: "400",
+                fontSize: "1.7rem",
+                lineHeight: "2.9rem",
+                color: "#111111",
                 fontFamily: "Roboto, sans-serif",
-                textShadow: "0 2px 10px rgba(0,0,0,0.3)",
+                maxWidth: "780px",
+                margin: "0 auto 1.6rem",
               }}
             >
-              Welcome to The Entrepreneurial Chronicles Magazine, where we
-              spotlight trailblazers from all sectors transforming the business
-              magazine landscape. Our mission is to inspire and empower new
-              leaders with groundbreaking ideas worldwide.
+              The Unicorn Times is a modern business and entrepreneurship website where we publish inspiring founder stories, industry insights, and practical ideas that help readers think bigger, build smarter, and stay ahead.
             </p>
+
+            <div style={{ width: "90px", height: "4px", background: "#bb0505", borderRadius: "999px", margin: "0 auto" }} />
+
           </div>
         </div>
       </div>
 
       {/* Mission, Vision, Values Section - Animated from different directions */}
       <div 
-        style={{ backgroundColor: "#000", padding: "6rem 0" }}
+        style={{ backgroundColor: "#ffffff", padding: "6rem 0" }}
         ref={(el) => (sectionRefs.current.foundation = el)}
       >
         <div className="container">
@@ -327,9 +328,11 @@ const AboutUs = ({ aboutData }) => {
                 ref={(el) => (sectionRefs.current.mission = el)}
                 style={{
                   padding: "3rem 2.5rem",
-                  background: "linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.02) 100%)",
+                  background: "#ffffff",
                   borderRadius: "20px",
-                  border: "1px solid rgba(212,175,55,0.2)",
+                  border: "1px solid rgba(0,0,0,0.14)",
+                  borderTop: "4px solid #bb0505",
+                  boxShadow: "0 14px 40px rgba(0, 0, 0, 0.08)",
                   height: "100%",
                   transition: "all 0.4s ease",
                   cursor: "pointer",
@@ -341,20 +344,28 @@ const AboutUs = ({ aboutData }) => {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-10px) scale(1.02)";
-                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.4)";
-                  e.currentTarget.style.boxShadow = "0 20px 50px rgba(212,175,55,0.2)";
+                  e.currentTarget.style.borderColor = "rgba(187, 5, 5, 0.35)";
+                  e.currentTarget.style.boxShadow = "0 22px 60px rgba(0, 0, 0, 0.14)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.2)";
-                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.borderColor = "rgba(0,0,0,0.12)";
+                  e.currentTarget.style.boxShadow = "0 14px 40px rgba(0, 0, 0, 0.08)";
                 }}
               >
-                <div style={{ fontSize: "3.5rem", marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>🎯</div>
-                <h3 style={{ fontSize: "2.4rem", fontWeight: "600", marginBottom: "1.2rem", color: "#d4af37", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
+                <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>
+                  <Image
+                    src="/assest/target.png"
+                    alt="Mission"
+                    width={56}
+                    height={56}
+                    style={{ objectFit: "contain" }}
+                  />
+                </div>
+                <h3 style={{ fontSize: "2.4rem", fontWeight: "600", marginBottom: "1.2rem", color: "#111111", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
                   Our Mission
                 </h3>
-                <p style={{ color: "#ccc", lineHeight: "2.8rem", fontSize: "1.6rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
+                <p style={{ color: "#111111", lineHeight: "2.8rem", fontSize: "1.6rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
                   To inspire and empower entrepreneurs worldwide by sharing authentic stories of innovation, resilience, and success that drive meaningful change in the business world.
                 </p>
               </div>
@@ -364,9 +375,11 @@ const AboutUs = ({ aboutData }) => {
                 ref={(el) => (sectionRefs.current.vision = el)}
                 style={{
                   padding: "3rem 2.5rem",
-                  background: "linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.02) 100%)",
+                  background: "#ffffff",
                   borderRadius: "20px",
-                  border: "1px solid rgba(212,175,55,0.2)",
+                  border: "1px solid rgba(0,0,0,0.14)",
+                  borderTop: "4px solid #bb0505",
+                  boxShadow: "0 14px 40px rgba(0, 0, 0, 0.08)",
                   height: "100%",
                   transition: "all 0.4s ease",
                   cursor: "pointer",
@@ -378,20 +391,28 @@ const AboutUs = ({ aboutData }) => {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-10px) scale(1.02)";
-                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.4)";
-                  e.currentTarget.style.boxShadow = "0 20px 50px rgba(212,175,55,0.2)";
+                  e.currentTarget.style.borderColor = "rgba(187, 5, 5, 0.35)";
+                  e.currentTarget.style.boxShadow = "0 20px 50px rgba(0, 0, 0, 0.12)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.2)";
-                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.borderColor = "rgba(0,0,0,0.12)";
+                  e.currentTarget.style.boxShadow = "0 14px 40px rgba(0, 0, 0, 0.08)";
                 }}
               >
-                <div style={{ fontSize: "3.5rem", marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>🌟</div>
-                <h3 style={{ fontSize: "2.4rem", fontWeight: "600", marginBottom: "1.2rem", color: "#d4af37", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
+                <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>
+                  <Image
+                    src="/assest/business_13586897.png"
+                    alt="Vision"
+                    width={56}
+                    height={56}
+                    style={{ objectFit: "contain" }}
+                  />
+                </div>
+                <h3 style={{ fontSize: "2.4rem", fontWeight: "600", marginBottom: "1.2rem", color: "#111111", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
                   Our Vision
                 </h3>
-                <p style={{ color: "#ccc", lineHeight: "2.8rem", fontSize: "1.6rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
+                <p style={{ color: "#111111", lineHeight: "2.8rem", fontSize: "1.6rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
                   To become the world's most trusted platform for entrepreneurial insights, connecting visionary leaders and fostering a global community of innovators.
                 </p>
               </div>
@@ -401,9 +422,11 @@ const AboutUs = ({ aboutData }) => {
                 ref={(el) => (sectionRefs.current.values = el)}
                 style={{
                   padding: "3rem 2.5rem",
-                  background: "linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.02) 100%)",
+                  background: "#ffffff",
                   borderRadius: "20px",
-                  border: "1px solid rgba(212,175,55,0.2)",
+                  border: "1px solid rgba(0,0,0,0.14)",
+                  borderTop: "4px solid #bb0505",
+                  boxShadow: "0 14px 40px rgba(0, 0, 0, 0.08)",
                   height: "100%",
                   transition: "all 0.4s ease",
                   cursor: "pointer",
@@ -415,20 +438,28 @@ const AboutUs = ({ aboutData }) => {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-10px) scale(1.02)";
-                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.4)";
-                  e.currentTarget.style.boxShadow = "0 20px 50px rgba(212,175,55,0.2)";
+                  e.currentTarget.style.borderColor = "rgba(187, 5, 5, 0.35)";
+                  e.currentTarget.style.boxShadow = "0 20px 50px rgba(0, 0, 0, 0.12)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.2)";
-                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.borderColor = "rgba(0,0,0,0.12)";
+                  e.currentTarget.style.boxShadow = "0 14px 40px rgba(0, 0, 0, 0.08)";
                 }}
               >
-                <div style={{ fontSize: "3.5rem", marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>💎</div>
-                <h3 style={{ fontSize: "2.4rem", fontWeight: "600", marginBottom: "1.2rem", color: "#d4af37", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
+                <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>
+                  <Image
+                    src="/assest/value_17994255.png"
+                    alt="Values"
+                    width={56}
+                    height={56}
+                    style={{ objectFit: "contain" }}
+                  />
+                </div>
+                <h3 style={{ fontSize: "2.4rem", fontWeight: "600", marginBottom: "1.2rem", color: "#111111", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
                   Our Values
                 </h3>
-                <p style={{ color: "#ccc", lineHeight: "2.8rem", fontSize: "1.6rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
+                <p style={{ color: "#111111", lineHeight: "2.8rem", fontSize: "1.6rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
                   Integrity, innovation, and inclusivity guide our work. We believe in authentic storytelling, diverse perspectives, and empowering the next generation of leaders.
                 </p>
               </div>
@@ -440,14 +471,15 @@ const AboutUs = ({ aboutData }) => {
       {/* Statistics Section - Animated from bottom */}
       <div
         ref={(el) => (sectionRefs.current.stats = el)}
+        className="about-stats"
         style={{
-          background: "linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)",
+          backgroundColor: "#ffffff",
           padding: "5rem 0",
-          borderTop: "1px solid rgba(212,175,55,0.1)",
-          borderBottom: "1px solid rgba(212,175,55,0.1)",
-          opacity: isVisible.stats ? 1 : 0,
-          transform: isVisible.stats ? "translateY(0)" : "translateY(50px)",
-          transition: "all 0.8s ease-out",
+          borderTop: "1px solid rgba(0,0,0,0.08)",
+          borderBottom: "1px solid rgba(0,0,0,0.08)",
+          opacity: 1,
+          transform: "none",
+          transition: "none",
         }}
       >
         <div className="container">
@@ -492,10 +524,10 @@ const AboutUs = ({ aboutData }) => {
       <div
         ref={(el) => (sectionRefs.current.whoWeAre = el)}
         style={{
-          backgroundColor: "#000",
+          backgroundColor: "#ffffff",
           padding: "8rem 0",
           position: "relative",
-          borderTop: "1px solid rgba(212,175,55,0.1)",
+          borderTop: "1px solid rgba(0,0,0,0.08)",
           overflow: "hidden",
         }}
       >
@@ -507,7 +539,7 @@ const AboutUs = ({ aboutData }) => {
             left: "-100px",
             width: "300px",
             height: "300px",
-            background: "radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(187, 5, 5, 0.06) 0%, transparent 70%)",
             borderRadius: "50%",
             opacity: isVisible.whoWeAre ? 1 : 0,
             transform: isVisible.whoWeAre ? "scale(1)" : "scale(0.5)",
@@ -521,7 +553,7 @@ const AboutUs = ({ aboutData }) => {
             right: "-150px",
             width: "400px",
             height: "400px",
-            background: "radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(187, 5, 5, 0.05) 0%, transparent 70%)",
             borderRadius: "50%",
             opacity: isVisible.whoWeAre ? 1 : 0,
             transform: isVisible.whoWeAre ? "scale(1)" : "scale(0.5)",
@@ -539,12 +571,12 @@ const AboutUs = ({ aboutData }) => {
           >
             <div className="row">
               <div className="col-lg-10 mx-auto">
-                <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+                <div style={{ maxWidth: "980px", margin: "0 auto", background: "#ffffff", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "22px", boxShadow: "0 18px 50px rgba(0,0,0,0.08)", padding: "3.5rem 3rem", borderLeft: "6px solid #bb0505" }}>
                   <h2
                     style={{
                       fontSize: "3.5rem",
                       fontWeight: "800",
-                      color: "#fff",
+                      color: "#111111",
                       marginBottom: "2rem",
                       fontFamily: "Poppins, sans-serif",
                       lineHeight: "1.2",
@@ -575,7 +607,7 @@ const AboutUs = ({ aboutData }) => {
                     <p
                     style={{
                       fontSize: "1.6rem",
-                      color: "#ccc",
+                      color: "#111111",
                       lineHeight: "2.8rem",
                       fontFamily: "Roboto, sans-serif",
                       textAlign: "left",
@@ -595,10 +627,10 @@ const AboutUs = ({ aboutData }) => {
       <div
         ref={(el) => (sectionRefs.current.ourStory = el)}
         style={{
-          backgroundColor: "#0a0a0a",
+          backgroundColor: "#ffffff",
           padding: "8rem 0",
           position: "relative",
-          borderTop: "1px solid rgba(212,175,55,0.1)",
+          borderTop: "1px solid rgba(0,0,0,0.08)",
           overflow: "hidden",
         }}
       >
@@ -610,7 +642,7 @@ const AboutUs = ({ aboutData }) => {
             left: "50%",
             width: "500px",
             height: "500px",
-            background: "radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(187, 5, 5, 0.04) 0%, transparent 70%)",
             borderRadius: "50%",
             opacity: isVisible.ourStory ? 1 : 0,
             transform: isVisible.ourStory ? "translate(-50%, -50%) scale(1)" : "translate(-50%, -50%) scale(0.3)",
@@ -628,12 +660,12 @@ const AboutUs = ({ aboutData }) => {
           >
             <div className="row">
               <div className="col-lg-10 mx-auto">
-                <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+                <div style={{ maxWidth: "980px", margin: "0 auto", background: "#ffffff", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "22px", boxShadow: "0 18px 50px rgba(0,0,0,0.08)", padding: "3.5rem 3rem", borderLeft: "6px solid #bb0505" }}>
                   <h2
                     style={{
                       fontSize: "3.5rem",
                       fontWeight: "800",
-                      color: "#fff",
+                      color: "#111111",
                       marginBottom: "2rem",
                       fontFamily: "Poppins, sans-serif",
                       lineHeight: "1.2",
@@ -664,7 +696,7 @@ const AboutUs = ({ aboutData }) => {
                     <p
                       style={{
                         fontSize: "1.6rem",
-                        color: "#ccc",
+                        color: "#111111",
                         lineHeight: "2.8rem",
                         marginBottom: "2rem",
                         fontFamily: "Roboto, sans-serif",
@@ -676,7 +708,7 @@ const AboutUs = ({ aboutData }) => {
                     <p
                       style={{
                         fontSize: "1.6rem",
-                        color: "#ccc",
+                        color: "#111111",
                         lineHeight: "2.8rem",
                         marginBottom: "2rem",
                         fontFamily: "Roboto, sans-serif",
@@ -688,7 +720,7 @@ const AboutUs = ({ aboutData }) => {
                     <p
                       style={{
                         fontSize: "1.6rem",
-                        color: "#ccc",
+                        color: "#111111",
                         lineHeight: "2.8rem",
                         marginBottom: "2rem",
                         fontFamily: "Roboto, sans-serif",
@@ -700,7 +732,7 @@ const AboutUs = ({ aboutData }) => {
                     <p
                       style={{
                         fontSize: "1.6rem",
-                        color: "#ccc",
+                        color: "#111111",
                         lineHeight: "2.8rem",
                         fontFamily: "Roboto, sans-serif",
                         textAlign: "left",
@@ -716,7 +748,7 @@ const AboutUs = ({ aboutData }) => {
         </div>
       </div>
 
-      <div className="axil-our-team section-gap section-gap-top__with-text" style={{ backgroundColor: '#000', color: '#fff' }}>
+      <div className="axil-our-team section-gap section-gap-top__with-text" style={{ backgroundColor: '#fff', color: '#111' }}>
         {/* <div className="container">
           <div className="axil-team-grid-wrapper">
             <SectionTitleTwo
@@ -733,8 +765,30 @@ const AboutUs = ({ aboutData }) => {
           </div>
         </div> */}
       </div>
+      <style jsx global>{`
+        .about-us-page .page-title,
+        .about-us-page .section-title,
+        .about-us-page .section-title .axil-title,
+        .about-us-page .section-title p,
+        .about-us-page h1,
+        .about-us-page h2,
+        .about-us-page h3,
+        .about-us-page h4,
+        .about-us-page p,
+        .about-us-page li,
+        .about-us-page a {
+          color: #111111 !important;
+          opacity: 1 !important;
+        }
+
+        .about-us-page .about-stats,
+        .about-us-page .about-stats * {
+          color: #111111 !important;
+          opacity: 1 !important;
+        }
+      `}</style>
       <FooterTwo />
-    </>
+    </div>
   );
 };
 

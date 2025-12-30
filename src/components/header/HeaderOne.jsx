@@ -3,13 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { client } from "../../client";
-import HeaderLogo from "../../assest/Logo_The Unicorn Times_2.jpg";
 
 import SocialLink from "../../data/social/SocialLink.json";
 
 const HeaderOne = () => {
-
-
 
   // Header Search
   const [searchshow, setSearchShow] = useState(false);
@@ -712,15 +709,22 @@ const HeaderOne = () => {
               <div className="brand-logo-container">
                 <Link href="/">
                   <Image
-                    src={HeaderLogo}
+                    src="/assest/TUT_2.png"
                     alt="chronicles-logo"
                     width={350}
                     height={70}
+                    sizes="350px"
+                    quality={100}
+                    priority
+                    unoptimized
                     style={{
                       objectFit: "contain",
                       height: "70px",
+                      width: "auto",
                       maxHeight: "70px",
                       transform: "translateX(-20px)", 
+                      imageRendering: "auto",
+                      filter: "contrast(1.05)",
                     }}
                   />
 
