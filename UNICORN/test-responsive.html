@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Page Responsive Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .test-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        
+        .test-frame {
+            border: 2px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+        
+        .test-frame iframe {
+            width: 100%;
+            border: none;
+        }
+        
+        .test-label {
+            background: #333;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .responsive-test {
+            width: 100%;
+            height: 400px;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+        }
+        
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 2rem;
+        }
+        
+        .loading-logo {
+            max-width: 300px;
+            width: 100%;
+        }
+        
+        .loading-logo img {
+            width: 100%;
+            height: auto;
+            max-width: 300px;
+        }
+        
+        .loading-dots {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: #D4AF37;
+            border-radius: 50%;
+            animation: bounce 1.4s ease-in-out infinite both;
+        }
+        
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        .dot:nth-child(3) { animation-delay: 0s; }
+        
+        .loading-progress {
+            width: 200px;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #D4AF37, #FFD700, #D4AF37);
+            animation: progressFill 2s ease-in-out;
+        }
+        
+        .loading-text h2 {
+            color: #D4AF37;
+            font-size: 1.5rem;
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .loading-text p {
+            color: #ccc;
+            font-size: 1rem;
+            margin: 0;
+        }
+        
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes progressFill {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        /* Responsive breakpoints */
+        @media (max-width: 1024px) {
+            .loading-logo { max-width: 280px; }
+            .loading-progress { width: 180px; }
+            .loading-text h2 { font-size: 1.4rem; }
+            .loading-text p { font-size: 0.95rem; }
+            .dot { width: 11px; height: 11px; }
+        }
+        
+        @media (max-width: 768px) {
+            .loading-logo { max-width: 220px; }
+            .loading-progress { width: 160px; }
+            .loading-text h2 { font-size: 1.2rem; }
+            .loading-text p { font-size: 0.9rem; }
+            .dot { width: 10px; height: 10px; }
+            .loading-dots { gap: 6px; }
+        }
+        
+        @media (max-width: 480px) {
+            .loading-logo { max-width: 180px; }
+            .loading-progress { width: 140px; }
+            .loading-text h2 { font-size: 1rem; }
+            .loading-text p { font-size: 0.8rem; }
+            .dot { width: 8px; height: 8px; }
+            .loading-dots { gap: 5px; }
+        }
+        
+        @media (max-width: 360px) {
+            .loading-logo { max-width: 150px; }
+            .loading-progress { width: 120px; }
+            .loading-text h2 { font-size: 0.9rem; }
+            .loading-text p { font-size: 0.75rem; }
+            .dot { width: 7px; height: 7px; }
+            .loading-dots { gap: 4px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Loading Page Responsive Test</h1>
+        <p>Resize your browser window to see the responsive behavior</p>
+        
+        <div class="test-frame">
+            <div class="test-label">Desktop (1025px+)</div>
+            <div class="responsive-test">
+                <div class="loading-container">
+                    <div class="loading-logo">
+                        <div style="width: 300px; height: 120px; background: #D4AF37; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">LOGO</div>
+                    </div>
+                    <div class="loading-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="loading-progress">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="loading-text">
+                        <h2>Loading...</h2>
+                        <p>Welcome to The Entrepreneurial Chronicles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-frame">
+            <div class="test-label">Tablet (768px - 1024px)</div>
+            <div class="responsive-test" style="width: 800px;">
+                <div class="loading-container">
+                    <div class="loading-logo">
+                        <div style="width: 280px; height: 110px; background: #D4AF37; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">LOGO</div>
+                    </div>
+                    <div class="loading-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="loading-progress">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="loading-text">
+                        <h2>Loading...</h2>
+                        <p>Welcome to The Entrepreneurial Chronicles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-frame">
+            <div class="test-label">Mobile (481px - 768px)</div>
+            <div class="responsive-test" style="width: 600px;">
+                <div class="loading-container">
+                    <div class="loading-logo">
+                        <div style="width: 220px; height: 90px; background: #D4AF37; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">LOGO</div>
+                    </div>
+                    <div class="loading-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="loading-progress">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="loading-text">
+                        <h2>Loading...</h2>
+                        <p>Welcome to The Entrepreneurial Chronicles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-frame">
+            <div class="test-label">Small Mobile (360px - 480px)</div>
+            <div class="responsive-test" style="width: 400px;">
+                <div class="loading-container">
+                    <div class="loading-logo">
+                        <div style="width: 180px; height: 70px; background: #D4AF37; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">LOGO</div>
+                    </div>
+                    <div class="loading-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="loading-progress">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="loading-text">
+                        <h2>Loading...</h2>
+                        <p>Welcome to The Entrepreneurial Chronicles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-frame">
+            <div class="test-label">Extra Small Mobile (360px and below)</div>
+            <div class="responsive-test" style="width: 300px;">
+                <div class="loading-container">
+                    <div class="loading-logo">
+                        <div style="width: 150px; height: 60px; background: #D4AF37; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">LOGO</div>
+                    </div>
+                    <div class="loading-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="loading-progress">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="loading-text">
+                        <h2>Loading...</h2>
+                        <p>Welcome to The Entrepreneurial Chronicles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

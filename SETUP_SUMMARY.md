@@ -44,7 +44,7 @@ package-lock.json      → Auto-generated
 ## Configuration Points
 
 ### Current Setup (Old Account):
-- **Project ID**: `gaa41xdq`
+- **Project ID**: `lres172w`
 - **Dataset**: `production`
 - **Config Files**: 3 files need updating
 

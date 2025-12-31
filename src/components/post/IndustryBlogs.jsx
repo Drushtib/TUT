@@ -10,14 +10,20 @@ const IndustryBlogs = () => {
   const { data: categories, isLoading, error } = useQuery({
     queryKey: ["industry-categories"],
     queryFn: async () => {
-      const query = `*[_type == "category" && (slug.current == "education" || slug.current == "finance" || slug.current == "healthcare" || slug.current == "technology")] {
+      console.log("Fetching industry categories...");
+      const query = `*[_type == "industryCategory"]{
         title,
         slug,
         'image': image.asset->url
       }[0...3]`;
+      console.log("IndustryBlogs query:", query);
+      const response = await client.fetch(query);
+      console.log("IndustryBlogs response:", response);
       return await client.fetch(query);
     },
   });
+
+  console.log("IndustryBlogs state:", { isLoading, error, categoriesCount: categories?.length });
 
   if (isLoading) return <Loader />;
   if (error) return <ErrorFallback error={error} />;
@@ -58,7 +64,7 @@ const IndustryBlogs = () => {
           {industryCategories.map((category, index) => (
             <Link
               key={category.slug?.current || index}
-              href={`/category/${category.slug?.current || category.slug}`}
+              href={`/industries/${category.slug?.current || category.slug}`}
               style={{ textDecoration: 'none' }}
             >
               <div style={{

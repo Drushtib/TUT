@@ -1,0 +1,27 @@
+[
+  {
+    "label": "Home",
+    "path": "/"
+  },
+
+  {
+    "label": "Magazines",
+    "path": "/magazines"
+  },
+  {
+    "label": "Blogs",
+    "path": "/blogs"
+  },
+  {
+    "label": "About Us",
+    "path": "/about-us"
+  },
+  {
+    "label": "Contact",
+    "path": "/contact"
+  },
+  {
+    "label": "Advertise With Us",
+    "path": "/advertise-with-us"
+  }
+]

@@ -189,7 +189,7 @@ import { formatDate } from "../lib/utils/date";
 Create a `.env.local` file with:
 
 ```env
-NEXT_PUBLIC_SANITY_PROJECT_ID=gaa41xdq
+NEXT_PUBLIC_SANITY_PROJECT_ID=lres172w
 NEXT_PUBLIC_SANITY_DATASET=production
 NEXT_PUBLIC_SANITY_API_VERSION=2023-05-03
 NEXT_PUBLIC_SANITY_USE_CDN=false
