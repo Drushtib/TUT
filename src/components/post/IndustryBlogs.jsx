@@ -10,20 +10,15 @@ const IndustryBlogs = () => {
   const { data: categories, isLoading, error } = useQuery({
     queryKey: ["industry-categories"],
     queryFn: async () => {
-      console.log("Fetching industry categories...");
       const query = `*[_type == "industryCategory"]{
         title,
         slug,
         'image': image.asset->url
-      }[0...3]`;
-      console.log("IndustryBlogs query:", query);
+      }`;
       const response = await client.fetch(query);
-      console.log("IndustryBlogs response:", response);
-      return await client.fetch(query);
+      return response;
     },
   });
-
-  console.log("IndustryBlogs state:", { isLoading, error, categoriesCount: categories?.length });
 
   if (isLoading) return <Loader />;
   if (error) return <ErrorFallback error={error} />;
@@ -33,7 +28,10 @@ const IndustryBlogs = () => {
   const industryCategories = categories.length > 0 ? categories : [
     { title: "Education", slug: { current: "education" }, image: "/images/education.jpg" },
     { title: "Finance", slug: { current: "finance" }, image: "/images/finance.jpg" },
-    { title: "Healthcare", slug: { current: "healthcare" }, image: "/images/healthcare.jpg" }
+    { title: "Healthcare", slug: { current: "healthcare" }, image: "/images/healthcare.jpg" },
+    { title: "Legal", slug: { current: "legal" }, image: "/images/legal.jpg" },
+    { title: "Technology", slug: { current: "technology" }, image: "/images/technology.jpg" },
+    { title: "Cybersecurity", slug: { current: "cybersecurity" }, image: "/images/cybersecurity.jpg" }
   ];
 
   return (
