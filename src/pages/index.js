@@ -54,10 +54,10 @@ const Home = () => {
       {/* <OurPartners /> */}
       
       {/* Industry Blogs Section */}
-      <IndustryBlogs />
+      {/* <IndustryBlogs /> */}
       
       {/* Industry Posts Section */}
-      <IndustryPosts />
+      {/* <IndustryPosts /> */}
       
       {/* Main Content Area - Two Column Layout */}
       <div style={{ 

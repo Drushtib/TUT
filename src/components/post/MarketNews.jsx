@@ -255,7 +255,7 @@ const MarketNews = () => {
                 </div>
                 <div className="news-content">
                   <div className="news-title-wrapper">
-                    <div className="play-icon"></div>
+                    
                     <h3 className="news-title">
                       <Link href={`/market-news/${item.id}`}>
                         {item.title}
@@ -290,7 +290,7 @@ const MarketNews = () => {
                 </div>
                 <div className="news-content">
                   <div className="news-title-wrapper">
-                    <div className="play-icon"></div>
+                    
                     <h3 className="news-title">
                       <Link href={`/market-news/${item.id}`}>
                         {item.title}

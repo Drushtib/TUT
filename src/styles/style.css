@@ -360,10 +360,10 @@ a:hover {
   --gradient-primary: linear-gradient(135deg, #bb0505 0%, #bb0505 100%);
   
   /* Text Colors */
-  --text: #EDEDED;
-  --text-secondary: #EDEDED;
-  --text-muted: #444444;
-  --text-dark: #171717;
+  --text: #000000;
+  --text-secondary: #000000;
+  --text-muted: #000000;
+  --text-dark: #000000;
   
   /* Border Colors */
   --border: #444444;
@@ -5430,7 +5430,9 @@ input[type="radio"] + label::after {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
+  box-orient: vertical;
 }
 @media (max-width: 991px) {
   .post-block .axil-post-title {
@@ -5866,7 +5868,9 @@ input[type="radio"] + label::after {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
+  box-orient: vertical;
 }
 .content-block .media-caption .caption-meta {
   font-size: 1.4rem;

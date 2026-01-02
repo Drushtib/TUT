@@ -273,13 +273,13 @@ const HeaderOne = () => {
                       <div className="nav-dropdown-submenu">
                         <Link href="/industry/tech-ai/ai" className="nav-dropdown-item">AI</Link>
                         <Link href="/industry/tech-ai/cybersecurity" className="nav-dropdown-item">Cybersecurity</Link>
-                        <Link href="/industry/tech-ai/e-commerce" className="nav-dropdown-item">E-commerce</Link>
                         <Link href="/industry/tech-ai/security" className="nav-dropdown-item">Security</Link>
                         <Link href="/industry/tech-ai/robotics" className="nav-dropdown-item">Robotics</Link>
                       </div>
                     </div>
 
                     <Link href="/industry/manufacturing-products" className="nav-dropdown-item">Manufacturing/Products</Link>
+                    <Link href="/industry/tech-ai/e-commerce" className="nav-dropdown-item">Retail/E-commerce</Link>
                     <Link href="/industry/transportation" className="nav-dropdown-item">Transportation</Link>
                   </div>
                 </div>
