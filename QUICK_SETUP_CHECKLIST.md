@@ -35,10 +35,10 @@ sanity init
 Update these 3 files with your NEW project ID:
 
 **File 1: `sanity_backend/sanity.config.js`**
-- [ ] Changed `projectId: 'gaa41xdq'` → `projectId: 'YOUR_NEW_ID'`
+- [ ] Changed `projectId: 'lres172w'` → `projectId: 'YOUR_NEW_ID'`
 
 **File 2: `sanity_backend/sanity.cli.js`**
-- [ ] Changed `projectId: 'gaa41xdq'` → `projectId: 'YOUR_NEW_ID'`
+- [ ] Changed `projectId: 'lres172w'` → `projectId: 'YOUR_NEW_ID'`
 
 **File 3: `src/config/sanity.js`**
 - [ ] Changed fallback project ID to your new ID

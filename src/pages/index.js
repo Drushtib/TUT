@@ -9,6 +9,7 @@ import WebProfiles from "../components/post/WebProfiles";
 import MarketNews from "../components/post/MarketNews";
 import MagazineHero from "../components/hero/MagazineHero";
 import IndustryBlogs from "../components/post/IndustryBlogs";
+import IndustryPosts from "../components/post/IndustryPosts";
 import CompactBlogs from "../components/post/CompactBlogs";
 import CompactArticles from "../components/post/CompactArticles";
 import OurPartners from "../components/post/OurPartners";
@@ -54,6 +55,9 @@ const Home = () => {
       
       {/* Industry Blogs Section */}
       <IndustryBlogs />
+      
+      {/* Industry Posts Section */}
+      <IndustryPosts />
       
       {/* Main Content Area - Two Column Layout */}
       <div style={{ 

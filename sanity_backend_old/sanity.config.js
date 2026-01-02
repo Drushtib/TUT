@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'The Entrepreneurial Chronicles',
 
-  projectId: 'gaa41xdq',
+  projectId: 'lres172w',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],

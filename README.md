@@ -38,7 +38,7 @@ The platform is built with modern web technologies and uses Sanity CMS for flexi
 
 ### Content Management
 - **Sanity CMS** - Headless CMS for content management
-  - Project ID: `gaa41xdq`
+  - Project ID: `lres172w`
   - Dataset: `production`
   - Portable Text for rich content
   - Sanity Image URL builder
@@ -298,7 +298,7 @@ Create a `.env.local` file in the root directory:
 
 ```env
 # Sanity Configuration
-NEXT_PUBLIC_SANITY_PROJECT_ID=gaa41xdq
+NEXT_PUBLIC_SANITY_PROJECT_ID=lres172w
 NEXT_PUBLIC_SANITY_DATASET=production
 NEXT_PUBLIC_SANITY_API_VERSION=2023-05-03
 NEXT_PUBLIC_SANITY_USE_CDN=false

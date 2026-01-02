@@ -91,7 +91,7 @@ Now you need to update the config files with your NEW project ID from Step 1.
 
 Find this line:
 ```javascript
-projectId: 'gaa41xdq',  // OLD PROJECT ID
+projectId: 'lres172w',  // OLD PROJECT ID
 ```
 
 Change to:
@@ -103,7 +103,7 @@ projectId: 'YOUR_NEW_PROJECT_ID',  // Replace with your new project ID
 
 Find this line:
 ```javascript
-projectId: 'gaa41xdq',  // OLD PROJECT ID
+projectId: 'lres172w',  // OLD PROJECT ID
 ```
 
 Change to:
@@ -115,7 +115,7 @@ projectId: 'YOUR_NEW_PROJECT_ID',  // Replace with your new project ID
 
 Find this line:
 ```javascript
-projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "gaa41xdq",
+projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "lres172w",
 ```
 
 Change to:
