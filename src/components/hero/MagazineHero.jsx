@@ -244,8 +244,8 @@ const MagazineHero = () => {
               href={`/magazine/${currentMagazine.slug?.current || currentMagazine.slug}`}
               className="read-more-button"
               style={{
-                background: "var(--primary-color)",
-                backgroundColor: "var(--primary-color)",
+                background: "#990000",
+                backgroundColor: "#990000",
                 color: "#ffffff",
                 padding: "1.25rem 3rem",
                 borderRadius: "0",
@@ -257,27 +257,27 @@ const MagazineHero = () => {
                 display: "inline-block",
                 fontSize: "1.25rem",
                 transition: "all 0.3s ease",
-                border: "2px solid var(--primary-color)",
+                border: "2px solid #990000",
                 width: 'fit-content',
                 position: 'relative',
                 zIndex: 11,
                 opacity: 1,
                 transform: "scale(1)",
-                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)"
+                boxShadow: "0 2px 8px rgba(153, 0, 0, 0.2)"
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "#990000";
                 e.currentTarget.style.color = "#ffffff";
                 e.currentTarget.style.border = "2px solid #990000";
                 e.currentTarget.style.transform = "scale(1.05) translateY(-2px)";
-                e.currentTarget.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.4)";
+                e.currentTarget.style.boxShadow = "0 8px 16px rgba(153, 0, 0, 0.4)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = "var(--primary-color)";
+                e.currentTarget.style.background = "#990000";
                 e.currentTarget.style.color = "#ffffff";
-                e.currentTarget.style.border = "2px solid var(--primary-color)";
+                e.currentTarget.style.border = "2px solid #990000";
                 e.currentTarget.style.transform = "scale(1) translateY(0)";
-                e.currentTarget.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.2)";
+                e.currentTarget.style.boxShadow = "0 2px 8px rgba(153, 0, 0, 0.2)";
               }}
             >
               <span style={{ color: "#ffffff" }}>READ MORE</span>

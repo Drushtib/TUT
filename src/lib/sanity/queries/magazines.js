@@ -54,15 +54,22 @@ export const getMagazineBySlugQuery = (slug) => `
     keywords,
     description,
     'featureImg': mainImage.asset->url,
-    'leaderPhoto': leaderPhoto.asset->url,
-    content,
     publishedAt,
-    author,
-    categories[]->{
+    issuuLink,
+    featured,
+    altText,
+    'linkedArticle': linkedArticle[]->{
       title,
-      slug
-    },
-    issuuLink
+      slug,
+      'leaderPhoto': mainImage.asset->url,
+      'content': body,
+      publishedAt,
+      description,
+      categories[]->{
+        title,
+        slug
+      }
+    }
   }
 `;
 

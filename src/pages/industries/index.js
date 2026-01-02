@@ -6,13 +6,27 @@ import IndustryCategories from "../../components/post/IndustryCategories";
 
 const IndustriesIndex = () => {
   return (
-    <div style={{ background: "#000", color: "#fff", minHeight: "100vh" }}>
-      <HeadMeta metaTitle="Industries" />
-      <HeaderOne />
-      <IndustryCategories />
-      <FooterTwo />
-      <ScrollToTop />
-    </div>
+    <>
+      <style jsx global>{`
+        body {
+          background-color: #ffffff !important;
+        }
+        html {
+          background-color: #ffffff !important;
+        }
+        #__next {
+          background-color: #ffffff !important;
+        }
+      `}</style>
+      
+      <div style={{ background: "#ffffff", color: "#171717", minHeight: "100vh" }}>
+        <HeadMeta metaTitle="Industries" />
+        <HeaderOne />
+        <IndustryCategories />
+        <FooterTwo />
+        <ScrollToTop />
+      </div>
+    </>
   );
 };
 
