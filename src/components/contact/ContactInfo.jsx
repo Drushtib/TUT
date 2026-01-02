@@ -44,7 +44,7 @@ const ContactInfo = () => {
             >
               <i className="fas fa-map-marker-alt" style={{ color: '#D4AF37', marginTop: '4px', flexShrink: 0 }} />
               <span>
-                Home Branch - office no 328B, Gera imperium Rise,Wipro circle,opp to wipro company, Hinjewadi phase 2, Pune
+                Home Branch - office no 328, Gera imperium Rise,Wipro circle,opp to wipro company, Hinjewadi phase 2, Pune
               </span>
             </a>
             <div className="h5 m-b-xs-10" style={{ color: '#fff' }}>

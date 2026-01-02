@@ -1,29 +1,18 @@
 import HeaderOne from "../../components/header/HeaderOne";
-import FooterTwo from "../../components/footer/FooterTwo";
-import RelatedArticles from "../../components/post/RelatedArticles";
 import { useRouter } from "next/router";
 import { client } from "../../client";
 import Loader from "../../components/common/Loader";
 import ErrorFallback from "../../components/common/ErrorFallback";
 import HeadMetaDynamic from "../../components/elements/HeadMetaDynamic";
 import { useMagazineBySlug } from "../../hooks/useMagazines";
-import { useWebProfiles } from "../../hooks/usePosts";
-import { QUERY_LIMITS } from "../../config/constants";
 
 import {
   getMagazineBySlugQuery,
   getAllMagazineSlugsQuery,
 } from "../../lib/sanity/queries/magazines";
 
-import {
-  getRelatedArticlesForMagazineQuery,
-  getLinkedArticleForMagazineQuery,
-} from "../../lib/sanity/queries/posts";
-
 const MagazineDetails = ({
   initialMagazineContent,
-  initialAllArticles,
-  initialCurrentMagArticle,
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -38,24 +27,9 @@ const MagazineDetails = ({
     initialData: initialMagazineContent || null,
   });
 
-  /** ---------------- FETCH RELATED ARTICLES ---------------- */
-  const {
-    data: allArticles,
-    isLoading: isLoadingAllArticles,
-    error: errorAllArticles,
-  } = useWebProfiles(QUERY_LIMITS.RELATED_POSTS || 3, {
-    enabled: !!slug,                        // ✅ Add enabled condition
-    initialData: initialAllArticles || [],
-  });
-
-  /** ---------------- FIX LINKED ARTICLE FORMAT ---------------- */
-  const linkedArticle =
-    initialCurrentMagArticle?.length ? initialCurrentMagArticle[0] : null;
-
   /** ---------------- ERROR & LOADING HANDLING ---------------- */
-  if (isLoadingMagazine || isLoadingAllArticles) return <Loader />;
+  if (isLoadingMagazine) return <Loader />;
   if (errorMagazine) return <ErrorFallback error={errorMagazine} />;
-  if (errorAllArticles) return <ErrorFallback error={errorAllArticles} />;
 
   if (!magazineContent) return <div>No magazine content found</div>;
 
@@ -70,9 +44,12 @@ const MagazineDetails = ({
       <div
         style={{
           position: "relative",
-          height: "90vh",
+          height: "100vh",
           width: "100%",
-          border: "2px solid black",
+          border: "none",
+          overflow: "hidden",
+          margin: 0,
+          padding: 0,
         }}
       >
         <iframe
@@ -89,15 +66,6 @@ const MagazineDetails = ({
           src={issuuLink}
         />
       </div>
-
-      {/* ----------- RELATED ARTICLES SECTION ----------- */}
-      <div style={{ marginTop: 0 }}>
-        <RelatedArticles
-          currentMagArticle={linkedArticle ? [linkedArticle] : []}
-          allMagazinesArticles={allArticles || []}
-        />
-        <FooterTwo />
-      </div>
     </>
   );
 };
@@ -112,20 +80,12 @@ export async function getStaticProps({ params }) {
   const { slug } = params;
 
   const magazineQuery = getMagazineBySlugQuery(slug);
-  const relatedArticlesQuery = getRelatedArticlesForMagazineQuery(3);
-  const linkedArticleQuery = getLinkedArticleForMagazineQuery(slug);
 
-  const [magData, relatedArticles, linkedArticle] = await Promise.all([
-    client.fetch(magazineQuery),
-    client.fetch(relatedArticlesQuery),
-    client.fetch(linkedArticleQuery),
-  ]);
+  const magData = await client.fetch(magazineQuery);
 
   return {
     props: {
       initialMagazineContent: magData?.[0] || null,   // ✅ normalized
-      initialAllArticles: relatedArticles || [],
-      initialCurrentMagArticle: linkedArticle || [],
     },
     revalidate: 10,
   };

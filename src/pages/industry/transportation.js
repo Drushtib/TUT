@@ -9,7 +9,6 @@ import { client } from "../../client";
 
 import ImgAbstract from "../../assest/abstract.jpg";
 import ImgBg from "../../assest/bg.jpg";
-import ImgWit from "../../assest/34378620_v915-wit-002-k.jpg";
 import ImgAbout from "../../assest/about us img.avif";
 import ImgAdvertise from "../../assest/advertise.avif";
 import ImgMediakit1 from "../../assest/mediakit1.jpg";
@@ -111,7 +110,7 @@ const TransportationPage = () => {
         title: "AI in Logistics: Forecasting & Visibility",
         slug: "ai-in-logistics-forecasting-visibility",
         description: "Use AI for demand, tracking, and better ETAs.",
-        imageUrl: ImgWit?.src,
+        imageUrl: "/images/34378620_v915-wit-002-k.jpg",
       },
       {
         title: "Transportation Compliance Basics",
@@ -407,11 +406,34 @@ const TransportationPage = () => {
         }
 
         .tr-read {
-          color: var(--primary-color);
-          font-weight: 700;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: fit-content;
+          padding: 0.55rem 0.9rem;
+          border-radius: 12px;
+          background: #ffffff !important;
+          border: 1px solid #000000 !important;
+          color: #000000 !important;
+          -webkit-text-fill-color: #000000 !important;
+          text-decoration: none;
+          font-weight: 500;
           letter-spacing: 0.3px;
           font-size: 12px;
           text-transform: uppercase;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+          box-shadow: 0 12px 26px rgba(0, 0, 0, 0.12);
+          cursor: pointer;
+        }
+
+        .tr-read:hover,
+        .tr-card:hover .tr-read {
+          transform: translateY(-1px);
+          background: var(--primary-color) !important;
+          border-color: var(--primary-color) !important;
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
+          box-shadow: 0 16px 34px rgba(187, 5, 5, 0.22);
         }
       `}</style>
     </>

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { client } from "../../client";
 
 import SocialLink from "../../data/social/SocialLink.json";
+import UnicornLogo from "../../assest/UniCorn_12.png";
 
 const HeaderOne = () => {
 
@@ -17,6 +18,16 @@ const HeaderOne = () => {
 
   // Mobile Menu
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
+  const [mobileTechAiOpen, setMobileTechAiOpen] = useState(false);
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   const headerSearchShow = () => {
     setSearchShow(true);
@@ -35,6 +46,17 @@ const HeaderOne = () => {
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
+    setMobileIndustriesOpen(false);
+    setMobileTechAiOpen(false);
+  };
+
+  const toggleMobileIndustries = () => {
+    setMobileIndustriesOpen((v) => !v);
+    setMobileTechAiOpen(false);
+  };
+
+  const toggleMobileTechAi = () => {
+    setMobileTechAiOpen((v) => !v);
   };
 
   const handleSearch = (e) => {
@@ -94,520 +116,6 @@ const HeaderOne = () => {
       setSearchResults([]);
       setShowResults(false);
       return;
-    }
-
-    if (query.trim().length > 0) {
-      // Global search through entire website content
-      const searchTerm = query.toLowerCase();
-      const results = [];
-
-      // Global search function that works across all pages
-      const performGlobalSearch = (searchTerm) => {
-        // Search in all headings across the website
-        const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-        headings.forEach((heading, index) => {
-          if (heading.textContent.toLowerCase().includes(searchTerm)) {
-            results.push({
-              type: 'heading',
-              element: heading,
-              text: heading.textContent,
-              id: `heading-${index}`,
-              page: getCurrentPageName()
-            });
-          }
-        });
-
-        // Search in all paragraphs
-        const paragraphs = document.querySelectorAll('p');
-        paragraphs.forEach((paragraph, index) => {
-          if (paragraph.textContent.toLowerCase().includes(searchTerm)) {
-            results.push({
-              type: 'paragraph',
-              element: paragraph,
-              text: paragraph.textContent.substring(0, 100) + '...',
-              id: `paragraph-${index}`,
-              page: getCurrentPageName()
-            });
-          }
-        });
-
-        // Search in all links
-        const links = document.querySelectorAll('a');
-        links.forEach((link, index) => {
-          if (link.textContent.toLowerCase().includes(searchTerm)) {
-            results.push({
-              type: 'link',
-              element: link,
-              text: link.textContent,
-              href: link.href,
-              id: `link-${index}`,
-              page: getCurrentPageName()
-            });
-          }
-        });
-
-        // Search in all images
-        const images = document.querySelectorAll('img');
-        images.forEach((img, index) => {
-          const altText = img.alt || '';
-          const title = img.title || '';
-          if (altText.toLowerCase().includes(searchTerm) || title.toLowerCase().includes(searchTerm)) {
-            results.push({
-              type: 'image',
-              element: img,
-              text: altText || title || 'Image content',
-              id: `image-${index}`,
-              page: getCurrentPageName()
-            });
-          }
-        });
-
-        // Search in all content areas
-        const contentAreas = document.querySelectorAll('.content, .post-content, .article-content, .magazine-content, .blog-content, .page-content');
-        contentAreas.forEach((area, index) => {
-          if (area.textContent.toLowerCase().includes(searchTerm)) {
-            results.push({
-              type: 'content',
-              element: area,
-              text: area.textContent.substring(0, 100) + '...',
-              id: `content-${index}`,
-              page: getCurrentPageName()
-            });
-          }
-        });
-
-        // Search in all text elements
-        const textElements = document.querySelectorAll('span, div, strong, em, li, td, th');
-        textElements.forEach((element, index) => {
-          if (element.textContent.toLowerCase().includes(searchTerm) &&
-            element.textContent.trim().length > 0 &&
-            element.textContent.trim().length < 150) {
-            results.push({
-              type: 'text',
-              element: element,
-              text: element.textContent.trim(),
-              id: `text-${index}`,
-              page: getCurrentPageName()
-            });
-          }
-        });
-
-        // Search in navigation and menu items
-        const navItems = document.querySelectorAll('nav a, .nav-link, .menu-item, .navbar-nav a');
-        navItems.forEach((item, index) => {
-          if (item.textContent.toLowerCase().includes(searchTerm)) {
-            results.push({
-              type: 'navigation',
-              element: item,
-              text: item.textContent,
-              href: item.href,
-              id: `nav-${index}`,
-              page: getCurrentPageName()
-            });
-          }
-        });
-
-        // Search in buttons and interactive elements
-        const buttons = document.querySelectorAll('button, .btn, .button');
-        buttons.forEach((button, index) => {
-          if (button.textContent.toLowerCase().includes(searchTerm)) {
-            results.push({
-              type: 'button',
-              element: button,
-              text: button.textContent,
-              id: `button-${index}`,
-              page: getCurrentPageName()
-            });
-          }
-        });
-      };
-
-      // Get current page name for context
-      const getCurrentPageName = () => {
-        const path = window.location.pathname;
-        if (path === '/') return 'Home';
-        if (path === '/magazines') return 'Magazines';
-        if (path === '/blogs') return 'Blogs';
-        if (path === '/about-us') return 'About Us';
-        if (path === '/contact') return 'Contact';
-        if (path === '/media-kit') return 'Media Kit';
-        if (path === '/advertise-with-us') return 'Advertise';
-        return 'Page';
-      };
-
-      // Perform global search
-      performGlobalSearch(searchTerm);
-
-      // Enhanced search in magazine cards and carousel items
-      const magazineCards = document.querySelectorAll('.magazine-card, .carousel-item, .post-container, .carousel-track .carousel-item, [class*="magazine"], [class*="post"]');
-      magazineCards.forEach((card, index) => {
-        if (card.textContent.toLowerCase().includes(searchTerm)) {
-          // Extract magazine title or person name
-          const titleElement = card.querySelector('h1, h2, h3, h4, h5, h6, .title, .magazine-title, .post-title');
-          const imageElement = card.querySelector('img');
-          const magazineTitle = titleElement ? titleElement.textContent.trim() :
-            card.textContent.trim().split('\n')[0] ||
-            card.textContent.trim().substring(0, 50);
-
-          results.push({
-            type: 'magazine',
-            element: card,
-            text: magazineTitle,
-            id: `magazine-${index}`,
-            page: getCurrentPageName(),
-            hasImage: !!imageElement,
-            imageSrc: imageElement ? imageElement.src : null,
-            imageAlt: imageElement ? imageElement.alt : null
-          });
-        }
-      });
-
-      // Search specifically in magazine hero carousel
-      const heroCarousel = document.querySelectorAll('.carousel-track .carousel-item, .magazine-card');
-      heroCarousel.forEach((item, index) => {
-        if (item.textContent.toLowerCase().includes(searchTerm)) {
-          const personName = item.textContent.trim().split('\n')[0] || item.textContent.trim().substring(0, 50);
-          results.push({
-            type: 'hero-magazine',
-            element: item,
-            text: personName,
-            id: `hero-magazine-${index}`
-          });
-        }
-      });
-
-      // Search in image alt text and titles
-      const images = document.querySelectorAll('img');
-      images.forEach((img, index) => {
-        const altText = img.alt || '';
-        const title = img.title || '';
-        if (altText.toLowerCase().includes(searchTerm) || title.toLowerCase().includes(searchTerm)) {
-          results.push({
-            type: 'image',
-            element: img,
-            text: altText || title || 'Image content',
-            id: `image-${index}`
-          });
-        }
-      });
-
-      // Search in specific content areas
-      const contentAreas = document.querySelectorAll('.content, .post-content, .article-content, .magazine-content');
-      contentAreas.forEach((area, index) => {
-        if (area.textContent.toLowerCase().includes(searchTerm)) {
-          results.push({
-            type: 'content',
-            element: area,
-            text: area.textContent.substring(0, 80) + '...',
-            id: `content-${index}`
-          });
-        }
-      });
-
-      // Search in spans and divs for person names
-      const textElements = document.querySelectorAll('span, div, strong, em');
-      textElements.forEach((element, index) => {
-        if (element.textContent.toLowerCase().includes(searchTerm) &&
-          element.textContent.trim().length > 0 &&
-          element.textContent.trim().length < 100) {
-          results.push({
-            type: 'text',
-            element: element,
-            text: element.textContent.trim(),
-            id: `text-${index}`
-          });
-        }
-      });
-
-      // Search ALL magazine people from the carousel data
-      const allMagazinePeople = [
-        'Anchel Gupta', 'Jorden', 'Manuel', 'Suzanne', 'Nilmini',
-        'Shabnam', 'Valenia', 'Ross', 'Khalid'
-      ];
-
-      // Always show ALL magazine people that match the search
-      allMagazinePeople.forEach((person, index) => {
-        if (person.toLowerCase().includes(searchTerm)) {
-          results.push({
-            type: 'magazine-person',
-            element: null,
-            text: person,
-            id: `magazine-person-${index}`,
-            description: getPersonDescription(person)
-          });
-        }
-      });
-
-      // Search for client magazines - look for magazine content related to the search term
-      const searchForClientMagazines = (searchTerm) => {
-        // Look for magazine cards and carousel items that contain the search term
-        const magazineElements = document.querySelectorAll('.magazine-card, .carousel-item, .post-container, .carousel-track .carousel-item');
-
-        magazineElements.forEach((element, index) => {
-          const elementText = element.textContent.toLowerCase();
-          const elementHTML = element.innerHTML.toLowerCase();
-
-          // Check if the search term appears in the magazine content
-          if (elementText.includes(searchTerm) || elementHTML.includes(searchTerm)) {
-            // Extract the magazine title/name
-            const titleElement = element.querySelector('h1, h2, h3, h4, h5, h6, .title, .magazine-title');
-            const magazineTitle = titleElement ? titleElement.textContent.trim() : elementText.substring(0, 50);
-
-            results.push({
-              type: 'client-magazine',
-              element: element,
-              text: magazineTitle,
-              id: `client-magazine-${index}`,
-              description: 'Client Magazine'
-            });
-          }
-        });
-
-        // Also search in image alt text for magazine names
-        const magazineImages = document.querySelectorAll('img[alt*="' + searchTerm + '"], img[title*="' + searchTerm + '"]');
-        magazineImages.forEach((img, index) => {
-          const altText = img.alt || img.title || '';
-          if (altText.toLowerCase().includes(searchTerm)) {
-            results.push({
-              type: 'client-magazine',
-              element: img,
-              text: altText,
-              id: `client-magazine-img-${index}`,
-              description: 'Client Magazine Image'
-            });
-          }
-        });
-      };
-
-      // Search for client magazines
-      searchForClientMagazines(searchTerm);
-
-      // Enhanced search for magazines page specifically
-      const searchMagazinesPage = (searchTerm) => {
-        // Look for magazine grid items and post containers
-        const magazineGridItems = document.querySelectorAll('[style*="grid"], .post-container, [class*="magazine"], [class*="post"]');
-
-        magazineGridItems.forEach((item, index) => {
-          if (item.textContent.toLowerCase().includes(searchTerm)) {
-            const imageElement = item.querySelector('img');
-            const titleElement = item.querySelector('h1, h2, h3, h4, h5, h6, .title');
-
-            results.push({
-              type: 'magazine-grid',
-              element: item,
-              text: titleElement ? titleElement.textContent.trim() : item.textContent.trim().substring(0, 50),
-              id: `magazine-grid-${index}`,
-              page: getCurrentPageName(),
-              hasImage: !!imageElement,
-              imageSrc: imageElement ? imageElement.src : null,
-              imageAlt: imageElement ? imageElement.alt : null
-            });
-          }
-        });
-
-        // Search in magazine images specifically
-        const magazineImages = document.querySelectorAll('img[src*="magazine"], img[alt*="magazine"], img[src*="magzine"]');
-        magazineImages.forEach((img, index) => {
-          if (img.alt && img.alt.toLowerCase().includes(searchTerm)) {
-            results.push({
-              type: 'magazine-image',
-              element: img,
-              text: img.alt,
-              id: `magazine-img-${index}`,
-              page: getCurrentPageName(),
-              hasImage: true,
-              imageSrc: img.src,
-              imageAlt: img.alt
-            });
-          }
-        });
-      };
-
-      // Search magazines page content
-      searchMagazinesPage(searchTerm);
-
-      // Enhanced search for magazine content - search in all magazine-related elements
-      const searchMagazineContent = (searchTerm) => {
-        // Search in all elements that might contain magazine information
-        const allElements = document.querySelectorAll('*');
-
-        allElements.forEach((element, index) => {
-          if (element.textContent &&
-            element.textContent.toLowerCase().includes(searchTerm) &&
-            element.textContent.trim().length > 0 &&
-            element.textContent.trim().length < 200) {
-
-            // Check if it's magazine-related content
-            const isMagazineContent = element.closest('.magazine-card, .carousel-item, .post-container, .carousel-track, .magazine-hero, .carousel-container, .magazine-content, .magazine-section');
-
-            if (isMagazineContent) {
-              results.push({
-                type: 'client-magazine',
-                element: element,
-                text: element.textContent.trim(),
-                id: `magazine-content-${Date.now()}-${index}`,
-                description: 'Magazine Content'
-              });
-            }
-          }
-        });
-      };
-
-      // Search magazine content
-      searchMagazineContent(searchTerm);
-
-      // Direct search for magazine titles in the DOM
-      const magazineTitles = document.querySelectorAll('[title*="' + searchTerm + '"], [alt*="' + searchTerm + '"]');
-      magazineTitles.forEach((element, index) => {
-        const title = element.title || element.alt || '';
-        if (title.toLowerCase().includes(searchTerm)) {
-          results.push({
-            type: 'magazine',
-            element: element,
-            text: title,
-            id: `magazine-title-${index}`
-          });
-        }
-      });
-
-      // Search in all text nodes for magazine people
-      const walker = document.createTreeWalker(
-        document.body,
-        NodeFilter.SHOW_TEXT,
-        null,
-        false
-      );
-
-      let node;
-      while (node = walker.nextNode()) {
-        if (node.textContent.toLowerCase().includes(searchTerm)) {
-          const parent = node.parentNode;
-          if (parent && parent.textContent.trim().length < 100) {
-            // Check if it's in a magazine-related container
-            const isInMagazine = parent.closest('.carousel-item, .magazine-card, .carousel-track, .magazine-hero, .carousel-container');
-            if (isInMagazine) {
-              results.push({
-                type: 'magazine',
-                element: parent,
-                text: parent.textContent.trim(),
-                id: `magazine-text-${Date.now()}-${index}`
-              });
-            }
-          }
-        }
-      }
-
-      // Enhanced search for magazine content - look for any text containing the search term
-      const allElements = document.querySelectorAll('*');
-      allElements.forEach((element, index) => {
-        if (element.textContent &&
-          element.textContent.toLowerCase().includes(searchTerm) &&
-          element.textContent.trim().length > 0 &&
-          element.textContent.trim().length < 200 &&
-          !element.querySelector('*')) { // Only leaf nodes to avoid duplicates
-
-          // Check if it's magazine-related content
-          const isMagazineContent = element.closest('.carousel-item, .magazine-card, .carousel-track, .magazine-hero');
-
-          if (isMagazineContent) {
-            results.push({
-              type: 'magazine',
-              element: element,
-              text: element.textContent.trim(),
-              id: `magazine-content-${index}`
-            });
-          }
-        }
-      });
-
-      // Search in home page specific sections
-      const homePageSections = document.querySelectorAll('.hero-section, .magazine-hero, .slider-section, .magazines-section');
-      homePageSections.forEach((section, index) => {
-        if (section.textContent.toLowerCase().includes(searchTerm)) {
-          results.push({
-            type: 'home-page',
-            element: section,
-            text: section.textContent.substring(0, 80) + '...',
-            id: `home-page-${index}`
-          });
-        }
-      });
-
-      // If no results found, try a more lenient search
-      if (results.length === 0) {
-        // Try searching for partial matches
-        const partialMatches = [];
-
-        // Search for partial matches in all text content
-        const allTextElements = document.querySelectorAll('*');
-        allTextElements.forEach((element, index) => {
-          if (element.textContent &&
-            element.textContent.toLowerCase().includes(searchTerm.substring(0, 3)) &&
-            element.textContent.trim().length > 0 &&
-            element.textContent.trim().length < 200) {
-            partialMatches.push({
-              type: 'partial-match',
-              element: element,
-              text: element.textContent.trim().substring(0, 50) + '...',
-              id: `partial-${index}`,
-              page: getCurrentPageName()
-            });
-          }
-        });
-
-        // If still no results, add some default suggestions
-        if (partialMatches.length === 0) {
-          const defaultSuggestions = [
-            { type: 'suggestion', text: 'Try searching for "Anchel" or "Jorden"', id: 'suggestion-1' },
-            { type: 'suggestion', text: 'Search for "Home" or "About" pages', id: 'suggestion-2' },
-            { type: 'suggestion', text: 'Look for magazine content', id: 'suggestion-3' }
-          ];
-          results.push(...defaultSuggestions);
-        } else {
-          results.push(...partialMatches.slice(0, 5));
-        }
-      }
-
-      // Remove duplicates and sort by relevance
-      const uniqueResults = results.filter((result, index, self) =>
-        index === self.findIndex(r => r.text === result.text)
-      );
-
-      // Sort by type priority: magazine-person > client-magazine > magazine-grid > magazine-image > hero-magazine > heading > magazine > home-page > content > paragraph > text > link > image > partial-match > suggestion
-      const typePriority = {
-        'magazine-person': 1,
-        'client-magazine': 2,
-        'magazine-grid': 3,
-        'magazine-image': 4,
-        'hero-magazine': 5,
-        'heading': 6,
-        'magazine': 7,
-        'home-page': 8,
-        'content': 9,
-        'paragraph': 10,
-        'text': 11,
-        'link': 12,
-        'image': 13,
-        'partial-match': 14,
-        'suggestion': 15
-      };
-
-      uniqueResults.sort((a, b) => {
-        const aPriority = typePriority[a.type] || 8;
-        const bPriority = typePriority[b.type] || 8;
-        return aPriority - bPriority;
-      });
-
-      // Debug: Log what we found
-      console.log('Search term:', searchTerm);
-      console.log('All results found:', results);
-      console.log('Unique results:', uniqueResults);
-
-      setSearchResults(uniqueResults.slice(0, 8)); // Show up to 8 results
-      setShowResults(true);
-    } else {
-      setSearchResults([]);
-      setShowResults(false);
     }
   };
 
@@ -703,26 +211,26 @@ const HeaderOne = () => {
   return (
     <>
       <header className="page-header sticky-top">
-        <nav className="navbar bg-black" style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', minHeight: 'auto', height: 'auto', lineHeight: '1' }}>
-          <div className="container" style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem' }}>
+        <nav className="navbar bg-black" style={{ paddingTop: '0.15rem', paddingBottom: '0.15rem', minHeight: 'auto', height: 'auto', lineHeight: '1' }}>
+          <div className="container" style={{ paddingTop: '0.15rem', paddingBottom: '0.15rem' }}>
             <div className="navbar-inner" style={{ padding: '0', minHeight: 'auto', height: 'auto', lineHeight: '1' }}>
               <div className="brand-logo-container">
                 <Link href="/">
                   <Image
-                    src="/assest/TUT_2.png"
+                    src={UnicornLogo}
                     alt="chronicles-logo"
-                    width={350}
-                    height={70}
-                    sizes="350px"
+                    width={420}
+                    height={84}
+                    sizes="(max-width: 480px) 170px, (max-width: 768px) 210px, 420px"
                     quality={100}
                     priority
                     unoptimized
+                    className="header-logo"
                     style={{
                       objectFit: "contain",
-                      height: "70px",
+                      height: "84px",
                       width: "auto",
-                      maxHeight: "70px",
-                      transform: "translateX(-20px)", 
+                      maxHeight: "84px",
                       imageRendering: "auto",
                       filter: "contrast(1.05)",
                     }}
@@ -737,19 +245,31 @@ const HeaderOne = () => {
                 <Link href="/magazines" className="nav-link">Magazines</Link>
                 <Link href="/blogs" className="nav-link">Blogs</Link>
                 <div className="nav-dropdown">
-                  <Link href="/industry" className="nav-link nav-dropdown-toggle">
+
+                  <button
+                    type="button"
+                    className="nav-link nav-dropdown-toggle"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    onClick={(e) => e.preventDefault()}
+                  >
                     Industries
                     <span className="nav-caret" />
-                  </Link>
+                  </button>
+
                   <div className="nav-dropdown-menu">
                     <Link href="/industry/finance" className="nav-dropdown-item">Finance</Link>
                     <Link href="/industry/healthcare" className="nav-dropdown-item">Healthcare</Link>
                     <Link href="/industry/legal" className="nav-dropdown-item">Legal</Link>
                     <div className="nav-dropdown-sub">
-                      <Link href="/industry/tech-ai" className="nav-dropdown-item nav-dropdown-sub-toggle">
+                      <div
+                        className="nav-dropdown-item nav-dropdown-sub-toggle"
+                        role="button"
+                      >
                         Tech/AI
                         <span className="nav-caret-sub" />
-                      </Link>
+                      </div>
+
                       <div className="nav-dropdown-submenu">
                         <Link href="/industry/tech-ai/ai" className="nav-dropdown-item">AI</Link>
                         <Link href="/industry/tech-ai/cybersecurity" className="nav-dropdown-item">Cybersecurity</Link>
@@ -758,6 +278,7 @@ const HeaderOne = () => {
                         <Link href="/industry/tech-ai/robotics" className="nav-dropdown-item">Robotics</Link>
                       </div>
                     </div>
+
                     <Link href="/industry/manufacturing-products" className="nav-dropdown-item">Manufacturing/Products</Link>
                     <Link href="/industry/transportation" className="nav-dropdown-item">Transportation</Link>
                   </div>
@@ -765,7 +286,6 @@ const HeaderOne = () => {
                 <Link href="/about-us" className="nav-link">About Us</Link>
                 <Link href="/contact" className="nav-link">Contact</Link>
                 <Link href="/media-kit" className="nav-link">Media Kit</Link>
-                <Link href="/advertise-with-us" className="nav-link">Advertise</Link>
               </div>
 
               {/* Search and Mobile Menu */}
@@ -826,10 +346,51 @@ const HeaderOne = () => {
               <Link href="/" className="mobile-nav-link" onClick={closeMobileMenu}>Home</Link>
               <Link href="/magazines" className="mobile-nav-link" onClick={closeMobileMenu}>Magazines</Link>
               <Link href="/blogs" className="mobile-nav-link" onClick={closeMobileMenu}>Blogs</Link>
+
+              <button
+                type="button"
+                className={`mobile-nav-link mobile-nav-dropdown-toggle mobile-nav-dropdown-toggle--industries ${mobileIndustriesOpen ? "open" : ""}`}
+                onClick={toggleMobileIndustries}
+                aria-expanded={mobileIndustriesOpen}
+              >
+                Industries
+                <span className="mobile-nav-caret" />
+              </button>
+
+              {mobileIndustriesOpen && (
+                <div className="mobile-nav-submenu">
+                  <Link href="/industry/finance" className="mobile-nav-sublink" onClick={closeMobileMenu}>Finance</Link>
+                  <Link href="/industry/healthcare" className="mobile-nav-sublink" onClick={closeMobileMenu}>Healthcare</Link>
+                  <Link href="/industry/legal" className="mobile-nav-sublink" onClick={closeMobileMenu}>Legal</Link>
+
+                  <button
+                    type="button"
+                    className={`mobile-nav-sublink mobile-nav-subdropdown-toggle ${mobileTechAiOpen ? "open" : ""}`}
+                    onClick={toggleMobileTechAi}
+                    aria-expanded={mobileTechAiOpen}
+                  >
+                    Tech/AI
+                    <span className="mobile-nav-caret" />
+                  </button>
+
+                  {mobileTechAiOpen && (
+                    <div className="mobile-nav-subsubmenu">
+                      <Link href="/industry/tech-ai/ai" className="mobile-nav-subsublink" onClick={closeMobileMenu}>AI</Link>
+                      <Link href="/industry/tech-ai/cybersecurity" className="mobile-nav-subsublink" onClick={closeMobileMenu}>Cybersecurity</Link>
+                      <Link href="/industry/tech-ai/e-commerce" className="mobile-nav-subsublink" onClick={closeMobileMenu}>E-commerce</Link>
+                      <Link href="/industry/tech-ai/security" className="mobile-nav-subsublink" onClick={closeMobileMenu}>Security</Link>
+                      <Link href="/industry/tech-ai/robotics" className="mobile-nav-subsublink" onClick={closeMobileMenu}>Robotics</Link>
+                    </div>
+                  )}
+
+                  <Link href="/industry/manufacturing-products" className="mobile-nav-sublink" onClick={closeMobileMenu}>Manufacturing/Products</Link>
+                  <Link href="/industry/transportation" className="mobile-nav-sublink" onClick={closeMobileMenu}>Transportation</Link>
+                </div>
+              )}
+
               <Link href="/about-us" className="mobile-nav-link" onClick={closeMobileMenu}>About Us</Link>
               <Link href="/contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
               <Link href="/media-kit" className="mobile-nav-link" onClick={closeMobileMenu}>Media Kit</Link>
-              <Link href="/advertise-with-us" className="mobile-nav-link" onClick={closeMobileMenu}>Advertise With Us</Link>
             </div>
           </div>
         )}
@@ -935,6 +496,34 @@ const HeaderOne = () => {
           padding-left: 16px !important;
           padding-right: 16px !important;
         }
+
+        @media (min-width: 992px) {
+          .navbar .container,
+          nav.navbar .container,
+          .page-header .navbar .container,
+          nav.bg-black.navbar .container {
+            max-width: 100% !important;
+            width: 100% !important;
+            padding-left: 14px !important;
+            padding-right: 14px !important;
+          }
+
+          .navbar-inner {
+            gap: 1.25rem;
+          }
+
+          .brand-logo-container {
+            padding-left: 0 !important;
+          }
+
+          .header-logo {
+            max-width: 340px !important;
+          }
+
+          .navbar-nav-links {
+            margin-left: auto;
+          }
+        }
         
         .navbar-inner,
         .navbar .navbar-inner,
@@ -956,8 +545,8 @@ const HeaderOne = () => {
         .brand-logo-container {
           flex-shrink: 0;
           padding-left: 0;
-          margin-left: -3rem;
-          margin-right: 3rem;
+          margin-left: 0;
+          margin-right: 0;
           margin-bottom: 0;
         }
         
@@ -965,14 +554,14 @@ const HeaderOne = () => {
         .brand-logo-container Image,
         .brand-logo-container img[src*="chronicle"],
         .brand-logo-container Image[src*="chronicle"] {
-          height: 70px !important;
+          height: 84px !important;
           width: auto !important;
-          max-height: 70px !important;
+          max-height: 84px !important;
           object-fit: contain !important;
         }
         
         .navbar .container {
-          padding-left: 0 !important;
+          padding-left: 16px !important;
         }
         
         @media (max-width: 991px) {
@@ -1006,7 +595,7 @@ const HeaderOne = () => {
 
         .navbar-nav-links .nav-link {
           color: #000000 !important;
-          font-size: 14px !important;
+          font-size: 16px !important;
           font-weight: 500;
           text-decoration: none;
           transition: all 0.3s ease;
@@ -1014,6 +603,15 @@ const HeaderOne = () => {
           display: block;
           position: relative;
           white-space: nowrap;
+        }
+
+        .navbar-nav-links button.nav-link {
+          background: transparent;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          appearance: none;
+          -webkit-appearance: none;
         }
 
         .navbar-nav-links .nav-link:hover {
@@ -1198,6 +796,52 @@ const HeaderOne = () => {
 
         .navbar .navbar-search-btn:hover {
           color: var(--primary-color) !important;
+        }
+
+        .navbar-search-close {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          margin-left: 6px;
+          border-radius: 10px;
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          flex: 0 0 auto;
+        }
+
+        .navbar-search-close i {
+          color: #ffffff !important;
+        }
+
+        .navbar-search-close:hover {
+          background: transparent;
+        }
+
+        .navbar-search-close:hover i {
+          color: var(--primary-color) !important;
+        }
+
+        @media (max-width: 768px) {
+          .navbar-search-close {
+            border: 1px solid rgba(0, 0, 0, 0.18);
+            background: rgba(255, 255, 255, 0.9);
+          }
+
+          .navbar-search-close i {
+            color: #000000 !important;
+          }
+
+          .navbar-search-close:hover {
+            border-color: var(--primary-color);
+            background: rgba(187, 5, 5, 0.1);
+          }
+
+          .navbar-search-close:hover i {
+            color: var(--primary-color) !important;
+          }
         }
 
         /* Search Suggestions Dropdown */
@@ -1464,10 +1108,14 @@ const HeaderOne = () => {
           display: block;
           height: 3px;
           width: 100%;
-          background: var(--text);
+          background: #000000;
           margin: 3px 0;
           transition: all 0.3s ease;
           border-radius: 2px;
+        }
+
+        .mobile-menu-toggle:hover .hamburger span {
+          background: #000000;
         }
         
         .hamburger.active span:nth-child(1) {
@@ -1500,7 +1148,8 @@ const HeaderOne = () => {
         .mobile-nav-link {
           display: block;
           padding: 15px 20px;
-          color: var(--text);
+          color: #ffffff;
+          -webkit-text-fill-color: #ffffff;
           text-decoration: none;
           font-size: 16px;
           font-weight: 500;
@@ -1511,7 +1160,110 @@ const HeaderOne = () => {
         .mobile-nav-link:hover {
           background: var(--background-dark);
           color: var(--primary-color);
+          -webkit-text-fill-color: var(--primary-color);
           padding-left: 30px;
+        }
+
+        .mobile-nav-dropdown-toggle {
+          width: 100%;
+          text-align: left;
+          background: transparent;
+          border: none;
+          padding: 0;
+          outline: none;
+          cursor: pointer;
+          appearance: none;
+          -webkit-appearance: none;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .mobile-nav-dropdown-toggle--industries {
+          border-bottom: 1px solid var(--border);
+        }
+
+        .mobile-nav-subdropdown-toggle {
+          background: transparent;
+          border: none;
+          padding: 0;
+          outline: none;
+          cursor: pointer;
+          appearance: none;
+          -webkit-appearance: none;
+          width: 100%;
+          text-align: left;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .mobile-nav-caret {
+          display: inline-block;
+          width: 0;
+          height: 0;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 8px solid #ffffff;
+          transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .mobile-nav-dropdown-toggle.open .mobile-nav-caret {
+          transform: rotate(180deg);
+        }
+
+        .mobile-nav-link:hover .mobile-nav-caret {
+          border-top-color: var(--primary-color);
+        }
+
+        .mobile-nav-submenu {
+          padding: 8px 0;
+          background: rgba(255, 255, 255, 0.03);
+          border-bottom: 1px solid var(--border);
+        }
+
+        .mobile-nav-subsubmenu {
+          padding: 6px 0 10px;
+          background: rgba(255, 255, 255, 0.02);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .mobile-nav-subsublink {
+          display: block;
+          padding: 11px 20px 11px 52px;
+          color: #ffffff;
+          -webkit-text-fill-color: #ffffff;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 500;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          transition: all 0.3s ease;
+        }
+
+        .mobile-nav-subsublink:hover {
+          color: var(--primary-color);
+          -webkit-text-fill-color: var(--primary-color);
+          background: var(--background-dark);
+          padding-left: 60px;
+        }
+
+        .mobile-nav-sublink {
+          display: block;
+          padding: 12px 20px 12px 34px;
+          color: #ffffff;
+          -webkit-text-fill-color: #ffffff;
+          text-decoration: none;
+          font-size: 15px;
+          font-weight: 500;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          transition: all 0.3s ease;
+        }
+
+        .mobile-nav-sublink:hover {
+          color: var(--primary-color);
+          -webkit-text-fill-color: var(--primary-color);
+          background: var(--background-dark);
+          padding-left: 42px;
         }
         
         .mobile-nav-link:last-child {
@@ -1555,6 +1307,37 @@ const HeaderOne = () => {
           
           .navbar-inner {
             justify-content: space-between;
+          }
+          
+          .navbar-inner {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+          }
+
+          .brand-logo-container {
+            display: flex;
+            align-items: center;
+            flex: 0 0 auto;
+            margin-right: auto;
+            margin-left: 0 !important;
+            max-width: 62vw;
+          }
+
+          .navbar-extra-features {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-left: auto;
+            flex-wrap: nowrap;
+          }
+
+          .header-logo {
+            height: 56px !important;
+            max-height: 56px !important;
+            width: auto !important;
+            max-width: 230px !important;
           }
           
           /* Hero Section Mobile Responsive */
@@ -1607,6 +1390,13 @@ const HeaderOne = () => {
         }
         
         @media (max-width: 480px) {
+          .header-logo {
+            height: 40px !important;
+            max-height: 40px !important;
+            width: auto !important;
+            max-width: 180px !important;
+          }
+
           .mobile-nav-link {
             padding: 12px 15px;
             font-size: 14px;

@@ -1,17 +1,7 @@
-import AdBanner from "../common/AdBanner";
-import WidgetAd from "../widget/WidgetAd";
-import WidgetCategory from "../widget/WidgetCategory";
-import WidgetInstagram from "../widget/WidgetInstagram";
-import WidgetNewsletter from "../widget/WidgetNewsletter";
-import WidgetPost from "../widget/WidgetPost";
-import WidgetSocialShare from "../widget/WidgetSocialShare";
-import PostLayoutTwo from "./layout/PostLayoutTwo";
 import Link from "next/link";
-import Image from "next/image";
 
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../../client";
-import SectionTitle from "../elements/SectionTitle";
 import Loader from "../common/Loader";
 
 const MasterTalks = ({ postData, adBanner, pClass }) => {
@@ -86,13 +76,12 @@ const MasterTalks = ({ postData, adBanner, pClass }) => {
         </Link>
       </div>
       
-      <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        <div style={{ flex: '1 1 0', minWidth: '300px' }}>
+      <div style={{ width: '100%' }}>
+        <div style={{ width: '100%', minWidth: '300px' }}>
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-            columnGap: '2rem',
-            rowGap: '2.5rem'
+            gap: '5rem 2rem'
           }}>
             {data.map((post, index) => (
               <Link
@@ -216,13 +205,6 @@ const MasterTalks = ({ postData, adBanner, pClass }) => {
                 </div>
               </Link>
             ))}
-          </div>
-        </div>
-
-        <div style={{ flex: '0 0 320px', width: '320px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            <WidgetCategory cateData={data} compact={true} />
-            <WidgetPost dataPost={data} />
           </div>
         </div>
       </div>

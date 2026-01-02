@@ -2,10 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SocialLink from "../../data/social/SocialLink.json";
 import styles from "../../styles/footer.module.css";
-import Carousel from "react-bootstrap/Carousel";
-import Loader from "../common/Loader";
-import { client } from "../../client";
-import { useQuery } from "@tanstack/react-query";
+import UnicornLogo from "../../assest/UniCorn.png";
 import { useState } from "react";
 
 const FooterTwo = () => {
@@ -31,34 +28,11 @@ const FooterTwo = () => {
       }, 5000);
     }, 1000);
   };
-  const query = `
-*[_type == "magazine"] 
-{
-  title,
-  slug,
-  'featureImg': mainImage.asset->url,
-  publishedAt
- 
-} | order(publishedAt desc)[0...6] 
-`;
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["magazines"],
-    queryFn: async () => {
-      const response = await client.fetch(query);
-      return response;
-    },
-  });
-
-  if (isLoading) return <Loader />;
-  if (error) return <div>Error fetching posts</div>;
-
-  if (!data) return null;
 
   return (
     <footer
       className="page-footer bg-grey-dark-key"
-      style={{ color: "white", paddingBottom: "1px", backgroundColor: "#1F1F1F" }}
+      style={{ color: "white", paddingBottom: "1px", background: "linear-gradient(180deg, #1F1F1F 0%, #141414 100%)" }}
     >
       <style jsx>{`
         .footer-description-paragraph {
@@ -72,6 +46,12 @@ const FooterTwo = () => {
         .newsletter-subscribe-button:hover {
           color: #fff !important;
           background-color: rgba(187, 5, 5, 0.9) !important;
+        }
+
+        .page-footer input::placeholder {
+          color: rgba(255, 255, 255, 0.7) !important;
+          -webkit-text-fill-color: rgba(255, 255, 255, 0.7) !important;
+          opacity: 1 !important;
         }
         .footer-social-share i {
           font-size: 20px !important;
@@ -114,6 +94,266 @@ const FooterTwo = () => {
         }
         .page-footer ul.footer-bottom-links li a {
           color: white !important;
+        }
+
+        .page-footer .new-footer-links li,
+        .page-footer .new-footer-links li a,
+        .page-footer .new-footer-links li a:visited,
+        .page-footer .new-footer-links li a:active {
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
+          opacity: 1 !important;
+        }
+
+        .new-footer-grid {
+          display: grid;
+          grid-template-columns: 1.35fr 1fr 1.25fr;
+          gap: 2rem;
+          padding: 2.1rem 2rem 1.5rem;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        @media (max-width: 1024px) {
+          .new-footer-grid {
+            grid-template-columns: 1fr 1fr;
+            padding: 2rem 1.5rem 1.5rem;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .new-footer-grid {
+            grid-template-columns: 1fr;
+            padding: 1.8rem 1.25rem 1.25rem;
+          }
+        }
+
+        .new-footer-quicklinks {
+          padding-left: 18px;
+        }
+
+        @media (max-width: 1024px) {
+          .new-footer-quicklinks {
+            padding-left: 10px;
+          }
+        }
+
+        .new-footer-title {
+          font-weight: 700;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          margin: 0 0 0.75rem;
+          font-size: 1.5rem;
+          position: relative;
+          display: inline-block;
+        }
+
+        .new-footer-title::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -8px;
+          width: 72px;
+          height: 2px;
+          background: rgba(255, 255, 255, 0.85);
+        }
+
+        .new-footer-logo {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          text-decoration: none;
+        }
+
+        .new-footer-logo-img {
+          width: 300px;
+          height: auto;
+          object-fit: contain;
+          max-width: 100%;
+          max-height: 100px;
+        }
+
+        @media (max-width: 640px) {
+          .new-footer-logo-img {
+            width: 250px;
+          }
+        }
+
+        .new-footer-desc {
+          margin: 0;
+          color: rgba(255, 255, 255, 0.92) !important;
+          -webkit-text-fill-color: rgba(255, 255, 255, 0.92) !important;
+          color: rgba(255, 255, 255, 0.82) !important;
+          -webkit-text-fill-color: rgba(255, 255, 255, 0.82) !important;
+          font-weight: 300;
+          line-height: 1.7;
+          max-width: 52ch;
+        }
+
+        .new-footer-links {
+          list-style: none;
+          padding: 0;
+          margin: 0.9rem 0 0;
+          display: grid;
+          gap: 0.6rem;
+        }
+
+        .new-footer-links a {
+          text-decoration: none;
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
+          font-weight: 300;
+          opacity: 0.92;
+          transition: color 0.2s ease;
+        }
+
+        .new-footer-links a:hover {
+          color: var(--primary-color) !important;
+          -webkit-text-fill-color: var(--primary-color) !important;
+          opacity: 1;
+        }
+
+        .new-footer-links li:hover,
+        .new-footer-links li:hover a {
+          color: var(--primary-color) !important;
+          -webkit-text-fill-color: var(--primary-color) !important;
+          opacity: 1 !important;
+        }
+
+        .new-footer-social {
+          display: flex;
+          gap: 0.55rem;
+          margin-top: 0.75rem;
+          flex-wrap: wrap;
+        }
+
+        .new-footer-social a {
+          width: 36px;
+          height: 36px;
+          border-radius: 10px;
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+          text-decoration: none;
+        }
+
+        .new-footer-social a:hover {
+          transform: translateY(-2px);
+          background: var(--primary-color);
+          border-color: var(--primary-color);
+        }
+
+        .new-footer-social i {
+          font-size: 16px !important;
+        }
+
+        .new-footer-contact {
+          margin-top: 0.75rem;
+          display: grid;
+          gap: 0.85rem;
+        }
+
+        .new-footer-contact-inline {
+          display: flex;
+          align-items: baseline;
+          gap: 10px;
+          flex-wrap: nowrap;
+          white-space: nowrap;
+        }
+
+        .new-footer-contact-inline-wrap {
+          display: flex;
+          align-items: baseline;
+          gap: 10px;
+          flex-wrap: wrap;
+          white-space: normal;
+        }
+
+        .new-footer-contact-label {
+          font-weight: 600;
+          flex: 0 0 auto;
+        }
+
+        .new-footer-contact-inline a {
+          white-space: nowrap;
+        }
+
+        .new-footer-contact-item {
+          display: grid;
+          grid-template-columns: 22px 1fr;
+          gap: 10px;
+          align-items: start;
+          color: rgba(255, 255, 255, 0.85) !important;
+          -webkit-text-fill-color: rgba(255, 255, 255, 0.85) !important;
+          font-weight: 300;
+          line-height: 1.55;
+        }
+
+        .new-footer-contact-item i {
+          color: rgba(255, 255, 255, 0.9) !important;
+          -webkit-text-fill-color: rgba(255, 255, 255, 0.9) !important;
+          font-size: 16px;
+          margin-top: 2px;
+        }
+
+        .new-footer-contact-item:hover {
+          color: var(--primary-color) !important;
+          -webkit-text-fill-color: var(--primary-color) !important;
+        }
+
+        .new-footer-contact-item:hover i {
+          color: var(--primary-color) !important;
+          -webkit-text-fill-color: var(--primary-color) !important;
+        }
+
+        .new-footer-contact-item:hover a,
+        .new-footer-contact-item:hover span {
+          color: var(--primary-color) !important;
+          -webkit-text-fill-color: var(--primary-color) !important;
+        }
+
+        .new-footer-contact-item a {
+          color: rgba(255, 255, 255, 0.92) !important;
+          -webkit-text-fill-color: rgba(255, 255, 255, 0.92) !important;
+          text-decoration: none;
+          font-weight: 400;
+        }
+
+        .new-footer-contact-item a:hover {
+          color: var(--primary-color) !important;
+          -webkit-text-fill-color: var(--primary-color) !important;
+        }
+
+        .new-footer-note {
+          margin-top: 1.1rem;
+          padding: 0.9rem 1rem;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          border-radius: 14px;
+          background: rgba(255, 255, 255, 0.03);
+        }
+
+        .new-footer-note-title {
+          font-weight: 800;
+          margin: 0 0 6px;
+        }
+
+        .new-footer-note-text {
+          margin: 0;
+          color: rgba(255, 255, 255, 0.82) !important;
+          -webkit-text-fill-color: rgba(255, 255, 255, 0.82) !important;
+          font-weight: 300;
+          line-height: 1.6;
+        }
+
+        .new-footer-bottom {
+          border-top: 1px solid rgba(255, 255, 255, 0.14);
+          padding: 0.85rem 1rem;
+          text-align: center;
+          color: rgba(255, 255, 255, 0.8) !important;
+          -webkit-text-fill-color: rgba(255, 255, 255, 0.8) !important;
+          font-weight: 300;
         }
       `}</style>
       
@@ -240,377 +480,125 @@ const FooterTwo = () => {
       }} />
 
       {/* Main Footer Content - 4 Columns */}
-      <div
-        className={`${styles.footer_start} footer_start`}
-        style={{
-          display: "flex",
-          gap: "2rem",
-          marginRight: "2rem",
-          marginLeft: "2rem",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          paddingTop: "3rem",
-          paddingBottom: "2rem",
-        }}
-      >
-        {/* Column 1: Logo + Description + Social Icons */}
-        <div className="logo" style={{ flex: "1 1 280px", minWidth: "280px", maxWidth: "350px" }}>
-          <div className="footer-logo-container">
-            <Link href="/">
-              <Image
-                src="/logos/logo-primary-white.png"
-                alt="brand-logo"
-                width={400}
-                height={133}
-                style={{ objectFit: "contain", marginBottom: "1.5rem" }}
-              />
-            </Link>
-            <p className="footer-description-paragraph" style={{ width: "100%", color: "white", fontWeight: 200, lineHeight: "1.4", textAlign: "justify", wordSpacing: "-1px", letterSpacing: "-0.3px", marginTop: "-0.5rem", marginBottom: "2rem" }}>
-              The Entrepreneurial Chronicles is a business magazine that shares
-              inspiring success stories of entrepreneurs, transforming intriguing
-              tales into captivating narratives. With a skilled storytelling team
-              and extensive industry expertise, we amplify untold stories from the
-              business world, making our magazine both compelling and insightful.
-            </p>
+      <div className={`${styles.footer_start} new-footer-grid`}>
+        <div>
+          <Link href="/" className="new-footer-logo">
+            <Image
+              src={UnicornLogo}
+              alt="The Unicorn Times"
+              className="new-footer-logo-img"
+              width={300}
+              height={100}
+              style={{ objectFit: "contain" }}
+              priority={false}
+            />
+          </Link>
+          <p className="new-footer-desc">
+            A modern business magazine covering founders, markets, and the ideas shaping tomorrow—curated with clarity, depth, and a bias for action. Explore curated market updates, deep-dive stories, interviews, and practical insights designed to help you stay ahead.
+          </p>
 
-            {/* Social Media Icons */}
-            <div
-              className="footer-social-share"
-              style={{ marginTop: "1.5rem", perspective: "1000px", padding: "10px 0", overflow: "visible" }}
-            >
-              <div className="axil-social-title" style={{ fontWeight: 400, marginBottom: "0.8rem" }}>
-                Social Media :
-              </div>
-              <ul className="social-share social-share__with-bg" style={{ 
-                listStyle: "none", 
-                padding: "10px 0", 
-                display: "flex", 
-                gap: "0.5rem", 
-                flexWrap: "nowrap",
-                overflow: "visible"
-              }}>
-                <li style={{ perspective: "1000px", transition: "all 0.3s ease", padding: "5px", overflow: "visible" }}>
-                  <a 
-                    href={SocialLink.fb.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={{ 
-                      display: "flex", 
-                      alignItems: "center", 
-                      justifyContent: "center",
-                      transition: "all 0.3s ease",
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "50%",
-                      backgroundColor: "transparent",
-                      overflow: "visible"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateZ(20px) scale(1.3)";
-                      e.currentTarget.style.backgroundColor = "#1877F2";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "translateZ(0) scale(1)";
-                      e.currentTarget.style.backgroundColor = "transparent";
-                    }}
-                  >
-                    <i className={SocialLink.fb.icon} style={{ fontSize: "20px" }} />
-                  </a>
-                </li>
-                <li style={{ perspective: "1000px", transition: "all 0.3s ease", padding: "5px", overflow: "visible" }}>
-                  <a 
-                    href={SocialLink.twitter.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={{ 
-                      display: "flex", 
-                      alignItems: "center", 
-                      justifyContent: "center",
-                      transition: "all 0.3s ease",
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "50%",
-                      backgroundColor: "transparent",
-                      overflow: "visible"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateZ(20px) scale(1.3)";
-                      e.currentTarget.style.backgroundColor = "#1DA1F2";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "translateZ(0) scale(1)";
-                      e.currentTarget.style.backgroundColor = "transparent";
-                    }}
-                  >
-                    <i className={SocialLink.twitter.icon} style={{ fontSize: "20px" }} />
-                  </a>
-                </li>
-                <li style={{ perspective: "1000px", transition: "all 0.3s ease", padding: "5px", overflow: "visible" }}>
-                  <a 
-                    href={SocialLink.yt.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={{ 
-                      display: "flex", 
-                      alignItems: "center", 
-                      justifyContent: "center",
-                      transition: "all 0.3s ease",
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "50%",
-                      backgroundColor: "transparent",
-                      overflow: "visible"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateZ(20px) scale(1.3)";
-                      e.currentTarget.style.backgroundColor = "#FF0000";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "translateZ(0) scale(1)";
-                      e.currentTarget.style.backgroundColor = "transparent";
-                    }}
-                  >
-                    <i className={SocialLink.yt.icon} style={{ fontSize: "20px" }} />
-                  </a>
-                </li>
-                <li style={{ perspective: "1000px", transition: "all 0.3s ease", padding: "5px", overflow: "visible" }}>
-                  <a 
-                    href={SocialLink.linked.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={{ 
-                      display: "flex", 
-                      alignItems: "center", 
-                      justifyContent: "center",
-                      transition: "all 0.3s ease",
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "50%",
-                      backgroundColor: "transparent",
-                      overflow: "visible"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateZ(20px) scale(1.3)";
-                      e.currentTarget.style.backgroundColor = "#0077B5";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "translateZ(0) scale(1)";
-                      e.currentTarget.style.backgroundColor = "transparent";
-                    }}
-                  >
-                    <i className={SocialLink.linked.icon} style={{ fontSize: "20px" }} />
-                  </a>
-                </li>
-                <li style={{ perspective: "1000px", transition: "all 0.3s ease", padding: "5px", overflow: "visible" }}>
-                  <a 
-                    href={SocialLink.pinterest.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={{ 
-                      display: "flex", 
-                      alignItems: "center", 
-                      justifyContent: "center",
-                      transition: "all 0.3s ease",
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "50%",
-                      backgroundColor: "transparent",
-                      overflow: "visible"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateZ(20px) scale(1.3)";
-                      e.currentTarget.style.backgroundColor = "#BD081C";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "translateZ(0) scale(1)";
-                      e.currentTarget.style.backgroundColor = "transparent";
-                    }}
-                  >
-                    <i className={SocialLink.pinterest.icon} style={{ fontSize: "20px" }} />
-                  </a>
-                </li>
-              </ul>
-            </div>
+          <div className="new-footer-social" aria-label="Social links">
+            <a href={SocialLink.fb.url} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <i className={SocialLink.fb.icon} />
+            </a>
+            <a href={SocialLink.instagram.url} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <i className={SocialLink.instagram.icon} />
+            </a>
+            <a href={SocialLink.twitter.url} target="_blank" rel="noopener noreferrer" aria-label="X">
+              <i className={SocialLink.twitter.icon} />
+            </a>
+            <a href={SocialLink.linked.url} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <i className={SocialLink.linked.icon} />
+            </a>
+            <a href={SocialLink.yt.url} target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <i className={SocialLink.yt.icon} />
+            </a>
           </div>
         </div>
 
-        {/* Column 2: Quick Links */}
-        <div style={{ flex: "1 1 200px", minWidth: "200px" }}>
-          <h4
-            style={{
-              color: "white",
-              fontWeight: "bold",
-              position: "relative",
-              fontStyle: "initial",
-              marginBottom: "1.5rem",
-              textAlign: "center",
-            }}
-          >
-            QUICK LINKS
-            <div
-              style={{
-                position: "absolute",
-                bottom: "-5px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "50%",
-                height: "1px",
-                backgroundColor: "white",
-              }}
-            />
-          </h4>
-          <ul
-            style={{ 
-              color: "white", 
-              fontWeight: 200, 
-              fontSize: "medium",
-              listStyle: "none",
-              padding: 0,
-              lineHeight: "2",
-              textAlign: "center"
-            }}
-            className="footer-bottom-links"
-          >
-            <li style={{ color: "white" }}>
-              <Link href="/" style={{ color: "white", textDecoration: "none" }}>Home</Link>
+        <div className="new-footer-quicklinks">
+          <h4 className="new-footer-title">Quick Links</h4>
+          <ul className="new-footer-links footer-bottom-links">
+            <li>
+              <Link href="/">Home</Link>
             </li>
-            <li style={{ color: "white" }}>
-              <Link href="/magazines" style={{ color: "white", textDecoration: "none" }}>Magazine</Link>
+            <li>
+              <Link href="/magazines">Magazines</Link>
             </li>
-            <li style={{ color: "white" }}>
-              <Link href="/about-us" style={{ color: "white", textDecoration: "none" }}>About Us</Link>
+            <li>
+              <Link href="/blogs">Blogs</Link>
             </li>
-          
-            <li style={{ color: "white" }}>
-              <Link href="/blogs" style={{ color: "white", textDecoration: "none" }}>Blogs</Link>
+            <li>
+              <Link href="/about-us">About Us</Link>
             </li>
-            <li style={{ color: "white" }}>
-              <Link href="/contact" style={{ color: "white", textDecoration: "none" }}>Contact Us</Link>
+            <li>
+              <Link href="/contact">Contact</Link>
             </li>
-            <li style={{ color: "white" }}>
-              <Link href="/guest-post" style={{ color: "white", textDecoration: "none" }}>Guest Post</Link>
+            <li>
+              <Link href="/guest-post">Guest Post</Link>
             </li>
           </ul>
         </div>
 
-        {/* Column 3: Magazines */}
-        <div style={{ flex: "1 1 250px", minWidth: "250px", textAlign: "center" }}>
-          <h4
-            style={{
-              color: "white",
-              fontWeight: "bold",
-              fontStyle: "initial",
-              position: "relative",
-              marginBottom: "1.5rem",
-            }}
-          >
-            MAGAZINES
-            <div
-              style={{
-                position: "absolute",
-                bottom: "-5px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "40%",
-                height: "1px",
-                backgroundColor: "white",
-              }}
-            />
-          </h4>
-          <Carousel indicators={false}>
-            {data.map((mag, index) => {
-              return (
-                <Carousel.Item key={index}>
-                  <Image
-                    src={mag.featureImg}
-                    width={500}
-                    height={200}
-                    alt="magazines"
-                    className="object-fit-contain"
-                    style={{ width: "100%", height: "auto", maxWidth: "250px", margin: "0 auto" }}
-                  />
-                </Carousel.Item>
-              );
-            })}
-          </Carousel>
+        <div>
+          <h4 className="new-footer-title">Contact</h4>
+          <div className="new-footer-contact">
+            <div className="new-footer-contact-item">
+              <i className="fas fa-envelope" />
+              <div>
+                <div className="new-footer-contact-inline">
+                  <span className="new-footer-contact-label">Email:</span>
+                  <a href="mailto:info@theentrepreneurialchronicle.com">info@theentrepreneurialchronicle.com</a>
+                </div>
+              </div>
+            </div>
+
+            <div className="new-footer-contact-item">
+              <i className="fas fa-phone" />
+              <div>
+                <div className="new-footer-contact-inline">
+                  <span className="new-footer-contact-label">Phone:</span>
+                  <a href="tel:+16146022959">+1 (614) 602-2959</a>
+                </div>
+              </div>
+            </div>
+
+            <div className="new-footer-contact-item">
+              <i className="fas fa-map-marker-alt" />
+              <div>
+                <div className="new-footer-contact-inline-wrap">
+                  <span className="new-footer-contact-label">USA:</span>
+                  <span>6605 Longshore St, Dublin, OH 43017, USA</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="new-footer-contact-item">
+              <i className="fas fa-map-marker-alt" />
+              <div>
+                <div className="new-footer-contact-inline-wrap">
+                  <span className="new-footer-contact-label">Germany:</span>
+                  <span>Heßstraße 36, 80798 München, Germany</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="new-footer-contact-item">
+              <i className="fas fa-map-marker-alt" />
+              <div>
+                <div className="new-footer-contact-inline-wrap">
+                  <span className="new-footer-contact-label">Home Address:</span>
+                  <span>Office no 328B, Gera Imperium Rise, Wipro Circle, Hinjewadi Phase 2, Pune</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-         {/* Column 4: Contact Info + Social Links */}
-         <div className="footer-social-share-wrapper" style={{ flex: "1 1 250px", minWidth: "250px" }}>
-           <h4
-             style={{
-               color: "white",
-               fontWeight: "bold",
-               fontStyle: "initial",
-               position: "relative",
-               marginBottom: "1.5rem",
-             }}
-           >
-             CONTACT US
-           </h4>
-           <div
-             style={{
-               width: "50%",
-               height: "1px",
-               backgroundColor: "white",
-               marginBottom: "1.5rem",
-               marginLeft: "0",
-             }}
-           />
-           <div
-             className="mail"
-             style={{ fontWeight: 400, marginBottom: "1rem", lineHeight: "1.6" }}
-           >
-             Reach Us:
-             <a
-               href="mailto:info@theentrepreneurialchronicle.com"
-               className="bold"
-               style={{ display: "block", marginTop: "0.25rem", color: "white" }}
-             >
-               Info@theentrepreneurialchronicle.com
-             </a>
-           </div>
-
-           <div
-             className="number"
-             style={{ fontWeight: 400, marginBottom: "1rem", lineHeight: "1.6" }}
-           >
-             Call Us :
-             <a href="tel:+1 (614) 602-2959" style={{ display: "block", marginTop: "0.25rem", color: "white" }}> +1 (614) 602-2959</a>
-           </div>
-
-           <a 
-             href="https://www.google.com/maps/search/?api=1&query=6605+Longshore+St,+Dublin,+OH+43017,+USA" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             style={{ textDecoration: "none", color: "white" }}
-           >
-             <div className="axil-social-title" style={{ fontWeight: 400, marginBottom: "1rem", lineHeight: "1.6", cursor: "pointer" }}>
-               6605 Longshore st, Dublin
-               <br />
-               OH 43017, USA
-             </div>
-           </a>
-           <a 
-             href="https://www.google.com/maps/search/?api=1&query=He%C3%9Fstra%C3%9Fe+36,+80798+M%C3%BCnchen,+Germany" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             style={{ textDecoration: "none", color: "white" }}
-           >
-             <div className="axil-social-title" style={{ fontWeight: 400, marginBottom: "1rem", lineHeight: "1.6", cursor: "pointer" }}>
-               Heßstraße 36, 80798 München, Germany
-             </div>
-           </a>
-           <div className="axil-social-title" style={{ fontWeight: 400, marginBottom: "1.5rem", lineHeight: "1.6" }}>
-             Home Branch - office no 328B, Gera imperium Rise, Wipro circle, opp to wipro company, Hinjewadi phase 2, Pune
-           </div>
-         </div>
       </div>
-       <p style={{ textAlign: "center", marginTop: "1.5rem", fontWeight: 400, color: "white" }}>
-         &copy;Copyright 2025 | The Entrepreneurial Chronicles| All Rights
-         Reserved.
-       </p>
+
+      <div className="new-footer-bottom">
+        © {new Date().getFullYear()} The Unicorn Times. All rights reserved.
+      </div>
     </footer>
   );
 };

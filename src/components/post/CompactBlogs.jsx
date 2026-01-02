@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { client } from "../../client";
 import Loader from "../common/Loader";
 import ErrorFallback from "../common/ErrorFallback";
+import { useState, useEffect } from "react";
 
 const CompactBlogs = () => {
   const { data: posts, isLoading, error } = useQuery({
@@ -22,10 +23,20 @@ const CompactBlogs = () => {
           'title': categories[0]->title,
           'slug': categories[0]->slug.current
         }
-      } | order(publishedAt desc)[0...6]`;
+      } | order(publishedAt desc)[0...15]`;
       return await client.fetch(query);
     },
   });
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (!posts || posts.length === 0) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % posts.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [posts]);
 
   if (isLoading) return <Loader />;
   if (error) return <ErrorFallback error={error} />;
@@ -70,6 +81,19 @@ const CompactBlogs = () => {
         @media (max-width: 600px) {
           .blog-grid-small {
             grid-template-columns: 1fr !important;
+          }
+        }
+        .blog-image-enter {
+          animation: slideFromTop 0.6s ease-out;
+        }
+        @keyframes slideFromTop {
+          from {
+            transform: translateY(-100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
           }
         }
       `}</style>
@@ -137,7 +161,7 @@ const CompactBlogs = () => {
           {/* Large Featured Blog Post (Left - Top) */}
           {posts.length > 0 && (
             <Link
-              href={`/post/${posts[0].slug}`}
+              href={`/post/${posts[currentIndex].slug}`}
               style={{
                 textDecoration: "none",
                 display: "flex",
@@ -156,7 +180,7 @@ const CompactBlogs = () => {
               }}
             >
               {/* Large Featured Image */}
-              {posts[0].featureImg && (
+              {posts[currentIndex].featureImg && (
                 <div
                   style={{
                     width: "100%",
@@ -168,8 +192,8 @@ const CompactBlogs = () => {
                   }}
                 >
                   <Image
-                    src={posts[0].featureImg}
-                    alt={posts[0].title || "Featured blog post"}
+                    src={posts[currentIndex].featureImg}
+                    alt={posts[currentIndex].title || "Featured blog post"}
                     fill
                     style={{
                       objectFit: "cover",
@@ -199,7 +223,7 @@ const CompactBlogs = () => {
                     overflow: "hidden",
                   }}
                 >
-                  {posts[0].title}
+                  {posts[currentIndex].title}
                 </h3>
               </div>
             </Link>
@@ -215,72 +239,76 @@ const CompactBlogs = () => {
               gridColumn: "2",
             }}
           >
-            {posts.slice(1, 5).map((post, index) => (
-              <Link
-                key={post.slug || index}
-                href={`/post/${post.slug}`}
-                style={{
-                  textDecoration: "none",
-                  display: "flex",
-                  flexDirection: "column",
-                  background: "#ffffff",
-                  transition: "all 0.3s ease",
-                  overflow: "hidden",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.opacity = "0.9";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.opacity = "1";
-                }}
-              >
-                {/* Small Blog Image */}
-                {post.featureImg && (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "160px",
-                      position: "relative",
-                      overflow: "hidden",
-                      background: "#f5f5f5",
-                    }}
-                  >
-                    <Image
-                      src={post.featureImg}
-                      alt={post.title || "Blog post"}
-                      fill
-                      style={{
-                        objectFit: "cover",
-                      }}
-                    />
-                  </div>
-                )}
-
-                {/* Small Blog Title */}
-                <div
+            {posts.slice(1, 5).map((post, index) => {
+              const actualIndex = (currentIndex + index + 1) % posts.length;
+              const actualPost = posts[actualIndex];
+              return (
+                <Link
+                  key={actualPost.slug || actualIndex}
+                  href={`/post/${actualPost.slug}`}
                   style={{
-                    padding: "0.625rem",
+                    textDecoration: "none",
+                    display: "flex",
+                    flexDirection: "column",
                     background: "#ffffff",
+                    transition: "all 0.3s ease",
+                    overflow: "hidden",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = "0.9";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = "1";
                   }}
                 >
-                  <h3
+                  {/* Small Blog Image */}
+                  {actualPost.featureImg && (
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "160px",
+                        position: "relative",
+                        overflow: "hidden",
+                        background: "#f5f5f5",
+                      }}
+                    >
+                      <Image
+                        src={actualPost.featureImg}
+                        alt={actualPost.title || "Blog post"}
+                        fill
+                        style={{
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Small Blog Title */}
+                  <div
                     style={{
-                      fontSize: "1.3rem",
-                      fontWeight: 600,
-                      color: "#000000",
-                      margin: 0,
-                      lineHeight: "1.4",
-                      display: "-webkit-box",
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
+                      padding: "0.625rem",
+                      background: "#ffffff",
                     }}
                   >
-                    {post.title}
-                  </h3>
-                </div>
-              </Link>
-            ))}
+                    <h3
+                      style={{
+                        fontSize: "1.3rem",
+                        fontWeight: 600,
+                        color: "#000000",
+                        margin: 0,
+                        lineHeight: "1.4",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {actualPost.title}
+                    </h3>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

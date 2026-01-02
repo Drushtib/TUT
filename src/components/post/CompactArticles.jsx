@@ -79,6 +79,7 @@ const CompactArticles = () => {
         .article-card {
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           border-radius: 4px;
+          border: 1px solid rgba(198, 160, 84, 0.55);
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
           animation: cardFadeIn 0.6s ease-out both;
           padding: 0 !important;
@@ -107,6 +108,7 @@ const CompactArticles = () => {
         
         .article-card:hover {
           background-color: #f9f9f9;
+          border-color: var(--primary-color);
           box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
           transform: translateY(-4px) scale(1.02);
           z-index: 5;
@@ -463,6 +465,7 @@ const CompactArticles = () => {
                   gap: "0.1rem",
                   alignItems: "center",
                   borderRadius: "4px",
+                  border: "1px solid rgba(198, 160, 84, 0.55)",
                   boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
                 }}
               >

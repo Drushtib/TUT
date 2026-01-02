@@ -130,10 +130,9 @@ const StatCard = React.forwardRef(({ endValue, suffix, label, isVisible, delay }
           transition: "none",
         }}
       >
-        <div style={{ fontSize: "4.2rem", fontWeight: "800", color: "#111111", marginBottom: "0.6rem", fontFamily: "Poppins, sans-serif" }}>
+        <div style={{ fontSize: "4.2rem", fontWeight: "600", color: "#111111", marginBottom: "0.6rem", fontFamily: "Poppins, sans-serif" }}>
           {count}{suffix}
         </div>
-        <div style={{ width: "46px", height: "3px", background: "#bb0505", borderRadius: "999px", margin: "0 auto 1.2rem" }} />
         <div style={{ fontSize: "1.8rem", color: "#111111", textTransform: "uppercase", letterSpacing: "2px", fontFamily: "Roboto, sans-serif" }}>
           {label}
         </div>
@@ -241,7 +240,7 @@ const AboutUs = ({ aboutData }) => {
       <div
         style={{
           backgroundColor: "#ffffff",
-          padding: "6rem 2rem 4rem",
+          padding: "3.5rem 2rem 4rem",
           position: "relative",
         }}
       >
@@ -253,7 +252,7 @@ const AboutUs = ({ aboutData }) => {
           <div 
             style={{ 
               textAlign: "center", 
-              maxWidth: "900px", 
+              maxWidth: "1200px", 
               margin: "0 auto",
               opacity: isVisible.hero ? 1 : 0,
               transform: isVisible.hero ? "translateY(0)" : "translateY(-50px)",
@@ -262,7 +261,7 @@ const AboutUs = ({ aboutData }) => {
           >
             <h1
               style={{
-                fontSize: "4.2rem",
+                fontSize: "34px",
                 fontWeight: "800",
                 color: "#111111",
                 marginBottom: "2rem",
@@ -277,19 +276,18 @@ const AboutUs = ({ aboutData }) => {
             </h1>
 
             <p
+              className="about-hero-desc"
               style={{
                 fontSize: "1.7rem",
                 lineHeight: "2.9rem",
                 color: "#111111",
                 fontFamily: "Roboto, sans-serif",
-                maxWidth: "780px",
+                maxWidth: "1100px",
                 margin: "0 auto 1.6rem",
               }}
             >
               The Unicorn Times is a modern business and entrepreneurship website where we publish inspiring founder stories, industry insights, and practical ideas that help readers think bigger, build smarter, and stay ahead.
             </p>
-
-            <div style={{ width: "90px", height: "4px", background: "#bb0505", borderRadius: "999px", margin: "0 auto" }} />
 
           </div>
         </div>
@@ -297,7 +295,7 @@ const AboutUs = ({ aboutData }) => {
 
       {/* Mission, Vision, Values Section - Animated from different directions */}
       <div 
-        style={{ backgroundColor: "#ffffff", padding: "6rem 0" }}
+        style={{ backgroundColor: "#ffffff", padding: "2.25rem 0" }}
         ref={(el) => (sectionRefs.current.foundation = el)}
       >
         <div className="container">
@@ -312,17 +310,8 @@ const AboutUs = ({ aboutData }) => {
               title="Our Foundation"
               paragraph="The core principles that drive everything we do"
             />
-            <div
-              style={{
-                width: "100px",
-                height: "4px",
-                background: "#FF0000",
-                margin: "2rem auto 0",
-                borderRadius: "2px",
-              }}
-            />
           </div>
-          <div className="row" style={{ marginTop: "4rem", justifyContent: "center" }}>
+          <div className="row" style={{ marginTop: "1.25rem", justifyContent: "center" }}>
             <div className="col-lg-4 col-md-6" style={{ marginBottom: "2rem", display: "flex", justifyContent: "center" }}>
               <div
                 ref={(el) => (sectionRefs.current.mission = el)}
@@ -331,7 +320,6 @@ const AboutUs = ({ aboutData }) => {
                   background: "#ffffff",
                   borderRadius: "20px",
                   border: "1px solid rgba(0,0,0,0.14)",
-                  borderTop: "4px solid #bb0505",
                   boxShadow: "0 14px 40px rgba(0, 0, 0, 0.08)",
                   height: "100%",
                   transition: "all 0.4s ease",
@@ -378,7 +366,6 @@ const AboutUs = ({ aboutData }) => {
                   background: "#ffffff",
                   borderRadius: "20px",
                   border: "1px solid rgba(0,0,0,0.14)",
-                  borderTop: "4px solid #bb0505",
                   boxShadow: "0 14px 40px rgba(0, 0, 0, 0.08)",
                   height: "100%",
                   transition: "all 0.4s ease",
@@ -425,7 +412,6 @@ const AboutUs = ({ aboutData }) => {
                   background: "#ffffff",
                   borderRadius: "20px",
                   border: "1px solid rgba(0,0,0,0.14)",
-                  borderTop: "4px solid #bb0505",
                   boxShadow: "0 14px 40px rgba(0, 0, 0, 0.08)",
                   height: "100%",
                   transition: "all 0.4s ease",
@@ -474,9 +460,7 @@ const AboutUs = ({ aboutData }) => {
         className="about-stats"
         style={{
           backgroundColor: "#ffffff",
-          padding: "5rem 0",
-          borderTop: "1px solid rgba(0,0,0,0.08)",
-          borderBottom: "1px solid rgba(0,0,0,0.08)",
+          padding: "3.5rem 0",
           opacity: 1,
           transform: "none",
           transition: "none",
@@ -525,9 +509,8 @@ const AboutUs = ({ aboutData }) => {
         ref={(el) => (sectionRefs.current.whoWeAre = el)}
         style={{
           backgroundColor: "#ffffff",
-          padding: "8rem 0",
+          padding: "3.5rem 0",
           position: "relative",
-          borderTop: "1px solid rgba(0,0,0,0.08)",
           overflow: "hidden",
         }}
       >
@@ -561,7 +544,7 @@ const AboutUs = ({ aboutData }) => {
           }}
         />
         
-        <div className="container" style={{ position: "relative", zIndex: 1 }}>
+        <div className="container" style={{ position: "relative", zIndex: 1, maxWidth: "1500px" }}>
           <div
             style={{
               opacity: isVisible.whoWeAre ? 1 : 0,
@@ -570,8 +553,8 @@ const AboutUs = ({ aboutData }) => {
             }}
           >
             <div className="row">
-              <div className="col-lg-10 mx-auto">
-                <div style={{ maxWidth: "980px", margin: "0 auto", background: "#ffffff", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "22px", boxShadow: "0 18px 50px rgba(0,0,0,0.08)", padding: "3.5rem 3rem", borderLeft: "6px solid #bb0505" }}>
+              <div className="col-lg-12 mx-auto">
+                <div style={{ maxWidth: "1320px", margin: "0 auto", background: "#ffffff", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "22px", boxShadow: "0 18px 50px rgba(0,0,0,0.08)", padding: "3.5rem 3rem", borderLeft: "6px solid #bb0505" }}>
                   <h2
                     style={{
                       fontSize: "3.5rem",
@@ -587,16 +570,6 @@ const AboutUs = ({ aboutData }) => {
                   >
                     Who We Are
                   </h2>
-                  <div
-                    style={{
-                      width: isVisible.whoWeAre ? "80px" : "0px",
-                      height: "4px",
-                      background: "#FF0000",
-                      marginBottom: "2rem",
-                      borderRadius: "2px",
-                      transition: "width 1s ease-out 0.4s",
-                    }}
-                  />
                   <div
                     style={{
                       opacity: isVisible.whoWeAre ? 1 : 0,
@@ -628,9 +601,8 @@ const AboutUs = ({ aboutData }) => {
         ref={(el) => (sectionRefs.current.ourStory = el)}
         style={{
           backgroundColor: "#ffffff",
-          padding: "8rem 0",
+          padding: "3.5rem 0",
           position: "relative",
-          borderTop: "1px solid rgba(0,0,0,0.08)",
           overflow: "hidden",
         }}
       >
@@ -650,7 +622,7 @@ const AboutUs = ({ aboutData }) => {
           }}
         />
         
-        <div className="container" style={{ position: "relative", zIndex: 1 }}>
+        <div className="container" style={{ position: "relative", zIndex: 1, maxWidth: "1500px" }}>
           <div
             style={{
               opacity: isVisible.ourStory ? 1 : 0,
@@ -659,8 +631,8 @@ const AboutUs = ({ aboutData }) => {
             }}
           >
             <div className="row">
-              <div className="col-lg-10 mx-auto">
-                <div style={{ maxWidth: "980px", margin: "0 auto", background: "#ffffff", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "22px", boxShadow: "0 18px 50px rgba(0,0,0,0.08)", padding: "3.5rem 3rem", borderLeft: "6px solid #bb0505" }}>
+              <div className="col-lg-12 mx-auto">
+                <div style={{ maxWidth: "1320px", margin: "0 auto", background: "#ffffff", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "22px", boxShadow: "0 18px 50px rgba(0,0,0,0.08)", padding: "3.5rem 3rem", borderLeft: "6px solid #bb0505" }}>
                   <h2
                     style={{
                       fontSize: "3.5rem",
@@ -676,16 +648,6 @@ const AboutUs = ({ aboutData }) => {
                   >
                     Our Story
                   </h2>
-                  <div
-                    style={{
-                      width: isVisible.ourStory ? "80px" : "0px",
-                      height: "4px",
-                      background: "#FF0000",
-                      marginBottom: "2rem",
-                      borderRadius: "2px",
-                      transition: "width 1s ease-out 0.4s",
-                    }}
-                  />
                   <div
                     style={{
                       opacity: isVisible.ourStory ? 1 : 0,
@@ -785,6 +747,48 @@ const AboutUs = ({ aboutData }) => {
         .about-us-page .about-stats * {
           color: #111111 !important;
           opacity: 1 !important;
+        }
+
+        .about-us-page .about-hero-desc {
+          max-width: 1100px !important;
+        }
+
+        @media (max-width: 1199px) {
+          .about-us-page .about-hero-desc {
+            max-width: 100% !important;
+          }
+        }
+
+        @media (max-width: 991px) {
+          .about-us-page .page-title {
+            font-size: 28px !important;
+            margin-bottom: 1.2rem !important;
+            line-height: 1.25 !important;
+          }
+
+          .about-us-page .about-hero-desc {
+            max-width: 100% !important;
+            font-size: 16px !important;
+            line-height: 28px !important;
+            padding-left: 10px;
+            padding-right: 10px;
+          }
+
+          .about-us-page h2 {
+            font-size: 28px !important;
+            line-height: 1.25 !important;
+          }
+        }
+
+        @media (max-width: 575px) {
+          .about-us-page .page-title {
+            font-size: 24px !important;
+          }
+
+          .about-us-page .about-hero-desc {
+            font-size: 15px !important;
+            line-height: 26px !important;
+          }
         }
       `}</style>
       <FooterTwo />
