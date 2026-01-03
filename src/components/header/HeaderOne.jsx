@@ -5,7 +5,16 @@ import { useRouter } from "next/router";
 import { client } from "../../client";
 
 import SocialLink from "../../data/social/SocialLink.json";
-import UnicornLogo from "../../assest/UniCorn_12.png";
+
+// Logo import with fallback
+let UnicornLogo;
+try {
+  UnicornLogo = "/assest/Logo_The Unicorn Times_1 (1).jpg";
+  console.log("Logo loaded successfully:", UnicornLogo);
+} catch (error) {
+  console.error("Error loading logo:", error);
+  UnicornLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='84' viewBox='0 0 420 84'%3E%3Crect width='420' height='84' fill='%23ffffff'/%3E%3Ctext x='210' y='50' text-anchor='middle' fill='%23000000' font-family='Arial' font-size='16' font-weight='bold'%3EThe Unicorn Times%3C/text%3E%3C/svg%3E";
+}
 
 const HeaderOne = () => {
 
@@ -210,32 +219,57 @@ const HeaderOne = () => {
 
   return (
     <>
+      {/* Top Bar */}
+      <div className="top-bar">
+        <div className="container">
+          <div className="top-bar-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            {/* Navigation Links */}
+            <div className="top-nav-links" style={{ display: 'flex', gap: '2rem', marginRight: 'auto' }}>
+              <Link href="/about-us" className="top-nav-link">About Us</Link>
+              <Link href="/contact" className="top-nav-link">Contact Us</Link>
+            </div>
+            
+            {/* Social Media Icons */}
+            <div className="social-icons" style={{ display: 'flex', gap: '1rem', marginLeft: 'auto' }}>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon facebook-icon">
+                <img src="/assest/facebook.png" alt="Facebook" style={{ width: '18px', height: '18px' }} />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon instagram-icon">
+                <img src="/assest/instagram.png" alt="Instagram" style={{ width: '18px', height: '18px' }} />
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon linkedin-icon">
+                <img src="/assest/linkedin.png" alt="LinkedIn" style={{ width: '18px', height: '18px' }} />
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="social-icon youtube-icon">
+                <img src="/assest/youtube.png" alt="YouTube" style={{ width: '18px', height: '18px' }} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <header className="page-header sticky-top">
         <nav className="navbar bg-black" style={{ paddingTop: '0.15rem', paddingBottom: '0.15rem', minHeight: 'auto', height: 'auto', lineHeight: '1' }}>
           <div className="container" style={{ paddingTop: '0.15rem', paddingBottom: '0.15rem' }}>
             <div className="navbar-inner" style={{ padding: '0', minHeight: 'auto', height: 'auto', lineHeight: '1' }}>
               <div className="brand-logo-container">
-                <Link href="/">
-                  <Image
-                    src={UnicornLogo}
+                <Link href="/" style={{ display: 'block', lineHeight: '0' }}>
+                  <img
+                    src="/assest/Logo_The Unicorn Times_1 (1).jpg"
                     alt="chronicles-logo"
                     width={420}
                     height={84}
-                    sizes="(max-width: 480px) 170px, (max-width: 768px) 210px, 420px"
-                    quality={100}
-                    priority
-                    unoptimized
                     className="header-logo"
                     style={{
                       objectFit: "contain",
                       height: "84px",
                       width: "auto",
-                      maxHeight: "84px",
-                      imageRendering: "auto",
-                      filter: "contrast(1.05)",
+                      maxWidth: "420px",
+                      display: "block",
+                      visibility: "visible",
+                      opacity: 1
                     }}
                   />
-
                 </Link>
               </div>
 
@@ -513,11 +547,23 @@ const HeaderOne = () => {
           }
 
           .brand-logo-container {
+            display: flex !important;
+            align-items: center !important;
+            flex: 0 0 auto !important;
             padding-left: 0 !important;
+            margin-left: 0 !important;
+            margin-bottom: 0 !important;
           }
 
           .header-logo {
             max-width: 340px !important;
+            height: 84px !important;
+            max-height: 84px !important;
+            width: auto !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            object-fit: contain !important;
           }
 
           .navbar-nav-links {
@@ -1295,6 +1341,23 @@ const HeaderOne = () => {
           transform: none !important;
         }
 
+        /* Universal Logo Visibility - Override All Media Queries */
+        .brand-logo-container .header-logo,
+        .brand-logo-container img,
+        .brand-logo-container Image,
+        .page-header .brand-logo-container .header-logo {
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          height: 84px !important;
+          width: auto !important;
+          max-height: 84px !important;
+         
+          object-fit: contain !important;
+          position: relative !important;
+          z-index: 10 !important;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
           .navbar-nav-links.desktop-nav {
@@ -1439,6 +1502,392 @@ const HeaderOne = () => {
           .hero-button {
             padding: 10px 20px !important;
             font-size: 13px !important;
+          }
+        }
+
+        /* Top Bar Styles */
+        .top-bar {
+          background: #000000 !important;
+          padding: 0.5rem 0 !important;
+          border-bottom: 1px solid #333333 !important;
+          display: block !important;
+          visibility: visible !important;
+        }
+
+        /* Top Bar Layout - Higher Specificity */
+        .top-bar .container .top-bar-inner {
+          display: flex !important;
+          justify-content: space-between !important;
+          align-items: center !important;
+          width: 100% !important;
+          padding: 0 2rem !important;
+        }
+
+        .top-bar .container .top-bar-inner .social-icons {
+          display: flex !important;
+          gap: 1rem !important;
+          order: 2;
+          margin-left: auto !important;
+          flex-shrink: 0 !important;
+        }
+
+        .top-bar .container .top-bar-inner .top-nav-links {
+          display: flex !important;
+          gap: 2rem !important;
+          order: 1;
+          margin-right: auto !important;
+          flex-shrink: 0 !important;
+        }
+
+        /* Tablet View (768px - 1024px) */
+        @media (max-width: 1024px) and (min-width: 769px) {
+          .top-bar .container .top-bar-inner {
+            padding: 0 1.5rem !important;
+          }
+
+          .top-bar .container .top-bar-inner .social-icons {
+            gap: 0.75rem !important;
+          }
+
+          .top-bar .container .top-bar-inner .top-nav-links {
+            gap: 1.5rem !important;
+          }
+
+          .top-bar .container .top-bar-inner .social-icons img {
+            width: 16px !important;
+            height: 16px !important;
+          }
+        }
+
+        /* Mobile View (up to 768px) */
+        @media (max-width: 768px) {
+          .top-bar .container .top-bar-inner {
+            flex-direction: row !important;
+            gap: 0.75rem !important;
+            padding: 0.75rem 1rem !important;
+            justify-content: center !important;
+          }
+
+          .top-bar .container .top-bar-inner .social-icons {
+            order: 2 !important;
+            gap: 0.75rem !important;
+          }
+
+          .top-bar .container .top-bar-inner .top-nav-links {
+            order: 1 !important;
+            margin-right: 0 !important;
+            gap: 1.5rem !important;
+          }
+
+          .top-bar .container .top-bar-inner .social-icons img {
+            width: 16px !important;
+            height: 16px !important;
+          }
+        }
+
+        /* Small Mobile View (up to 480px) */
+        @media (max-width: 480px) {
+          .top-bar .container .top-bar-inner {
+            padding: 0.5rem 0.75rem !important;
+            gap: 0.5rem !important;
+          }
+
+          .top-bar .container .top-bar-inner .social-icons {
+            gap: 0.5rem !important;
+          }
+
+          .top-bar .container .top-bar-inner .top-nav-links {
+            gap: 1rem !important;
+          }
+
+          .top-bar .container .top-bar-inner .social-icons img {
+            width: 14px !important;
+            height: 14px !important;
+          }
+
+          .top-bar .container .top-bar-inner .top-nav-links {
+            font-size: 0.875rem !important;
+          }
+        }
+
+        .social-icon {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          width: 32px !important;
+          height: 32px !important;
+          background: transparent !important;
+          color: #ffffff !important;
+          border-radius: 50% !important;
+          transition: all 0.2s ease !important;
+          text-decoration: none !important;
+          font-size: 14px !important;
+          visibility: visible !important;
+        }
+
+        .social-icon span {
+          color: #ffffff !important;
+          visibility: visible !important;
+        }
+
+        .social-icon:hover {
+          transform: translateY(-2px);
+        }
+
+        .facebook-icon:hover {
+          color: #1877f2 !important;
+        }
+
+        .facebook-icon:hover span {
+          color: #1877f2 !important;
+        }
+
+        .instagram-icon:hover {
+          color: #e4405f !important;
+        }
+
+        .instagram-icon:hover span {
+          color: #e4405f !important;
+        }
+
+        .linkedin-icon:hover {
+          color: #0077b5 !important;
+        }
+
+        .linkedin-icon:hover span {
+          color: #0077b5 !important;
+        }
+
+        .youtube-icon:hover {
+          color: #ff0000 !important;
+        }
+
+        .youtube-icon:hover span {
+          color: #ff0000 !important;
+        }
+
+        .top-nav-links {
+          display: flex;
+          gap: 2rem;
+        }
+
+        .top-nav-link {
+          color: #ffffff !important;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 400;
+          transition: color 0.2s ease;
+          padding: 0.25rem 0;
+          display: inline-block;
+        }
+
+        .top-nav-link:hover {
+          color: #bb0505 !important;
+        }
+
+        .top-nav-link:visited,
+        .top-nav-link:focus {
+          color: #ffffff !important;
+        }
+
+        /* Navbar Social Icons - Higher Specificity */
+        .navbar-nav-links .navbar-social-icons {
+          display: flex !important;
+          align-items: center !important;
+          gap: 1rem !important;
+          margin-left: auto !important;
+        }
+
+        .navbar-nav-links .navbar-social-icon {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          width: 28px !important;
+          height: 28px !important;
+          background: transparent !important;
+          color: #ffffff !important;
+          border-radius: 50% !important;
+          transition: all 0.2s ease !important;
+          text-decoration: none !important;
+          font-size: 14px !important;
+          visibility: visible !important;
+        }
+
+        .navbar-nav-links .navbar-social-icon span {
+          color: #ffffff !important;
+          visibility: visible !important;
+        }
+
+        .navbar-nav-links .navbar-social-icon:hover {
+          transform: translateY(-2px);
+        }
+
+        .navbar-nav-links .navbar-social-icon.facebook-icon:hover {
+          color: #1877f2 !important;
+        }
+
+        .navbar-nav-links .navbar-social-icon.facebook-icon:hover span {
+          color: #1877f2 !important;
+        }
+
+        .navbar-nav-links .navbar-social-icon.instagram-icon:hover {
+          color: #e4405f !important;
+        }
+
+        .navbar-nav-links .navbar-social-icon.instagram-icon:hover span {
+          color: #e4405f !important;
+        }
+
+        .navbar-nav-links .navbar-social-icon.linkedin-icon:hover {
+          color: #0077b5 !important;
+        }
+
+        .navbar-nav-links .navbar-social-icon.linkedin-icon:hover span {
+          color: #0077b5 !important;
+        }
+
+        .navbar-nav-links .navbar-social-icon.youtube-icon:hover {
+          color: #ff0000 !important;
+        }
+
+        .navbar-nav-links .navbar-social-icon.youtube-icon:hover span {
+          color: #ff0000 !important;
+        }
+        .navbar-social-icons {
+          display: flex !important;
+          align-items: center !important;
+          gap: 1rem !important;
+          margin-left: auto !important;
+        }
+
+        .navbar-social-icon {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          width: 28px !important;
+          height: 28px !important;
+          background: transparent !important;
+          color: #ffffff !important;
+          border-radius: 50% !important;
+          transition: all 0.2s ease !important;
+          text-decoration: none !important;
+          font-size: 14px !important;
+          visibility: visible !important;
+        }
+
+        .navbar-social-icon span {
+          color: #ffffff !important;
+          visibility: visible !important;
+        }
+
+        .navbar-social-icon:hover {
+          transform: translateY(-2px);
+        }
+
+        .navbar-social-icon.facebook-icon:hover {
+          color: #1877f2 !important;
+        }
+
+        .navbar-social-icon.facebook-icon:hover span {
+          color: #1877f2 !important;
+        }
+
+        .navbar-social-icon.instagram-icon:hover {
+          color: #e4405f !important;
+        }
+
+        .navbar-social-icon.instagram-icon:hover span {
+          color: #e4405f !important;
+        }
+
+        .navbar-social-icon.linkedin-icon:hover {
+          color: #0077b5 !important;
+        }
+
+        .navbar-social-icon.linkedin-icon:hover span {
+          color: #0077b5 !important;
+        }
+
+        .navbar-social-icon.youtube-icon:hover {
+          color: #ff0000 !important;
+        }
+
+        .navbar-social-icon.youtube-icon:hover span {
+          color: #ff0000 !important;
+        }
+
+        /* Responsive Navbar Social Icons */
+        @media (max-width: 768px) {
+          .navbar-social-icons {
+            gap: 0.75rem !important;
+          }
+
+          .navbar-social-icon {
+            width: 24px !important;
+            height: 24px !important;
+            font-size: 12px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .navbar-social-icons {
+            gap: 0.5rem !important;
+          }
+
+          .navbar-social-icon {
+            width: 20px !important;
+            height: 20px !important;
+            font-size: 11px !important;
+          }
+        }
+        @media (max-width: 768px) {
+          .top-bar-inner {
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+          }
+
+          .social-icons {
+            order: 2;
+          }
+
+          .top-nav-links {
+            order: 1;
+            gap: 1.5rem;
+          }
+
+          .social-icon {
+            width: 28px;
+            height: 28px;
+            font-size: 12px;
+          }
+
+          .top-nav-link {
+            font-size: 13px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .top-bar-inner {
+            padding: 0.5rem 1rem;
+          }
+
+          .social-icons {
+            gap: 0.75rem;
+          }
+
+          .top-nav-links {
+            gap: 1rem;
+          }
+
+          .social-icon {
+            width: 24px;
+            height: 24px;
+            font-size: 11px;
+          }
+
+          .top-nav-link {
+            font-size: 12px;
           }
         }
 

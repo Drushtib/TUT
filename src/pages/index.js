@@ -13,6 +13,7 @@ import IndustryPosts from "../components/post/IndustryPosts";
 import CompactBlogs from "../components/post/CompactBlogs";
 import CompactArticles from "../components/post/CompactArticles";
 import OurPartners from "../components/post/OurPartners";
+import CountingSection from "../components/common/CountingSection";
 import ScrollToTop from "../components/common/ScrollToTop";
 import { commonStyles } from "../lib/utils/theme";
 
@@ -21,7 +22,7 @@ const Home = () => {
   
   return (
     <div suppressHydrationWarning className="home-page-white" style={{ 
-      background: '#ffffff', 
+      background: '#f5f5f5', 
       color: '#171717',
       minHeight: '100vh'
     }}>
@@ -44,7 +45,7 @@ const Home = () => {
       
       {/* Latest Digital Editions - Horizontal Carousel */}
       <div style={{ 
-        background: '#ffffff', 
+        background: '#f5f5f5', 
         padding: '4rem 0'
       }}>
         <Magazines />
@@ -61,8 +62,8 @@ const Home = () => {
       
       {/* Main Content Area - Two Column Layout */}
       <div style={{ 
-        background: '#ffffff', 
-        padding: '4rem 0'
+        background: '#f5f5f5', 
+        padding: '4rem 0 6rem 0'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <MarketNews />
@@ -71,13 +72,16 @@ const Home = () => {
       
       {/* Business Bulletin Section */}
       <div style={{ 
-        background: '#ffffff', 
+        background: '#f5f5f5', 
         padding: '4rem 0'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <BusinessBulletin />
         </div>
       </div>
+      
+      {/* Counting Section */}
+      <CountingSection />
       
       {/* Web Profiles Section */}
      {/* <div style={{ 
@@ -91,7 +95,7 @@ const Home = () => {
       
       {/* Master Talks Section */}
       <div style={{ 
-        background: '#ffffff', 
+        background: '#f5f5f5', 
         padding: '4rem 0',
         borderTop: 'none'
       }}>

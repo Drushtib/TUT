@@ -37,7 +37,7 @@ const BusinessBulletin = () => {
   if (!data) return null;
 
   return (
-    <div style={{ background: '#ffffff', color: '#171717' }}>
+    <div style={{ background: '#f5f5f5', color: '#171717' }}>
       <div style={{ position: 'relative', marginBottom: '3rem' }}>
         <h2 style={{
           fontSize: 'clamp(2rem, 4vw, 3rem)',

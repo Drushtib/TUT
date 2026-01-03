@@ -99,7 +99,7 @@ const CompactBlogs = () => {
       `}</style>
       <div
         style={{
-          background: "#ffffff",
+          background: "#f5f5f5",
           padding: "2rem 0",
           marginTop: "0",
         }}

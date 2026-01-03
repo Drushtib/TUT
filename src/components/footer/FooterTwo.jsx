@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SocialLink from "../../data/social/SocialLink.json";
 import styles from "../../styles/footer.module.css";
-import UnicornLogo from "../../assest/UniCorn.png";
+import UnicornLogo from "../../../public/assest/Logo_The Unicorn Times_White.png";
 import { useState } from "react";
 
 const FooterTwo = () => {

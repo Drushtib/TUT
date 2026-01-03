@@ -83,8 +83,8 @@ const Magazines = () => {
         
         .magazines-grid-wrapper .grid-wrapper .content-block > a > div.magazine-card-container,
         .magazines-grid-wrapper .grid-wrapper .content-block > a > div {
-          border: none !important;
-          border-radius: 8px !important;
+          background: #f5f5f5 !important;
+          background-color: #f5f5f5 !important;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
           transition: all 0.3s ease !important;
           margin: 2rem !important;
@@ -95,6 +95,31 @@ const Magazines = () => {
           display: flex !important;
           flex-direction: column !important;
           padding: 10px !important;
+        }
+        
+        /* Force White Cards - Higher Specificity */
+        .magazines-grid-wrapper .grid-wrapper .content-block > a > div.magazine-card-container,
+        .magazines-grid-wrapper .grid-wrapper .content-block > a > div,
+        .magazines-grid-wrapper .grid-wrapper .content-block > a > div.magazine-card-container * {
+          background: #FFFFFF !important;
+          background-color: #FFFFFF !important;
+        }
+
+        .magazines-grid-wrapper .grid-wrapper .content-block > a > div.magazine-card-container * {
+          background: transparent !important;
+          background-color: transparent !important;
+        }
+        
+        .magazines-grid-wrapper .grid-wrapper .content-block > a > div.magazine-card-container .magazine-image-wrapper,
+        .magazines-grid-wrapper .grid-wrapper .content-block > a > div .magazine-image-wrapper {
+          background: transparent !important;
+          background-color: transparent !important;
+        }
+        
+        .magazines-grid-wrapper .grid-wrapper .content-block > a > div.magazine-card-container .caption-content,
+        .magazines-grid-wrapper .grid-wrapper .content-block > a > div .caption-content {
+          background: transparent !important;
+          background-color: transparent !important;
         }
         
         .magazines-grid-wrapper .grid-wrapper .content-block > a > div .magazine-image-wrapper,
@@ -408,7 +433,7 @@ const Magazines = () => {
           }
         }
       `}</style>
-      <div style={{ background: '#ffffff' }}>
+      <div style={{ background: '#f5f5f5' }}>
         <div className="magazines-container" style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <div className="magazines-header-wrapper" style={{ position: "relative", marginBottom: "0.5rem" }}>
             <h2 style={{

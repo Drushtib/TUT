@@ -154,9 +154,6 @@ const PostDetails = ({ initialData }) => {
         <div className="postContainer">
           <div className={`postHeader ${isVisible ? "animate-in" : ""}`}>
             <h1 className="postTitle">{resolvedPost?.title}</h1>
-            {resolvedPost?.description ? (
-              <p className="postSubtitle">{resolvedPost.description}</p>
-            ) : null}
           </div>
 
           <div className={`postHero ${isVisible ? "animate-in" : ""}`}>
@@ -170,6 +167,13 @@ const PostDetails = ({ initialData }) => {
               }}
             />
           </div>
+
+          {resolvedPost?.description ? (
+            <div className={`postIntroduction ${isVisible ? "animate-in" : ""}`}>
+              <h4 className="postIntroLabel">Introduction</h4>
+              <p className="postIntroText">{resolvedPost.description}</p>
+            </div>
+          ) : null}
 
           <article
             className={`postBody ${isVisible ? "animate-in" : ""} ${
@@ -232,7 +236,7 @@ const PostDetails = ({ initialData }) => {
 
       <style jsx>{`
         .postPage {
-          background: #ffffff;
+          background: #f5f5f5;
           color: #111111;
           padding: 2.5rem 0 3.5rem;
           min-height: 100vh;
@@ -271,6 +275,46 @@ const PostDetails = ({ initialData }) => {
           -webkit-text-fill-color: rgba(0, 0, 0, 0.78);
           font-size: 1.2rem;
           line-height: 1.7;
+        }
+
+        .postIntroduction {
+          margin: 0 0 1rem 0;
+          text-align: left;
+          opacity: 1;
+          transform: none;
+          padding: 0;
+        }
+
+        .postIntroduction.animate-in {
+          animation: fadeUp 0.55s ease forwards;
+          animation-delay: 0.12s;
+        }
+
+        .postIntroLabel {
+          margin: 0 0 0.5rem 0;
+          color: rgba(0, 0, 0, 0.85);
+          -webkit-text-fill-color: rgba(0, 0, 0, 0.85);
+          font-size: 1.8rem;
+          line-height: 1.6;
+          font-weight: 700;
+          font-style: normal;
+          text-align: left;
+        }
+
+        .postIntroText {
+          margin: 0;
+          color: rgba(0, 0, 0, 0.85);
+          -webkit-text-fill-color: rgba(0, 0, 0, 0.85);
+          font-size: 1.6rem;
+          line-height: 1.6;
+          font-weight: 400;
+          font-style: normal;
+          text-align: left;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          min-height: 4.8em;
         }
 
         .postHero {
@@ -536,6 +580,21 @@ const PostDetails = ({ initialData }) => {
             height: 360px;
           }
 
+          .postIntroduction {
+            margin: 0 0 1rem 0;
+          }
+
+          .postIntroLabel {
+            font-size: 1.6rem;
+            line-height: 1.6;
+          }
+
+          .postIntroText {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            font-weight: 400;
+          }
+
           .relatedGrid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 2rem 1.25rem;
@@ -561,6 +620,21 @@ const PostDetails = ({ initialData }) => {
 
           .postHeroImg {
             height: 260px;
+          }
+
+          .postIntroduction {
+            margin: 0 0 1rem 0;
+          }
+
+          .postIntroLabel {
+            font-size: 1.6rem;
+            line-height: 1.6;
+          }
+
+          .postIntroText {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            font-weight: 400;
           }
 
           .postBody {

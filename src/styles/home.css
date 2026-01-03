@@ -3,7 +3,26 @@
  * Magazine-style asymmetric layouts with typography focus
  */
 
-/* Home Page White Background Override */
+/* Home Page Background Override */
+body:has(.home-page-white) {
+  background: #f5f5f5 !important;
+}
+
+html:has(.home-page-white) {
+  background: #f5f5f5 !important;
+}
+
+.home-page-white {
+  background: #f5f5f5 !important;
+}
+
+/* Override CSS variables for home page */
+.home-page-white,
+.home-page-white body,
+.home-page-white html {
+  background: #f5f5f5 !important;
+}
+
 .home-page-white,
 .home-page-white *,
 .home-page-white h1,

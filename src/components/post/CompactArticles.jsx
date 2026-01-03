@@ -31,6 +31,8 @@ const CompactArticles = () => {
           max-width: 100% !important;
           padding-left: 2rem !important;
           padding-right: 2rem !important;
+          padding-bottom: 3rem !important;
+          margin-bottom: 2rem !important;
         }
 
         .articles-section {
@@ -83,6 +85,7 @@ const CompactArticles = () => {
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
           animation: cardFadeIn 0.6s ease-out both;
           padding: 0 !important;
+          background-color: #FFFFFF;
         }
         
         @keyframes cardFadeIn {
@@ -107,10 +110,8 @@ const CompactArticles = () => {
         .article-card:nth-child(9) { animation-delay: 0.5s; }
         
         .article-card:hover {
-          background-color: #f9f9f9;
           border-color: var(--primary-color);
           box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-          transform: translateY(-4px) scale(1.02);
           z-index: 5;
         }
         
@@ -401,7 +402,6 @@ const CompactArticles = () => {
       <div
         className="articles-section"
         style={{
-          background: "#ffffff",
           padding: "3rem 0",
           marginTop: "0",
         }}
@@ -421,25 +421,8 @@ const CompactArticles = () => {
                 textAlign: "center",
               }}
             >
-              ARTICLES
+              Latest Articles
             </h2>
-            <Link
-              href="/magazines"
-              className="view-all-articles-link"
-              style={{
-                transition: "color 0.3s ease, text-decoration-color 0.3s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "#545454";
-                e.currentTarget.style.textDecorationColor = "#545454";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "#000000";
-                e.currentTarget.style.textDecorationColor = "#000000";
-              }}
-            >
-              View All
-            </Link>
           </div>
 
           {/* Articles Grid - 3 Columns, 3 Rows */}
@@ -460,7 +443,6 @@ const CompactArticles = () => {
                   textDecoration: "none",
                   display: "flex",
                   flexDirection: "row",
-                  background: "#ffffff",
                   padding: "0",
                   gap: "0.1rem",
                   alignItems: "center",
@@ -478,7 +460,6 @@ const CompactArticles = () => {
                       minWidth: "180px",
                       height: "150px",
                       position: "relative",
-                      background: "transparent",
                       flexShrink: 0,
                       overflow: "visible",
                       display: "flex",
