@@ -40,3 +40,6 @@ yarn.lock
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ignore large pdf files
+public/assest/*.pdf
