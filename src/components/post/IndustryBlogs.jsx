@@ -20,6 +20,7 @@ const IndustryBlogs = () => {
         slug,
         'image': image.asset->url
       }`;
+<<<<<<< HEAD
       return client.fetch(query);
     },
   });
@@ -58,10 +59,30 @@ const IndustryBlogs = () => {
   );
 
   // ✅ Conditional rendering AFTER hooks
+=======
+      const response = await client.fetch(query);
+      return response;
+    },
+  });
+
+>>>>>>> d1821a1ca1abdb3c1c48cae4dff4454ec1307b7f
   if (isLoading) return <Loader />;
   if (error) return <ErrorFallback error={error} />;
   if (!categories || categories.length === 0) return null;
 
+<<<<<<< HEAD
+=======
+  // Fallback categories if no data
+  const industryCategories = categories.length > 0 ? categories : [
+    { title: "Education", slug: { current: "education" }, image: "/images/education.jpg" },
+    { title: "Finance", slug: { current: "finance" }, image: "/images/finance.jpg" },
+    { title: "Healthcare", slug: { current: "healthcare" }, image: "/images/healthcare.jpg" },
+    { title: "Legal", slug: { current: "legal" }, image: "/images/legal.jpg" },
+    { title: "Technology", slug: { current: "technology" }, image: "/images/technology.jpg" },
+    { title: "Cybersecurity", slug: { current: "cybersecurity" }, image: "/images/cybersecurity.jpg" }
+  ];
+
+>>>>>>> d1821a1ca1abdb3c1c48cae4dff4454ec1307b7f
   return (
     <>
       <style jsx global>{`
