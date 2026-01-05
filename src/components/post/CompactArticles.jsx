@@ -437,7 +437,7 @@ const CompactArticles = () => {
             {articles.map((article, index) => (
               <Link
                 key={article.slug?.current || article.slug || index}
-                href={`/magazine/${article.slug?.current || article.slug}`}
+                href={`/article/${article.slug?.current || article.slug}`}
                 className="article-card"
                 style={{
                   textDecoration: "none",

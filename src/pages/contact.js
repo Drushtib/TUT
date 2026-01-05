@@ -274,6 +274,36 @@ const ContactPage = () => {
                   referrerPolicy="no-referrer-when-downgrade"
                   title="6605 Longshore St, Dublin, OH 43017, USA"
                 />
+                <div style={{ textAlign: 'center', padding: '10px', background: '#f8f9fa' }}>
+                  <a
+                    href="https://www.google.com/maps?q=6605+Longshore+St,+Dublin,+OH+43017,+USA"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: '#000000',
+                      textDecoration: 'none',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      padding: '5px 10px',
+                      borderRadius: '6px',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'var(--primary-color)';
+                      e.currentTarget.style.backgroundColor = 'rgba(187, 5, 5, 0.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = '#000000';
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
+                  >
+                    <i className="fas fa-external-link-alt" style={{ fontSize: '12px' }} />
+                    View large map
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -289,6 +319,36 @@ const ContactPage = () => {
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Heßstraße 36, 80798 München, Germany"
                 />
+                <div style={{ textAlign: 'center', padding: '10px', background: '#f8f9fa' }}>
+                  <a
+                    href="https://www.google.com/maps?q=He%C3%9Fstra%C3%9Fe+36,+80798+M%C3%BCnchen,+Germany"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: '#000000',
+                      textDecoration: 'none',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      padding: '5px 10px',
+                      borderRadius: '6px',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'var(--primary-color)';
+                      e.currentTarget.style.backgroundColor = 'rgba(187, 5, 5, 0.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = '#000000';
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
+                  >
+                    <i className="fas fa-external-link-alt" style={{ fontSize: '12px' }} />
+                    View large map
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -540,6 +600,27 @@ const ContactPage = () => {
           box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
         }
 
+        .map-card .view-map-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 8px 12px;
+          background: #f8f9fa;
+          border: none;
+          border-radius: 6px;
+          color: #000000;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+
+        .map-card .view-map-link:hover {
+          color: var(--primary-color);
+          background: rgba(187, 5, 5, 0.1);
+        }
+
         body .our-location .section-title,
         body .our-location .section-title * {
           color: #000000 !important;
@@ -613,21 +694,207 @@ const ContactPage = () => {
           .contact-card-subtitle {
             margin: 8px 0 16px;
           }
+
+          .contact-info-text {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            line-height: 1.4;
+          }
         }
 
-        @media (max-width: 575px) {
-          .contact-card {
-            padding: 16px;
+        @media (max-width: 768px) {
+          .contact-page-section {
+            padding: 1rem 0 0.5rem !important;
           }
 
           .contact-page-heading {
-            font-size: 24px;
+            font-size: 22px;
+            margin-bottom: 12px;
+          }
+
+          .contact-card {
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+          }
+
+          .contact-card-title {
+            font-size: 20px;
+          }
+
+          .contact-card-subtitle {
+            margin: 6px 0 12px;
+            font-size: 13px;
+          }
+
+          .contact-info-item {
+            gap: 10px;
+          }
+
+          .contact-info-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 14px;
+          }
+
+          .contact-info-heading {
+            font-size: 14px;
+          }
+
+          .contact-info-text {
+            font-size: 13px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            line-height: 1.3;
+          }
+
+          .contact-info-link {
+            font-size: 13px;
+          }
+
+          .contact-note {
+            margin-top: 12px;
+            padding: 10px;
+          }
+
+          .contact-note-title {
+            font-size: 13px;
+          }
+
+          .contact-note-text {
+            font-size: 12px;
+          }
+
+          .map-card iframe {
+            height: 250px !important;
+          }
+
+          .map-card .view-map-link {
+            font-size: 13px;
+            padding: 6px 10px;
+          }
+        }
+
+        @media (max-width: 575px) {
+          .contact-page-section {
+            padding: 0.75rem 0 0.25rem !important;
+          }
+
+          .contact-page-heading {
+            font-size: 20px;
+            margin-bottom: 10px;
+          }
+
+          .contact-card {
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+          }
+
+          .contact-card-title {
+            font-size: 18px;
+          }
+
+          .contact-card-subtitle {
+            margin: 4px 0 10px;
+            font-size: 12px;
+          }
+
+          .contact-info-item {
+            gap: 8px;
+            align-items: flex-start;
+          }
+
+          .contact-info-icon {
+            width: 28px;
+            height: 28px;
+            font-size: 12px;
+            flex-shrink: 0;
+            margin-top: 2px;
+          }
+
+          .contact-info-heading {
+            font-size: 13px;
+            margin-bottom: 1px;
+          }
+
+          .contact-info-text {
+            font-size: 12px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            line-height: 1.25;
+          }
+
+          .contact-info-link {
+            font-size: 12px;
+            word-break: break-all;
+          }
+
+          .contact-note {
+            margin-top: 10px;
+            padding: 8px;
+          }
+
+          .contact-note-title {
+            font-size: 12px;
+          }
+
+          .contact-note-text {
+            font-size: 11px;
           }
 
           .contact-input,
           .contact-textarea {
-            border-radius: 10px;
-            padding: 11px 12px;
+            border-radius: 8px;
+            padding: 10px 11px;
+            font-size: 14px;
+          }
+
+          .contact-label {
+            font-size: 12px;
+            margin-bottom: 4px;
+          }
+
+          .contact-submit {
+            padding: 10px 14px;
+            font-size: 13px;
+          }
+
+          .map-card iframe {
+            height: 200px !important;
+          }
+
+          .map-card .view-map-link {
+            font-size: 12px;
+            padding: 5px 8px;
+          }
+
+          .container {
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .contact-info-text {
+            font-size: 11px;
+            line-height: 1.2;
+          }
+
+          .contact-card {
+            padding: 10px;
+          }
+
+          .map-card iframe {
+            height: 180px !important;
+          }
+
+          .map-card .view-map-link {
+            font-size: 11px;
+            padding: 4px 6px;
           }
         }
       `}</style>

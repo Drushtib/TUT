@@ -119,12 +119,180 @@ const FooterTwo = () => {
             grid-template-columns: 1fr 1fr;
             padding: 2rem 1.5rem 1.5rem;
           }
+
+          .new-footer-contact-item {
+            font-size: 14px;
+            line-height: 1.4;
+          }
+
+          .new-footer-contact-label {
+            font-size: 13px;
+          }
+
+          .new-footer-title {
+            font-size: 1.3rem;
+          }
+
+          .new-footer-desc {
+            font-size: 14px;
+            max-width: 48ch;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .new-footer-grid {
+            grid-template-columns: 1fr;
+            padding: 1.8rem 1.25rem 1.25rem;
+            gap: 1.5rem;
+          }
+
+          .new-footer-contact-item {
+            font-size: 13px;
+            line-height: 1.35;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+          }
+
+          .new-footer-contact-inline {
+            flex-wrap: wrap;
+            white-space: normal;
+            gap: 6px;
+          }
+
+          .new-footer-contact-inline-wrap {
+            gap: 6px;
+          }
+
+          .new-footer-contact-label {
+            font-size: 12px;
+            flex: 0 0 auto;
+          }
+
+          .new-footer-contact-item a {
+            font-size: 12px;
+            word-break: break-all;
+          }
+
+          .new-footer-contact-item span {
+            font-size: 12px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+          }
+
+          .new-footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.6rem;
+          }
+
+          .new-footer-desc {
+            font-size: 13px;
+            line-height: 1.6;
+            max-width: 100%;
+          }
+
+          .new-footer-links {
+            gap: 0.5rem;
+          }
+
+          .new-footer-links a {
+            font-size: 13px;
+          }
+
+          .new-footer-social a {
+            width: 32px;
+            height: 32px;
+          }
+
+          .new-footer-social i {
+            font-size: 14px !important;
+          }
         }
 
         @media (max-width: 640px) {
           .new-footer-grid {
             grid-template-columns: 1fr;
             padding: 1.8rem 1.25rem 1.25rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .new-footer-grid {
+            padding: 1.5rem 1rem 1rem;
+            gap: 1.2rem;
+          }
+
+          .new-footer-contact-item {
+            font-size: 12px;
+            line-height: 1.3;
+            gap: 8px;
+          }
+
+          .new-footer-contact-inline {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+          }
+
+          .new-footer-contact-inline-wrap {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+          }
+
+          .new-footer-contact-label {
+            font-size: 11px;
+            margin-bottom: 2px;
+          }
+
+          .new-footer-contact-item a {
+            font-size: 11px;
+            line-height: 1.3;
+          }
+
+          .new-footer-contact-item span {
+            font-size: 11px;
+            line-height: 1.3;
+          }
+
+          .new-footer-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+          }
+
+          .new-footer-title::after {
+            width: 50px;
+            height: 1.5px;
+          }
+
+          .new-footer-desc {
+            font-size: 12px;
+            line-height: 1.5;
+          }
+
+          .new-footer-links {
+            gap: 0.4rem;
+          }
+
+          .new-footer-links a {
+            font-size: 12px;
+            padding: 2px 0;
+          }
+
+          .new-footer-social a {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+          }
+
+          .new-footer-social i {
+            font-size: 12px !important;
+          }
+
+          .new-footer-bottom {
+            font-size: 11px;
+            padding: 0.7rem 0.8rem;
           }
         }
 
@@ -355,6 +523,76 @@ const FooterTwo = () => {
           -webkit-text-fill-color: rgba(255, 255, 255, 0.8) !important;
           font-weight: 300;
         }
+
+        /* Newsletter Responsive Styles */
+        @media (max-width: 768px) {
+          .newsletter-container {
+            display: block !important;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0 0 0.5rem 0;
+            margin-top: -12px;
+          }
+
+          .newsletter-text h3 {
+            font-size: 1.5rem !important;
+            margin-top: 0 !important;
+            margin-bottom: 0.2rem !important;
+          }
+
+          .newsletter-text p {
+            font-size: 1.1rem !important;
+            margin: 0 !important;
+            margin-bottom: 0.5rem !important;
+          }
+
+          .newsletter-form {
+            width: 100%;
+          }
+
+          .newsletter-form input {
+            font-size: 1rem !important;
+            padding: 0.6rem 0.8rem !important;
+          }
+
+          .newsletter-form button {
+            padding: 0.6rem 1.5rem !important;
+            font-size: 0.9rem !important;
+            min-width: 120px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .newsletter-container {
+            display: block !important;
+            gap: 0.3rem;
+            padding: 0 0 0.3rem 0;
+            margin-top: -16px;
+          }
+
+          .newsletter-text h3 {
+            font-size: 1.3rem !important;
+            margin-top: 0 !important;
+            margin-bottom: 0.1rem !important;
+          }
+
+          .newsletter-text p {
+            font-size: 1rem !important;
+            margin: 0 !important;
+            margin-bottom: 0.3rem !important;
+          }
+
+          .newsletter-form input {
+            font-size: 0.9rem !important;
+            padding: 0.5rem 0.7rem !important;
+          }
+
+          .newsletter-form button {
+            padding: 0.5rem 1rem !important;
+            font-size: 0.8rem !important;
+            min-width: 100px !important;
+          }
+        }
       `}</style>
       
       {/* Newsletter Section - Full Width at Top */}
@@ -365,8 +603,8 @@ const FooterTwo = () => {
         borderBottom: "1px solid rgba(255,255,255,0.2)",
       }}>
         <div className="container" style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "1.5rem", padding: "0 0 1rem 0", marginTop: "-8px" }}>
-            <div style={{ flex: "1 1 300px" }}>
+          <div className="newsletter-container" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "1.5rem", padding: "0 0 1rem 0", marginTop: "-8px" }}>
+            <div className="newsletter-text" style={{ flex: "1 1 300px" }}>
               <h3 style={{ color: "white", fontSize: "2.1rem", fontWeight: "bold", marginTop: 0, marginBottom: "0.3rem", fontStyle: "initial" }}>
                 Join The Newsletter
               </h3>
@@ -374,7 +612,7 @@ const FooterTwo = () => {
                 Subscribe to our newsletter now and stay informed!
               </p>
             </div>
-            <div style={{ flex: "1 1 400px", position: "relative" }}>
+            <div className="newsletter-form" style={{ flex: "1 1 400px", position: "relative" }}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <input
                   type="email"

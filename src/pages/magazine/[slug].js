@@ -38,15 +38,7 @@ const MagazineDetails = ({
   // Debug: Log the magazine content to see what fields are available
   console.log('Magazine Content:', magazineContent);
 
-  const { title, linkedArticle, description, featureImg, publishedAt } = magazineContent;
-  
-  // Get the first linked article (or use magazine data as fallback)
-  const article = linkedArticle && linkedArticle.length > 0 ? linkedArticle[0] : null;
-  const articleTitle = article?.title || title;
-  const leaderPhoto = article?.leaderPhoto || featureImg;
-  const content = article?.content;
-  const articleDescription = article?.description || description;
-  const articlePublishedAt = article?.publishedAt || publishedAt;
+  const { title, description, featureImg, publishedAt, issuuLink } = magazineContent;
 
   return (
     <>
@@ -78,171 +70,77 @@ const MagazineDetails = ({
         }
       `}</style>
 
-      {/* ----------- MAGAZINE ARTICLE CONTENT ------------- */}
+      {/* ----------- MAGAZINE BOOK ONLY ------------- */}
       <div style={{ 
-        maxWidth: '1200px', 
-        margin: '0 auto', 
-        backgroundColor: '#ffffff',
+        maxWidth: '100vw', 
+        margin: '0', 
+        backgroundColor: '#000000',
         minHeight: '100vh',
         position: 'relative',
-        zIndex: 1
+        zIndex: 1,
+        padding: '0'
       }}>
-        {/* Leader Photo Section */}
-        {(leaderPhoto || featureImg) && (
-          <div style={{ 
-            textAlign: 'center', 
-            marginBottom: '3rem',
-            position: 'relative',
-            padding: '2rem 2rem 0 2rem'
+        {/* Magazine Content - Issuu Embed Only */}
+        {issuuLink ? (
+          <div style={{
+            width: '100vw',
+            height: '100vh',
+            margin: '0',
+            padding: '0'
           }}>
-            <div style={{
-              maxWidth: '500px',
-              margin: '0 auto',
-              borderRadius: '12px',
-              overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)'
-            }}>
-              <Image
-                src={leaderPhoto || featureImg}
-                alt={`${articleTitle} - Leader Photo`}
-                width={600}
-                height={600}
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  objectFit: 'cover'
-                }}
+            <iframe
+              src={issuuLink}
+              style={{
+                position: 'absolute',
+                top: '0',
+                left: '0',
+                width: '100%',
+                height: '100%',
+                border: 'none',
+                margin: '0',
+                padding: '0'
+              }}
+              allowFullScreen
+              allow="autoplay"
+                title={`${title} - Digital Magazine`}
               />
             </div>
-          </div>
-        )}
-
-        {/* Article Title */}
-        <div style={{ textAlign: 'center', marginBottom: '2rem', padding: '0 2rem' }}>
-          <h1 style={{
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-            fontWeight: '800',
-            color: '#171717',
-            margin: '0 0 1rem 0',
-            lineHeight: '1.2'
-          }}>
-            {articleTitle}
-          </h1>
-          
-          {/* Article Meta */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '2rem',
-            fontSize: '1rem',
-            color: '#666',
-            marginBottom: '2rem',
-            flexWrap: 'wrap'
-          }}>
-            {articlePublishedAt && (
-              <span>
-                {new Date(articlePublishedAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </span>
-            )}
-          </div>
-
-          {/* Description */}
-          {articleDescription && (
-            <div style={{
-              fontSize: '1.25rem',
-              color: '#444',
-              lineHeight: '1.6',
-              maxWidth: '800px',
-              margin: '0 auto 3rem auto',
-              fontStyle: 'italic'
-            }}>
-              {articleDescription}
-            </div>
-          )}
-
-          {/* Leader Description Section */}
-          <div style={{
-            fontSize: '1.1rem',
-            color: '#333',
-            lineHeight: '1.7',
-            maxWidth: '900px',
-            margin: '0 auto 3rem auto',
-            padding: '2rem',
-            backgroundColor: '#fafafa',
-            borderRadius: '12px',
-            border: '1px solid #e5e5e5'
-          }}>
-            <h3 style={{
-              fontSize: '1.5rem',
-              fontWeight: '600',
-              color: '#171717',
-              marginBottom: '1rem',
-              textAlign: 'center'
-            }}>
-              About the Leader
-            </h3>
-            <p style={{
-              margin: '0',
-              textAlign: 'center',
-              color: '#555'
-            }}>
-              Suzanne Robb is a distinguished leader in the health, wellness, and fitness industry, 
-              serving as the Chief Operating Officer at Alloy Personal Training Franchise. With her 
-              innovative approach and dedication to transforming the fitness landscape, she has been 
-              recognized as one of the most trailblazing women leaders to watch in 2025. Her expertise 
-              in franchise development and commitment to excellence has positioned her as a key figure 
-              in shaping the future of personal training and wellness services.
-            </p>
-          </div>
-        </div>
-
-        {/* Article Content */}
-        {content && (
-          <div style={{
-            fontSize: '1.1rem',
-            lineHeight: '1.8',
-            color: '#333',
-            maxWidth: '1200px',
-            margin: '0 auto',
-            padding: '0 2rem'
-          }}>
-            <PortableText
-              value={content}
-              components={{
-                block: {
-                  normal: ({children}) => <p style={{ marginBottom: '1.5rem' }}>{children}</p>,
-                  h1: ({children}) => <h1 style={{ fontSize: '2.5rem', fontWeight: '700', margin: '2rem 0 1rem 0', color: '#171717' }}>{children}</h1>,
-                  h2: ({children}) => <h2 style={{ fontSize: '2rem', fontWeight: '600', margin: '1.5rem 0 0.75rem 0', color: '#171717' }}>{children}</h2>,
-                  h3: ({children}) => <h3 style={{ fontSize: '1.5rem', fontWeight: '600', margin: '1.25rem 0 0.5rem 0', color: '#171717' }}>{children}</h3>,
-                },
-                listItem: ({children}) => <li style={{ marginBottom: '0.5rem', marginLeft: '1.5rem' }}>{children}</li>,
-              }}
-            />
-          </div>
-        )}
-
-        {/* Fallback if no content */}
-        {!content && !(leaderPhoto || featureImg) && (
+        ) : (
+          /* Fallback when no Issuu link */
           <div style={{ 
             textAlign: 'center', 
             padding: '4rem 2rem',
-            color: '#666'
+            color: '#666',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh'
           }}>
-            <p>Article content is not available at this time.</p>
-            {/* Debug info */}
-            <div style={{ marginTop: '2rem', fontSize: '0.9rem', color: '#999' }}>
-              <p>Debug: Available fields: {Object.keys(magazineContent).join(', ')}</p>
-              <p>Has linkedArticle: {!!linkedArticle && linkedArticle.length > 0}</p>
-              <p>Has featureImg: {!!featureImg}</p>
-              <p>Has content: {!!content}</p>
-              <p>Has description: {!!articleDescription}</p>
-              <p>Linked article count: {linkedArticle?.length || 0}</p>
-            </div>
+            {featureImg && (
+              <Image
+                src={featureImg}
+                alt={`${title} - Magazine Cover`}
+                width={500}
+                height={500}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'cover',
+                  borderRadius: '12px',
+                  boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
+                  maxWidth: '500px'
+                }}
+              />
+            )}
+            
+            <p style={{
+              fontSize: '1.1rem',
+              color: '#888',
+              marginTop: '2rem'
+            }}>
+              The digital version of this magazine will be available soon.
+            </p>
           </div>
         )}
       </div>
