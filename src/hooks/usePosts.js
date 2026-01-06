@@ -25,10 +25,20 @@ export const usePostBySlug = (slug, options = {}) => {
   return useQuery({
     queryKey: QUERY_KEYS.POSTS.BY_SLUG(slug),
     queryFn: async () => {
-      const query = getPostBySlugQuery(slug);
-      return await client.fetch(query);
+      try {
+        console.log('Fetching post with slug:', slug);
+        const query = getPostBySlugQuery(slug);
+        console.log('Using query:', query);
+        const result = await client.fetch(query);
+        console.log('Fetch result:', result);
+        return result;
+      } catch (error) {
+        console.error('Error fetching post by slug:', error);
+        throw error;
+      }
     },
     enabled: !!slug,
+    retry: 2,
     ...options,
   });
 };

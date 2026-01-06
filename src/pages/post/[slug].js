@@ -112,7 +112,9 @@ const PostDetails = ({ initialData }) => {
 
   const currentSlug = useMemo(() => {
     if (!resolvedPost) return "";
-    return resolvedPost?.slug?.current || resolvedPost?.slug || slug || "";
+    const slugValue = resolvedPost?.slug?.current || resolvedPost?.slug || slug || "";
+    console.log('Current slug resolved:', slugValue, 'from resolvedPost:', resolvedPost);
+    return slugValue;
   }, [resolvedPost, slug]);
 
   const relatedQuery = useMemo(() => {
@@ -141,10 +143,16 @@ const PostDetails = ({ initialData }) => {
 
   if (!localView) {
     if (isLoading) return <Loader />;
-    if (error) return <ErrorFallback error={error} />;
+    if (error) {
+      console.error('Post loading error:', error);
+      return <ErrorFallback error={error} />;
+    }
   }
 
-  if (!resolvedPost) return <div>No data found</div>;
+  if (!resolvedPost) {
+    console.log('No post data found, slug:', slug);
+    return <div>No post found</div>;
+  }
 
   return (
     <>
@@ -681,12 +689,25 @@ export async function getServerSideProps(context) {
     };
   }
 
-  const query = getPostBySlugQuery(slug);
-  const initialData = await client.fetch(query);
+  try {
+    const query = getPostBySlugQuery(slug);
+    const initialData = await client.fetch(query);
 
-  return {
-    props: {
-      initialData,
-    },
-  };
+    if (!initialData) {
+      return {
+        notFound: true,
+      };
+    }
+
+    return {
+      props: {
+        initialData,
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching post:', error);
+    return {
+      notFound: true,
+    };
+  }
 }

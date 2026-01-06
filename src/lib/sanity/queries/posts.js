@@ -39,7 +39,8 @@ export const getPostBySlugQuery = (slug) => `
     slug,
     'featureImg': mainImage.asset->url,
     body,
-    description
+    description,
+    publishedAt
   }
 `;
 
