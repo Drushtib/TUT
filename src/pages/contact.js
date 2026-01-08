@@ -221,7 +221,7 @@ const ContactPage = () => {
                     <span className="contact-info-icon"><i className="fas fa-map-marker-alt" /></span>
                     <div>
                       <div className="contact-info-heading">Home Address</div>
-                      <div className="contact-info-text">Office no 328B, Gera Imperium Rise, Wipro Circle, Hinjewadi Phase 2, Pune</div>
+                      <div className="contact-info-text">328B, Gera Imperium Rise, Wipro Circle, Pune, India</div>
                     </div>
                   </div>
 
@@ -237,7 +237,7 @@ const ContactPage = () => {
                     <span className="contact-info-icon"><i className="fas fa-envelope" /></span>
                     <div>
                       <div className="contact-info-heading">Email</div>
-                      <a className="contact-info-link" href="mailto:info@theentrepreneurialchronicle.com">info@theentrepreneurialchronicle.com</a>
+                      <a className="contact-info-link" href="mailto:info@theunicorntimes.com">info@theunicorntimes.com</a>
                     </div>
                   </div>
                 </div>

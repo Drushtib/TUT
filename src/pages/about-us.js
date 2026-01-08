@@ -55,11 +55,11 @@ const useCountUp = (end, duration = 2000, startOnVisible = false, isVisible = fa
         const animate = (currentTime) => {
           if (!startTime) startTime = currentTime;
           const progress = Math.min((currentTime - startTime) / duration, 1);
-          
+
           // Easing function for smooth animation
           const easeOutQuart = 1 - Math.pow(1 - progress, 4);
           const current = Math.floor(startValue + (end - startValue) * easeOutQuart);
-          
+
           setCount(current);
 
           if (progress < 1) {
@@ -84,7 +84,7 @@ const useCountUp = (end, duration = 2000, startOnVisible = false, isVisible = fa
           const progress = Math.min((currentTime - startTime) / duration, 1);
           const easeOutQuart = 1 - Math.pow(1 - progress, 4);
           const current = Math.floor(startValue + (end - startValue) * easeOutQuart);
-          
+
           setCount(current);
 
           if (progress < 1) {
@@ -116,10 +116,10 @@ const StatCard = React.forwardRef(({ endValue, suffix, label, isVisible, delay }
 
   return (
     <div className="col-lg-3 col-md-6 col-sm-6" style={{ marginBottom: "2rem" }}>
-      <div 
+      <div
         ref={ref}
-        style={{ 
-          textAlign: "center", 
+        style={{
+          textAlign: "center",
           padding: "2.2rem 1.4rem",
           background: "#ffffff",
           border: "1px solid rgba(0,0,0,0.12)",
@@ -162,11 +162,11 @@ const AboutUs = ({ aboutData }) => {
     const observeRefs = () => {
       Object.keys(sectionRefs.current).forEach((key) => {
         if (key === "hero") return; // Skip hero, already visible
-        
+
         if (observers[key]) {
           observers[key].disconnect();
         }
-        
+
         observers[key] = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -235,7 +235,7 @@ const AboutUs = ({ aboutData }) => {
         }
       />
       <HeaderOne />
-      
+
       {/* Modern Hero Section */}
       <div
         style={{
@@ -244,15 +244,15 @@ const AboutUs = ({ aboutData }) => {
           position: "relative",
         }}
       >
-        <div 
-          className="container" 
+        <div
+          className="container"
           style={{ position: "relative", zIndex: 1 }}
           ref={(el) => (sectionRefs.current.hero = el)}
         >
-          <div 
-            style={{ 
-              textAlign: "center", 
-              maxWidth: "1200px", 
+          <div
+            style={{
+              textAlign: "center",
+              maxWidth: "1200px",
               margin: "0 auto",
               opacity: isVisible.hero ? 1 : 0,
               transform: isVisible.hero ? "translateY(0)" : "translateY(-50px)",
@@ -294,7 +294,7 @@ const AboutUs = ({ aboutData }) => {
       </div>
 
       {/* Mission, Vision, Values Section - Animated from different directions */}
-      <div 
+      <div
         style={{ backgroundColor: "#ffffff", padding: "2.25rem 0" }}
         ref={(el) => (sectionRefs.current.foundation = el)}
       >
@@ -543,7 +543,7 @@ const AboutUs = ({ aboutData }) => {
             transition: "all 1.5s ease-out 0.3s",
           }}
         />
-        
+
         <div className="container" style={{ position: "relative", zIndex: 1, maxWidth: "1500px" }}>
           <div
             style={{
@@ -578,16 +578,16 @@ const AboutUs = ({ aboutData }) => {
                     }}
                   >
                     <p
-                    style={{
-                      fontSize: "1.6rem",
-                      color: "#111111",
-                      lineHeight: "2.8rem",
-                      fontFamily: "Roboto, sans-serif",
-                      textAlign: "left",
-                    }}
-                  >
-                    The Entrepreneurial Chronicles is a professional magazine platform dedicated to covering everything related to entrepreneurship, innovation, and success. Our focus is on capturing the essence of the entrepreneurial journey — from the spark of an idea to the realization of major business goals. We highlight how entrepreneurship goes beyond starting a business; it's about solving problems, creating value, and making an impact. Our magazine showcases diverse entrepreneurial stories that reflect resilience, creativity, determination, and the drive to innovate.
-                  </p>
+                      style={{
+                        fontSize: "1.6rem",
+                        color: "#111111",
+                        lineHeight: "2.8rem",
+                        fontFamily: "Roboto, sans-serif",
+                        textAlign: "left",
+                      }}
+                    >
+                      The Unicorns Times is a professional magazine platform dedicated to covering everything related to entrepreneurship, innovation, and success. Our focus is on capturing the essence of the entrepreneurial journey — from the spark of an idea to the realization of major business goals. We highlight how entrepreneurship goes beyond starting a business; it's about solving problems, creating value, and making an impact. Our magazine showcases diverse entrepreneurial stories that reflect resilience, creativity, determination, and the drive to innovate
+                    </p>
                   </div>
                 </div>
               </div>
@@ -621,7 +621,7 @@ const AboutUs = ({ aboutData }) => {
             transition: "all 1.5s ease-out",
           }}
         />
-        
+
         <div className="container" style={{ position: "relative", zIndex: 1, maxWidth: "1500px" }}>
           <div
             style={{
@@ -665,8 +665,13 @@ const AboutUs = ({ aboutData }) => {
                         textAlign: "left",
                       }}
                     >
-                      The Entrepreneurial Chronicles was created with a clear purpose: to capture the true essence of the entrepreneurial journey and bring it to readers in a meaningful, inspiring way. We follow the path entrepreneurs take — from the moment an idea is born to the point it grows into a successful venture.
-                    </p>
+The Unicorns Times was created with a clear purpose: to capture the true essence of the entrepreneurial journey and bring it to readers in a meaningful, inspiring way. We follow the path entrepreneurs take — from the moment an idea is born to the point it grows into a successful venture.
+
+Over time, we have witnessed how entrepreneurship is not just about launching a business. It is a path defined by problem-solving, value creation, and the desire to make a real difference. This understanding became the foundation of our magazine.
+
+Our story reflects the stories we tell. We document the resilience of individuals who start with limited resources, the creativity that turns simple ideas into remarkable innovations, and the determination that pushes entrepreneurs through challenges, failures, and turning points. Whether it's a startup working out of a garage or a company expanding onto the global stage, we showcase the full spectrum of entrepreneurial experiences.
+
+In our pages, readers find real journeys—stories of risk-taking, breakthrough moments, lessons learned, and the courage required to build something meaningful. The Unicorns Times continues to evolve with each story we publish, staying committed to celebrating the spirit of entrepreneurship and giving a voice to those who shape the future through their ideas and determination.                    </p>
                     <p
                       style={{
                         fontSize: "1.6rem",
