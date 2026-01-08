@@ -786,7 +786,7 @@ const FooterTwo = () => {
               <div>
                 <div className="new-footer-contact-inline">
                   <span className="new-footer-contact-label">Email:</span>
-                  <a href="mailto:info@theentrepreneurialchronicle.com">info@theentrepreneurialchronicle.com</a>
+                  <a href="mailto:info@theunicorntimes.com">info@theunicorntimes.com</a>
                 </div>
               </div>
             </div>
@@ -826,7 +826,7 @@ const FooterTwo = () => {
               <div>
                 <div className="new-footer-contact-inline-wrap">
                   <span className="new-footer-contact-label">Home Address:</span>
-                  <span>Office no 328B, Gera Imperium Rise, Wipro Circle, Hinjewadi Phase 2, Pune</span>
+                  <span>328B, Gera Imperium Rise, Wipro Circle, Pune, India</span>
                 </div>
               </div>
             </div>
