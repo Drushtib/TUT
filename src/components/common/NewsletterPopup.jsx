@@ -436,6 +436,14 @@ const NewsletterPopup = () => {
             padding: 12px 20px;
             font-size: 13px;
           }
+
+          .newsletter-popup-close {
+            top: 10px;
+            right: 10px;
+            width: 35px;
+            height: 35px;
+            font-size: 24px;
+          }
         }
 
         @media (max-width: 480px) {
