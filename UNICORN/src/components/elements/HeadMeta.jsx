@@ -10,7 +10,7 @@ const HeadMeta = ({ metaTitle, metaDesc }) => {
         name="description"
         content={
           metaDesc ||
-          " The Entrepreneurial  is a business magazine that brings inspiring stories of entrepreneurs who have turned their dreams into reality."
+          "Defining the future of global excellence"
         }
       />
       <meta
@@ -19,9 +19,9 @@ const HeadMeta = ({ metaTitle, metaDesc }) => {
       />
       <title>
         {metaTitle ||
-          "The Entrepreneurial Chronicles: A Business Magazine for Inspiring Entrepreneur Stories"}
+          "The Unicorn Times"}
       </title>
-      <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+      <link rel="icon" type="image/png" href="/favicon.png" />
     </Head>
   );
 };

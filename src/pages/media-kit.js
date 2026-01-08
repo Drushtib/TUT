@@ -48,8 +48,8 @@ const MediaKitPage = () => {
   return (
     <div style={{ background: '#000', color: '#fff', minHeight: '100vh' }}>
       <HeadMeta
-        metaTitle="Media Kit | The Unicorn Time"
-        metaDesc="Download our media kit to learn more about advertising opportunities and editorial features in The Unicorn Time."
+        metaTitle="Media Kit | The Unicorn Times"
+        metaDesc="Download our media kit to learn more about advertising opportunities and editorial features in The Unicorn Times."
       />
 
       <HeaderOne />

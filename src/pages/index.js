@@ -27,8 +27,8 @@ const Home = () => {
       minHeight: '100vh'
     }}>
       <HeadMeta
-        metaTitle="The Unicorn Time"
-        metaDesc="The Unicorn Time is a business magazine that brings inspiring stories of entrepreneurs who have turned their dreams into reality."
+        metaTitle="The Unicorn Times"
+        metaDesc="Defining the future of global excellence"
       />
       <HeaderOne />
       

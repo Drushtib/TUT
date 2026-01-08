@@ -10,7 +10,7 @@ const HeadMetaDynamic = ({ metaData }) => {
         name="description"
         content={
           metaData?.description ||
-          "The Unicorn Time is a business magazine that brings inspiring stories of entrepreneurs who have turned their dreams into reality."
+          "Defining the future of global excellence"
         }
       />
       <meta
@@ -27,10 +27,9 @@ const HeadMetaDynamic = ({ metaData }) => {
       <title>
         {metaData?.title
           ? `${metaData.title}`
-          : "The Unicorn Time"}
+          : "The Unicorn Times"}
       </title>
-      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-      <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+      <link rel="icon" type="image/png" href="/favicon.png" />
     </Head>
   );
 };

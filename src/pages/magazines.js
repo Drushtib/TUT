@@ -50,8 +50,8 @@ const Magazines = () => {
   return (
     <>
       <HeadMeta
-        metaTitle="Magazines | The Unicorn Time"
-        metaDesc="Explore magazines and exclusive interviews with entrepreneurs featured in The Unicorn Time."
+        metaTitle="Magazines | The Unicorn Times"
+        metaDesc="Explore magazines and exclusive interviews with entrepreneurs featured in The Unicorn Times."
       />
 
       <HeaderOne />
