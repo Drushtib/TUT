@@ -682,70 +682,40 @@ export async function getServerSideProps(context) {
   }
 
   try {
-    console.log('SSR - Fetching post with slug:', slug);
+    console.log('SSR - Fetching post for slug:', slug);
     
-    // Try multiple query approaches for production compatibility
-    let initialData = null;
+    // Validate slug parameter
+    if (!slug || typeof slug !== 'string') {
+      console.log('SSR - Invalid slug parameter');
+      return { notFound: true };
+    }
     
-    // Approach 1: Direct query without sanitization
-    try {
-      const directQuery = `*[_type == "post" && slug.current == "${slug}"][0]{
+    // Escape slug to prevent GROQ injection
+    const escapedSlug = slug.replace(/["\\]/g, '\\$&');
+    console.log('SSR - Escaped slug:', escapedSlug);
+    
+    // Use the most basic, reliable query structure
+    const query = `
+      *[_type == "post" && slug.current == "${escapedSlug}"] {
         title,
-        altText,
-        keywords,
-        slug,
-        'featureImg': mainImage.asset->url,
-        body,
+        "slug": slug.current,
+        publishedAt,
         description,
-        publishedAt
-      }`;
-      console.log('SSR - Trying direct query:', directQuery);
-      initialData = await client.fetch(directQuery);
-      console.log('SSR - Direct query result:', initialData);
-    } catch (directError) {
-      console.log('SSR - Direct query failed:', directError.message);
-    }
+        "featureImg": mainImage.asset->url,
+        body,
+        altText,
+        keywords
+      }[0]
+    `;
     
-    // Approach 2: With sanitization if direct failed
-    if (!initialData) {
-      try {
-        const sanitizedSlug = slug.replace(/[^a-zA-Z0-9\-_]/g, '');
-        console.log('SSR - Trying sanitized slug:', sanitizedSlug);
-        const query = getPostBySlugQuery(sanitizedSlug);
-        console.log('SSR - Using sanitized query:', query);
-        initialData = await client.fetch(query);
-        console.log('SSR - Sanitized query result:', initialData);
-      } catch (sanitizedError) {
-        console.log('SSR - Sanitized query failed:', sanitizedError.message);
-      }
-    }
+    console.log('SSR - Executing query:', query.trim());
     
-    // Approach 3: Fallback with broader search
-    if (!initialData) {
-      try {
-        const fallbackQuery = `*[_type == "post" && slug.current match "${slug}*"][0]{
-          title,
-          altText,
-          keywords,
-          slug,
-          'featureImg': mainImage.asset->url,
-          body,
-          description,
-          publishedAt
-        }`;
-        console.log('SSR - Trying fallback query:', fallbackQuery);
-        initialData = await client.fetch(fallbackQuery);
-        console.log('SSR - Fallback query result:', initialData);
-      } catch (fallbackError) {
-        console.log('SSR - Fallback query failed:', fallbackError.message);
-      }
-    }
+    const initialData = await client.fetch(query);
+    console.log('SSR - Query result:', initialData);
 
     if (!initialData) {
-      console.log('SSR - No post found with any approach, returning 404');
-      return {
-        notFound: true,
-      };
+      console.log('SSR - No post found, returning 404');
+      return { notFound: true };
     }
 
     return {
@@ -754,9 +724,13 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
-    console.error('SSR - Critical error fetching post:', error);
-    return {
-      notFound: true,
-    };
+    console.error('SSR - Error details:', {
+      message: error.message,
+      stack: error.stack,
+      slug: context.params.slug
+    });
+    
+    // Always return 404 instead of 500 to prevent server errors
+    return { notFound: true };
   }
 }
