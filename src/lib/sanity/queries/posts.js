@@ -45,7 +45,8 @@ export const getPostBySlugQuery = (slug) => {
     description,
     publishedAt
   }
-`;
+  `;
+};
 
 /**
  * Get posts by category slug
@@ -167,4 +168,3 @@ export const getAllPostSlugsQuery = () => `
     'slug': slug.current
   }
 `;
-
