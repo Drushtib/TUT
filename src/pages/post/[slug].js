@@ -684,8 +684,8 @@ export async function getServerSideProps(context) {
   try {
     console.log('SSR - Fetching post with slug:', slug);
     
-    // Sanitize slug to prevent injection
-    const sanitizedSlug = slug.replace(/[^a-zA-Z0-9-_]/g, '');
+    // Sanitize slug to prevent injection - allow hyphens
+    const sanitizedSlug = slug.replace(/[^a-zA-Z0-9\-_]/g, '');
     console.log('SSR - Sanitized slug:', sanitizedSlug);
     
     const query = getPostBySlugQuery(sanitizedSlug);
