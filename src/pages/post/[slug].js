@@ -690,31 +690,71 @@ export async function getServerSideProps(context) {
       return { notFound: true };
     }
     
-    // Escape slug to prevent GROQ injection
-    const escapedSlug = slug.replace(/["\\]/g, '\\$&');
-    console.log('SSR - Escaped slug:', escapedSlug);
+    // Multiple query approaches for maximum compatibility
+    let initialData = null;
     
-    // Use the most basic, reliable query structure
-    const query = `
-      *[_type == "post" && slug.current == "${escapedSlug}"] {
-        title,
-        "slug": slug.current,
-        publishedAt,
-        description,
-        "featureImg": mainImage.asset->url,
-        body,
-        altText,
-        keywords
-      }[0]
-    `;
+    // Approach 1: Standard query with proper escaping
+    try {
+      const escapedSlug = slug.replace(/["\\]/g, '\\$&');
+      const standardQuery = `
+        *[_type == "post" && slug.current == "${escapedSlug}"] {
+          title,
+          "slug": slug.current,
+          publishedAt,
+          description,
+          "featureImg": mainImage.asset->url,
+          body,
+          altText,
+          keywords
+        }[0]
+      `;
+      console.log('SSR - Standard query:', standardQuery.trim());
+      initialData = await client.fetch(standardQuery);
+      console.log('SSR - Standard query result:', initialData);
+    } catch (error) {
+      console.log('SSR - Standard query failed:', error.message);
+    }
     
-    console.log('SSR - Executing query:', query.trim());
+    // Approach 2: Simplified query if standard fails
+    if (!initialData) {
+      try {
+        const simpleQuery = `*[_type == "post" && slug.current == "${slug}"][0]{
+          title,
+          slug: slug.current,
+          publishedAt,
+          description,
+          featureImg: mainImage.asset->url,
+          body
+        }`;
+        console.log('SSR - Simple query:', simpleQuery);
+        initialData = await client.fetch(simpleQuery);
+        console.log('SSR - Simple query result:', initialData);
+      } catch (error) {
+        console.log('SSR - Simple query failed:', error.message);
+      }
+    }
     
-    const initialData = await client.fetch(query);
-    console.log('SSR - Query result:', initialData);
+    // Approach 3: Match query if both fail
+    if (!initialData) {
+      try {
+        const matchQuery = `*[_type == "post" && slug.current match "${slug}*"][0]{
+          title,
+          slug: slug.current,
+          publishedAt,
+          description,
+          featureImg: mainImage.asset->url,
+          body
+        }`;
+        console.log('SSR - Match query:', matchQuery);
+        initialData = await client.fetch(matchQuery);
+        console.log('SSR - Match query result:', initialData);
+      } catch (error) {
+        console.log('SSR - Match query failed:', error.message);
+      }
+    }
 
     if (!initialData) {
-      console.log('SSR - No post found, returning 404');
+      console.log('SSR - No post found with any approach, returning 404');
       return { notFound: true };
     }
 
@@ -724,13 +764,13 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
-    console.error('SSR - Error details:', {
+    console.error('SSR - Critical error:', {
       message: error.message,
       stack: error.stack,
       slug: context.params.slug
     });
     
-    // Always return 404 instead of 500 to prevent server errors
+    // Always return 404 instead of 500
     return { notFound: true };
   }
 }
