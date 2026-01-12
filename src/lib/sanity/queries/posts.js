@@ -31,15 +31,19 @@ export const getAllPostsQuery = () => `
 /**
  * Get post by slug
  */
-export const getPostBySlugQuery = (slug) => `
-  *[_type == "${SANITY_TYPES.POST}" && slug.current == '${slug}'][0] {
+export const getPostBySlugQuery = (slug) => {
+  // Sanitize slug to prevent GROQ injection
+  const sanitizedSlug = slug.replace(/[^a-zA-Z0-9-_]/g, '');
+  return `
+  *[_type == "${SANITY_TYPES.POST}" && slug.current == '${sanitizedSlug}'][0] {
     title,
     altText,
     keywords,
     slug,
     'featureImg': mainImage.asset->url,
     body,
-    description
+    description,
+    publishedAt
   }
 `;
 

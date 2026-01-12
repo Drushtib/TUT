@@ -681,12 +681,35 @@ export async function getServerSideProps(context) {
     };
   }
 
-  const query = getPostBySlugQuery(slug);
-  const initialData = await client.fetch(query);
+  try {
+    console.log('SSR - Fetching post with slug:', slug);
+    
+    // Sanitize slug to prevent injection
+    const sanitizedSlug = slug.replace(/[^a-zA-Z0-9-_]/g, '');
+    console.log('SSR - Sanitized slug:', sanitizedSlug);
+    
+    const query = getPostBySlugQuery(sanitizedSlug);
+    console.log('SSR - Using query:', query);
+    
+    const initialData = await client.fetch(query);
+    console.log('SSR - Fetch result:', initialData);
 
-  return {
-    props: {
-      initialData,
-    },
-  };
+    if (!initialData) {
+      console.log('SSR - No post found, returning 404');
+      return {
+        notFound: true,
+      };
+    }
+
+    return {
+      props: {
+        initialData,
+      },
+    };
+  } catch (error) {
+    console.error('SSR - Error fetching post:', error);
+    return {
+      notFound: true,
+    };
+  }
 }
