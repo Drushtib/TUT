@@ -21,6 +21,12 @@ const nextConfig = {
     ],
     qualities: [100, 75],
   },
+  // Fix for react-syntax-highlighter ES module issues with Turbopack
+  turbopack: {
+    resolveAlias: {
+      'react-syntax-highlighter': 'react-syntax-highlighter'
+    }
+  }
 };
 
 module.exports = nextConfig;
