@@ -27,7 +27,8 @@ export default defineType({
           {title: 'Strong', value: 'strong'},
           {title: 'Emphasis', value: 'em'},
           {title: 'Underline', value: 'underline'},
-{ title: 'Strike-through', value: 'strike' },          {title: 'Code', value: 'code'},
+          { title: 'Strike-through', value: 'strike' },
+          {title: 'Code', value: 'code'},
         ],
         annotations: [
           {
