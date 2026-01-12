@@ -5,29 +5,23 @@ import { client } from "../../client";
 import PostLayoutTwo from "./layout/PostLayoutTwo";
 import Loader from "../common/Loader";
 import PostLayoutTwo1 from "./layout/PostLayoutTwo1";
+import { getBusinessBulletinQuery } from "../../lib/sanity/queries/posts";
 
 const BusinessBulletin = () => {
   const limit = 8;
-  const query = `
-*[_type == "post" && "business-bulletin" in categories[]->slug.current] 
-{
-  title,
-  slug,
-   altText,
-  'featureImg': mainImage.asset->url,
-  publishedAt,
-  description,
-  'category': {
-    'title': categories[0]->title,
-    'slug': categories[0]->slug.current
-  }
-} | order(publishedAt desc)[0...${limit}] 
-`;
   const { data, isLoading, error } = useQuery({
     queryKey: ["business-bulletin", limit],
     queryFn: async () => {
-      const response = await client.fetch(query);
-      return response;
+      try {
+        const query = getBusinessBulletinQuery(limit);
+        console.log('Business Bulletin query:', query);
+        const response = await client.fetch(query);
+        console.log('Business Bulletin result:', response);
+        return response;
+      } catch (error) {
+        console.error('Business Bulletin error:', error);
+        throw error;
+      }
     },
   });
 

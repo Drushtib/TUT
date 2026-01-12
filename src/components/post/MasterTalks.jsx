@@ -3,29 +3,23 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../../client";
 import Loader from "../common/Loader";
+import { getMasterTalksQuery } from "../../lib/sanity/queries/posts";
 
 const MasterTalks = ({ postData, adBanner, pClass }) => {
   const limit = 12;
-  const query = `
-*[_type == "post" && "master-talks" in categories[]->slug.current] 
-{
-  title,
-   altText,
-  slug,
-  'featureImg': mainImage.asset->url,
-  description,
-  'category': {
-    'title': categories[0]->title,
-    'slug': categories[0]->slug.current
-  },
-  publishedAt
-} | order(publishedAt desc)[0...${limit}] 
-`;
   const { data, isLoading, error } = useQuery({
     queryKey: ["master-talks", limit],
     queryFn: async () => {
-      const response = await client.fetch(query);
-      return response;
+      try {
+        const query = getMasterTalksQuery(limit);
+        console.log('Master Talks query:', query);
+        const response = await client.fetch(query);
+        console.log('Master Talks result:', response);
+        return response;
+      } catch (error) {
+        console.error('Master Talks error:', error);
+        throw error;
+      }
     },
   });
 
