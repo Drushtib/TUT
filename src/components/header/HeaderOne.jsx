@@ -231,13 +231,13 @@ const HeaderOne = () => {
             
             {/* Social Media Icons */}
             <div className="social-icons" style={{ display: 'flex', gap: '1rem', marginLeft: 'auto' }}>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon facebook-icon">
+              <a href="https://www.facebook.com/theunicorntimeswhere" target="_blank" rel="noopener noreferrer" className="social-icon facebook-icon">
                 <img src="/assest/facebook.png" alt="Facebook" style={{ width: '18px', height: '18px' }} />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon instagram-icon">
+              <a href="https://www.instagram.com/the.unicorntimes/" target="_blank" rel="noopener noreferrer" className="social-icon instagram-icon">
                 <img src="/assest/instagram.png" alt="Instagram" style={{ width: '18px', height: '18px' }} />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon linkedin-icon">
+              <a href="https://www.linkedin.com/company/the-unicorn-times/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="social-icon linkedin-icon">
                 <img src="/assest/linkedin.png" alt="LinkedIn" style={{ width: '18px', height: '18px' }} />
               </a>
               <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="social-icon youtube-icon">

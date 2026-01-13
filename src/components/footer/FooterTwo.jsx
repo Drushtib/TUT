@@ -826,7 +826,7 @@ const FooterTwo = () => {
               <div>
                 <div className="new-footer-contact-inline-wrap">
                   <span className="new-footer-contact-label">Home Address:</span>
-                  <span>328B, Gera Imperium Rise, Wipro Circle, Pune, India</span>
+                  <span>328, Gera Imperium Rise, Wipro Circle, Pune, India</span>
                 </div>
               </div>
             </div>

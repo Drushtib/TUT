@@ -21,6 +21,13 @@ const ContactPage = () => {
     message: "",
   });
 
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    contactNo: "",
+    message: "",
+  });
+
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const handleChange = (e) => {
@@ -28,8 +35,46 @@ const ContactPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+    
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!formData.email.includes("@")) {
+      newErrors.email = "Email must contain @ symbol";
+    } else if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    
+    // Phone validation - exactly 10 digits
+    if (!formData.contactNo.trim()) {
+      newErrors.contactNo = "Phone number is required";
+    } else if (!formData.contactNo.match(/^\d{10}$/)) {
+      newErrors.contactNo = "Phone number must be exactly 10 digits";
+    }
+    
+    // Message validation
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setSubmitSuccess(true);
     setFormData({
       name: "",
@@ -38,6 +83,12 @@ const ContactPage = () => {
       companyName: "",
       industry: "",
       address: "",
+      message: "",
+    });
+    setErrors({
+      name: "",
+      email: "",
+      contactNo: "",
       message: "",
     });
 
@@ -93,11 +144,12 @@ const ContactPage = () => {
                         id="name"
                         name="name"
                         type="text"
-                        className="contact-input"
+                        className={`contact-input ${errors.name ? 'error' : ''}`}
                         value={formData.name}
                         onChange={handleChange}
                         required
                       />
+                      {errors.name && <span className="error-message">{errors.name}</span>}
                     </div>
 
                     <div className="col-md-6">
@@ -106,11 +158,12 @@ const ContactPage = () => {
                         id="email"
                         name="email"
                         type="email"
-                        className="contact-input"
+                        className={`contact-input ${errors.email ? 'error' : ''}`}
                         value={formData.email}
                         onChange={handleChange}
                         required
                       />
+                      {errors.email && <span className="error-message">{errors.email}</span>}
                     </div>
 
                     <div className="col-md-6">
@@ -119,11 +172,16 @@ const ContactPage = () => {
                         id="contactNo"
                         name="contactNo"
                         type="tel"
-                        className="contact-input contact-input--square"
+                        className={`contact-input contact-input--square ${errors.contactNo ? 'error' : ''}`}
                         value={formData.contactNo}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                          setFormData(prev => ({ ...prev, contactNo: value }));
+                        }}
                         required
+                        maxLength="10"
                       />
+                      {errors.contactNo && <span className="error-message">{errors.contactNo}</span>}
                     </div>
 
                     <div className="col-md-6">
@@ -167,12 +225,13 @@ const ContactPage = () => {
                       <textarea
                         id="message"
                         name="message"
-                        className="contact-textarea"
+                        className={`contact-textarea ${errors.message ? 'error' : ''}`}
                         rows={5}
                         value={formData.message}
                         onChange={handleChange}
                         required
                       />
+                      {errors.message && <span className="error-message">{errors.message}</span>}
                     </div>
                   </div>
 
@@ -221,7 +280,7 @@ const ContactPage = () => {
                     <span className="contact-info-icon"><i className="fas fa-map-marker-alt" /></span>
                     <div>
                       <div className="contact-info-heading">Home Address</div>
-                      <div className="contact-info-text">328B, Gera Imperium Rise, Wipro Circle, Pune, India</div>
+                      <div className="contact-info-text">328, Gera Imperium Rise, Wipro Circle, Pune, India</div>
                     </div>
                   </div>
 
@@ -875,6 +934,32 @@ const ContactPage = () => {
           .container {
             padding-left: 15px !important;
             padding-right: 15px !important;
+          }
+        }
+
+        .contact-input.error,
+        .contact-textarea.error {
+          border-color: #dc3545 !important;
+          box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25) !important;
+        }
+
+        .error-message {
+          display: block;
+          color: #dc3545;
+          font-size: 12px;
+          margin-top: 4px;
+          font-weight: 500;
+        }
+
+        .contact-input:focus.error,
+        .contact-textarea:focus.error {
+          border-color: #dc3545 !important;
+          box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.15), 0 12px 28px rgba(0, 0, 0, 0.10) !important;
+        }
+
+        @media (max-width: 575px) {
+          .error-message {
+            font-size: 11px;
           }
         }
 
