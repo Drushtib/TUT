@@ -5,6 +5,11 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          {/* Favicon */}
+          <link rel="icon" href="/assest/Favicon_TUT_1.png" sizes="32x32" />
+          <link rel="icon" href="/assest/Favicon_TUT_1.png" sizes="16x16" />
+          <link rel="shortcut icon" href="/assest/Favicon_TUT_1.png" />
+          
           {/* Preload critical assets */}
           <link rel="preload" href="/css/fontawesome-all.min.css" as="style" />
           <link rel="preload" href="/css/iconfont.css" as="style" />
