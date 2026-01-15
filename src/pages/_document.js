@@ -5,6 +5,9 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          {/* Google Site Verification */}
+          <meta name="google-site-verification" content="YW3UVCaTwy08--0AJDaAFemL0VGyTtAhkgyZy9YW1Lk" />
+
           {/* Favicon */}
           <link rel="icon" href="/assest/Favicon_TUT_1.png" sizes="32x32" />
           <link rel="icon" href="/assest/Favicon_TUT_1.png" sizes="16x16" />
@@ -139,13 +142,14 @@ class MyDocument extends Document {
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', 'G-CFTSB5X8JY');
+
+                gtag('config', 'G-ZFHKXE9LDZ');
               `,
             }}
           />
           <script
             async
-            src="https://www.googletagmanager.com/gtag/js?id=G-CFTSB5X8JY"
+            src="https://www.googletagmanager.com/gtag/js?id=G-ZFHKXE9LDZ"
           />
         </Head>
         <body>

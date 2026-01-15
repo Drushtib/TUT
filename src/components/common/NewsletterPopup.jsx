@@ -110,12 +110,12 @@ const NewsletterPopup = () => {
                 >
                   {isSubmitting ? (
                     <>
-                      <span className="spinner" style={{ animation: 'spin 1s linear infinite', color: '#ffffff' }}>⟳</span>
-                      <span style={{ color: '#ffffff' }}>Subscribing...</span>
+                      <span className="spinner" style={{ animation: 'spin 1s linear infinite', color: '#ffffff !important' }}>⟳</span>
+                      <span style={{ color: '#ffffff !important' }}>Subscribing...</span>
                     </>
                   ) : (
                     <>
-                      <span style={{ color: '#ffffff' }}>SUBSCRIBE</span>
+                      <span style={{ color: '#ffffff !important', fontWeight: '700' }}>SUBSCRIBE</span>
                     </>
                   )}
                 </button>
@@ -343,23 +343,36 @@ const NewsletterPopup = () => {
           box-shadow: 0 4px 15px rgba(187, 5, 5, 0.35);
         }
 
-        .newsletter-subscribe-btn * {
+        .newsletter-subscribe-btn,
+        .newsletter-subscribe-btn *,
+        .newsletter-subscribe-btn span,
+        .newsletter-subscribe-btn .spinner,
+        .newsletter-subscribe-btn:hover,
+        .newsletter-subscribe-btn:focus,
+        .newsletter-subscribe-btn:active,
+        .newsletter-subscribe-btn:hover *,
+        .newsletter-subscribe-btn:focus *,
+        .newsletter-subscribe-btn:active * {
           color: #ffffff !important;
+          text-shadow: none !important;
         }
 
         .newsletter-subscribe-btn:hover:not(:disabled) {
           transform: translateY(-2px);
           box-shadow: 0 6px 20px rgba(187, 5, 5, 0.45);
           background: #8f0404;
+          color: #ffffff !important;
         }
 
         .newsletter-subscribe-btn:active:not(:disabled) {
           transform: translateY(0);
+          color: #ffffff !important;
         }
 
         .newsletter-subscribe-btn:disabled {
           opacity: 0.7;
           cursor: not-allowed;
+          color: #ffffff !important;
         }
 
         .newsletter-message {
