@@ -5,23 +5,26 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          {/* Google Site Verification */}
-          <meta name="google-site-verification" content="YW3UVCaTwy08--0AJDaAFemL0VGyTtAhkgyZy9YW1Lk" />
+          {/* ================= Google Search Console ================= */}
+          <meta
+            name="google-site-verification"
+            content="YW3UVCaTwy08--0AJDaAFemL0VGyTtAhkgyZy9YW1Lk"
+          />
 
-          {/* Favicon */}
+          {/* ================= Favicon ================= */}
           <link rel="icon" href="/assest/Favicon_TUT_1.png" sizes="32x32" />
           <link rel="icon" href="/assest/Favicon_TUT_1.png" sizes="16x16" />
-          <link rel="shortcut icon" href="/assest/Favicon_TUT_1.png" />
-          
-          {/* Preload critical assets */}
+          <link rel="apple-touch-icon" href="/assest/Favicon_TUT_1.png" />
+
+          {/* ================= Preload Critical CSS ================= */}
           <link rel="preload" href="/css/fontawesome-all.min.css" as="style" />
           <link rel="preload" href="/css/iconfont.css" as="style" />
 
-          {/* Static CSS Files */}
+          {/* ================= Static CSS ================= */}
           <link rel="stylesheet" href="/css/fontawesome-all.min.css" />
           <link rel="stylesheet" href="/css/iconfont.css" />
 
-          {/* Google Fonts */}
+          {/* ================= Google Fonts ================= */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
@@ -29,11 +32,11 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
           />
           <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Lora:wght@400;500;600;700&display=swap"
             rel="stylesheet"
           />
 
-          {/* RSS feed */}
+          {/* ================= RSS Feed ================= */}
           <link
             rel="alternate"
             type="application/rss+xml"
@@ -41,14 +44,33 @@ class MyDocument extends Document {
             href="/api/feed"
           />
 
-          {/* Google AdSense */}
+          {/* ================= Google AdSense ================= */}
           <script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4800543608007428"
             crossOrigin="anonymous"
+          ></script>
+
+          {/* ================= Google Analytics (CORRECT ORDER) ================= */}
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-ZFHKXE9LDZ"
+          ></script>
+
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-ZFHKXE9LDZ', {
+                  page_path: window.location.pathname,
+                });
+              `,
+            }}
           />
 
-          {/* JSON-LD Script */}
+          {/* ================= Structured Data (JSON-LD) ================= */}
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
@@ -68,94 +90,29 @@ class MyDocument extends Document {
                     ],
                     logo: {
                       "@type": "ImageObject",
-                      "@id":
-                        "https://www.theentrepreneurialchronicle.com/#logo",
-                      inLanguage: "en-US",
-                      url: "https://www.theentrepreneurialchronicle.com/next/image?url=%2Flogos%2Flogo-primary.png&w=384&q=75",
+                      url: "https://www.theentrepreneurialchronicle.com/logos/logo-primary.png",
                       width: 300,
                       height: 150,
-                      caption: "The Entrepreneurial Chronicles",
-                    },
-                    image: {
-                      "@id":
-                        "https://www.theentrepreneurialchronicle.com/#logo",
                     },
                   },
                   {
                     "@type": "WebSite",
-                    "@id":
-                      "https://www.theentrepreneurialchronicle.com/#website",
                     url: "https://www.theentrepreneurialchronicle.com/",
                     name: "The Entrepreneurial Chronicles",
-                    description:
-                      "The Entrepreneurial Chronicles is a business magazine that brings inspiring stories of entrepreneurs who have turned their dreams into reality.",
                     publisher: {
                       "@id":
                         "https://www.theentrepreneurialchronicle.com/#organization",
                     },
-                    potentialAction: [
-                      {
-                        "@type": "SearchAction",
-                        target:
-                          "https://www.theentrepreneurialchronicle.com/?s={search_term_string}",
-                        "query-input": "required name=search_term_string",
-                      },
-                    ],
-                    inLanguage: "en-US",
-                  },
-                  {
-                    "@type": "WebPage",
-                    "@id":
-                      "https://www.theentrepreneurialchronicle.com/#webpage",
-                    url: "https://www.theentrepreneurialchronicle.com/",
-                    name: "The Entrepreneurial Chronicles",
-                    isPartOf: {
-                      "@id":
-                        "https://www.theentrepreneurialchronicle.com/#website",
-                    },
-                    about: {
-                      "@id":
-                        "https://www.theentrepreneurialchronicle.com/#organization",
-                    },
-                    datePublished: "2024-06-24T20:16:53+00:00",
-                    dateModified: "2024-06-28T20:33:08+00:00",
-                    description:
-                      "The Entrepreneurial Chronicles is a business magazine that brings inspiring stories of entrepreneurs who have turned their dreams into reality.",
-                    inLanguage: "en-US",
-                    potentialAction: [
-                      {
-                        "@type": "ReadAction",
-                        target: [
-                          "https://www.theentrepreneurialchronicle.com/",
-                        ],
-                      },
-                    ],
                   },
                 ],
               }),
             }}
           />
-
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-
-                gtag('config', 'G-ZFHKXE9LDZ');
-              `,
-            }}
-          />
-          <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-ZFHKXE9LDZ"
-          />
         </Head>
+
         <body>
           <Main />
           <NextScript />
-          {/* Google Tag Manager Script */}
         </body>
       </Html>
     );

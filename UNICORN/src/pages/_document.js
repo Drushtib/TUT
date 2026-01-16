@@ -40,10 +40,10 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
           />
 
-          {/* Google tag (gtag.js) */}
+          {/* Google tag (gtag.js) - Primary Analytics */}
           <script
             async
-            src="https://www.googletagmanager.com/gtag/js?id=G-JVLEYSXEX7"
+            src="https://www.googletagmanager.com/gtag/js?id=G-ZFHKXE9LDZ"
           />
           <script
             dangerouslySetInnerHTML={{
@@ -51,12 +51,12 @@ class MyDocument extends Document {
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', 'G-JVLEYSXEX7');
+                gtag('config', 'G-ZFHKXE9LDZ');
               `,
             }}
           />
 
-          {/* JSON-LD Script */}
+          {/* JSON-LD Structured Data */}
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
@@ -65,99 +65,116 @@ class MyDocument extends Document {
                 "@graph": [
                   {
                     "@type": "Organization",
-                    "@id":
-                      "https://www.theentrepreneurialchronicle.com/#organization",
+                    "@id": "https://www.theentrepreneurialchronicle.com/#organization",
                     name: "The Entrepreneurial Chronicles",
                     url: "https://www.theentrepreneurialchronicle.com/",
-                    sameAs: [
-                      "https://www.facebook.com/Theentrepreneurialchronicles",
-                      "https://www.instagram.com/the.entrepreneurialchronicles/",
-                      "https://www.linkedin.com/company/theentrepreneurialchronicles/",
-                    ],
                     logo: {
                       "@type": "ImageObject",
-                      "@id":
-                        "https://www.theentrepreneurialchronicle.com/#logo",
+                      "@id": "https://www.theentrepreneurialchronicle.com/#logo",
                       inLanguage: "en-US",
-                      url: "https://www.theentrepreneurialchronicle.com/next/image?url=%2Flogos%2Flogo-primary.png&w=384&q=75",
+                      url: "https://www.theentrepreneurialchronicle.com/images/logo-primary.png",
                       width: 300,
                       height: 150,
                       caption: "The Entrepreneurial Chronicles",
                     },
-                    image: {
-                      "@id":
-                        "https://www.theentrepreneurialchronicle.com/#logo",
+                    description: "A premier business magazine featuring inspiring stories of entrepreneurs and business leaders who have turned their dreams into reality.",
+                    foundingDate: "2024",
+                    contactPoint: {
+                      "@type": "ContactPoint",
+                      telephone: "",
+                      contactType: "customer service",
+                      availableLanguage: ["English"]
                     },
+                    sameAs: [
+                      "https://www.facebook.com/Theentrepreneurialchronicles",
+                      "https://www.instagram.com/the.entrepreneurialchronicles/",
+                      "https://www.linkedin.com/company/theentrepreneurialchronicles/",
+                      "https://www.youtube.com/@theentrepreneurialchronicles"
+                    ],
+                    address: {
+                      "@type": "PostalAddress",
+                      addressCountry: "US"
+                    }
                   },
                   {
                     "@type": "WebSite",
-                    "@id":
-                      "https://www.theentrepreneurialchronicle.com/#website",
+                    "@id": "https://www.theentrepreneurialchronicle.com/#website",
                     url: "https://www.theentrepreneurialchronicle.com/",
                     name: "The Entrepreneurial Chronicles",
-                    description:
-                      "The Entrepreneurial Chronicles is a business magazine that brings inspiring stories of entrepreneurs who have turned their dreams into reality.",
+                    description: "The Entrepreneurial Chronicles is a business magazine that brings inspiring stories of entrepreneurs who have turned their dreams into reality.",
                     publisher: {
-                      "@id":
-                        "https://www.theentrepreneurialchronicle.com/#organization",
+                      "@id": "https://www.theentrepreneurialchronicle.com/#organization",
                     },
-                    potentialAction: [
-                      {
-                        "@type": "SearchAction",
-                        target:
-                          "https://www.theentrepreneurialchronicle.com/?s={search_term_string}",
-                        "query-input": "required name=search_term_string",
-                      },
-                    ],
                     inLanguage: "en-US",
+                    potentialAction: {
+                      "@type": "SearchAction",
+                      target: "https://www.theentrepreneurialchronicle.com/?s={search_term_string}",
+                      "query-input": "required name=search_term_string",
+                    },
+                    copyrightYear: "2024",
+                    copyrightHolder: {
+                      "@id": "https://www.theentrepreneurialchronicle.com/#organization"
+                    }
                   },
                   {
                     "@type": "WebPage",
-                    "@id":
-                      "https://www.theentrepreneurialchronicle.com/#webpage",
+                    "@id": "https://www.theentrepreneurialchronicle.com/#webpage",
                     url: "https://www.theentrepreneurialchronicle.com/",
-                    name: "The Entrepreneurial Chronicles",
+                    name: "The Entrepreneurial Chronicles - Business Magazine for Entrepreneurs",
+                    description: "The Entrepreneurial Chronicles is a business magazine that brings inspiring stories of entrepreneurs who have turned their dreams into reality.",
                     isPartOf: {
-                      "@id":
-                        "https://www.theentrepreneurialchronicle.com/#website",
+                      "@id": "https://www.theentrepreneurialchronicle.com/#website",
                     },
                     about: {
-                      "@id":
-                        "https://www.theentrepreneurialchronicle.com/#organization",
+                      "@id": "https://www.theentrepreneurialchronicle.com/#organization",
+                    },
+                    primaryImageOfPage: {
+                      "@type": "ImageObject",
+                      url: "https://www.theentrepreneurialchronicle.com/images/og-default.jpg",
+                      width: 1200,
+                      height: 630
                     },
                     datePublished: "2024-06-24T20:16:53+00:00",
-                    dateModified: "2024-06-28T20:33:08+00:00",
-                    description:
-                      "The Entrepreneurial Chronicles is a business magazine that brings inspiring stories of entrepreneurs who have turned their dreams into reality.",
+                    dateModified: "2024-12-16T20:33:08+00:00",
                     inLanguage: "en-US",
-                    potentialAction: [
-                      {
-                        "@type": "ReadAction",
-                        target: [
-                          "https://www.theentrepreneurialchronicle.com/",
-                        ],
-                      },
-                    ],
+                    breadcrumb: {
+                      "@type": "BreadcrumbList",
+                      itemListElement: [
+                        {
+                          "@type": "ListItem",
+                          position: 1,
+                          name: "Home",
+                          item: "https://www.theentrepreneurialchronicle.com/"
+                        }
+                      ]
+                    }
                   },
+                  {
+                    "@type": "NewsMediaOrganization",
+                    "@id": "https://www.theentrepreneurialchronicle.com/#newsmedia",
+                    name: "The Entrepreneurial Chronicles",
+                    url: "https://www.theentrepreneurialchronicle.com/",
+                    logo: {
+                      "@type": "ImageObject",
+                      url: "https://www.theentrepreneurialchronicle.com/images/logo-primary.png",
+                      width: 300,
+                      height: 150
+                    },
+                    description: "A business magazine dedicated to sharing inspiring entrepreneurial stories and business insights.",
+                    areaServed: "Worldwide",
+                    publishingPrinciples: "https://www.theentrepreneurialchronicle.com/about-us",
+                    masthead: "https://www.theentrepreneurialchronicle.com/about-us",
+                    sameAs: [
+                      "https://www.facebook.com/Theentrepreneurialchronicles",
+                      "https://www.instagram.com/the.entrepreneurialchronicles/",
+                      "https://www.linkedin.com/company/theentrepreneurialchronicles/"
+                    ]
+                  }
                 ],
               }),
             }}
           />
 
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'G-CFTSB5X8JY');
-              `,
-            }}
-          />
-          <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-CFTSB5X8JY"
-          />
         </Head>
         <body>
           <Main />

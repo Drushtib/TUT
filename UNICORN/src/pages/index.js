@@ -96,7 +96,7 @@ const Home = () => {
   return (
     <div suppressHydrationWarning style={{ background: '#000', color: '#fff', minHeight: '100vh' }}>
       <Head>
-        <meta name="google-site-verification" content="Hb-PBtfDrWImSPQKiNhfbw0JxtOLWsPKDEbfz_WJ8ZE" />
+        <meta name="google-site-verification" content="YW3UVCaTwy08--0AJDaAFemL0VGyTtAhkgyZy9YW1Lk" />
       </Head>
       <HeadMeta
         metaTitle="The Entrepreneurial Chronicles: A Business Magazine for Inspiring Entrepreneur Stories"
