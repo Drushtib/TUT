@@ -6,10 +6,7 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           {/* ================= Google Search Console ================= */}
-          <meta
-            name="google-site-verification"
-            content="YW3UVCaTwy08--0AJDaAFemL0VGyTtAhkgyZy9YW1Lk"
-          />
+          <meta name="google-site-verification" content="v5MNllEQW5DdeIN5NNYEs-hcx1WnwAS8YW4Di8qLo1I" />
 
           {/* ================= Favicon ================= */}
           <link rel="icon" href="/assest/Favicon_TUT_1.png" sizes="32x32" />
