@@ -791,7 +791,7 @@ const FooterTwo = () => {
               </div>
             </div>
 
-            <div className="new-footer-contact-item">
+            {/* <div className="new-footer-contact-item">
               <i className="fas fa-phone" />
               <div>
                 <div className="new-footer-contact-inline">
@@ -799,7 +799,7 @@ const FooterTwo = () => {
                   <a href="tel:+16146022959">+1 (614) 602-2959</a>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="new-footer-contact-item">
               <i className="fas fa-map-marker-alt" />
@@ -811,7 +811,7 @@ const FooterTwo = () => {
               </div>
             </div>
 
-            <div className="new-footer-contact-item">
+            {/* <div className="new-footer-contact-item">
               <i className="fas fa-map-marker-alt" />
               <div>
                 <div className="new-footer-contact-inline-wrap">
@@ -819,9 +819,9 @@ const FooterTwo = () => {
                   <span>Heßstraße 36, 80798 München, Germany</span>
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div className="new-footer-contact-item">
+            {/* <div className="new-footer-contact-item">
               <i className="fas fa-map-marker-alt" />
               <div>
                 <div className="new-footer-contact-inline-wrap">
@@ -829,7 +829,7 @@ const FooterTwo = () => {
                   <span>328, Gera Imperium Rise, Wipro Circle, Pune, India</span>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

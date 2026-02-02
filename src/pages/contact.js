@@ -268,29 +268,29 @@ const ContactPage = () => {
                     </div>
                   </div>
 
-                  <div className="contact-info-item">
+                  {/* <div className="contact-info-item">
                     <span className="contact-info-icon"><i className="fas fa-map-marker-alt" /></span>
                     <div>
                       <div className="contact-info-heading">Germany</div>
                       <div className="contact-info-text">Heßstraße 36, 80798 München, Germany</div>
                     </div>
-                  </div>
+                  </div> */}
 
-                  <div className="contact-info-item">
+                  {/* <div className="contact-info-item">
                     <span className="contact-info-icon"><i className="fas fa-map-marker-alt" /></span>
                     <div>
                       <div className="contact-info-heading">Home Address</div>
                       <div className="contact-info-text">328, Gera Imperium Rise, Wipro Circle, Pune, India</div>
                     </div>
-                  </div>
+                  </div> */}
 
-                  <div className="contact-info-item">
+                  {/* <div className="contact-info-item">
                     <span className="contact-info-icon"><i className="fas fa-phone" /></span>
                     <div>
                       <div className="contact-info-heading">Phone</div>
                       <a className="contact-info-link" href="tel:+16146022959">+1 (614) 602-2959</a>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="contact-info-item">
                     <span className="contact-info-icon"><i className="fas fa-envelope" /></span>
@@ -321,7 +321,7 @@ const ContactPage = () => {
         {/* End of .container */}
         <div className="container" style={{ maxWidth: "1200px" }}>
           <div className="row" style={{ rowGap: "1.5rem" }}>
-            <div className="col-lg-6" id="usa-map">
+            <div className="col-lg-12" id="usa-map">
               <div className="map-card">
                 <iframe
                   src="https://www.google.com/maps?q=6605+Longshore+St,+Dublin,+OH+43017,+USA&output=embed"
@@ -366,7 +366,7 @@ const ContactPage = () => {
               </div>
             </div>
 
-            <div className="col-lg-6" id="germany-map">
+            {/* <div className="col-lg-6" id="germany-map">
               <div className="map-card">
                 <iframe
                   src="https://www.google.com/maps?q=He%C3%9Fstra%C3%9Fe+36,+80798+M%C3%BCnchen,+Germany&output=embed"
@@ -409,7 +409,7 @@ const ContactPage = () => {
                   </a>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         {/* End of .container */}
