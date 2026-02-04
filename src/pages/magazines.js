@@ -160,21 +160,22 @@ const Magazines = () => {
                 fontWeight: "bold",
               }}
             >
-              {new Date().getFullYear()}
+              Latest Edition
             </h2>
           </div>
         </div>
 
         {/* Magazine Grid */}
         <div
+          className="magazine-grid"
           style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: searchValue ? "center" : "flex-start",
-            gap: "40px",
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "2rem",
             maxWidth: "1600px",
             margin: "0 auto",
-            padding: "0 4rem",
+            padding: "0 1rem",
+            justifyContent: "center",
           }}
         >
           {filteredMagazines.length > 0 ? (
@@ -219,6 +220,41 @@ const Magazines = () => {
         .magazines-page .year-badge h2 {
           color: #ffffff !important;
           -webkit-text-fill-color: #ffffff !important;
+        }
+
+        /* Responsive grid layout for magazine cards */
+        .magazine-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 2rem;
+          max-width: 1600px;
+          margin: 0 auto;
+          padding: 0 1rem;
+          justify-items: center;
+        }
+
+        @media (max-width: 1200px) {
+          .magazine-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            padding: 0 1rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .magazine-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            padding: 0 1rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .magazine-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 0 1rem;
+          }
         }
       `}</style>
 

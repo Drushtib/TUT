@@ -34,7 +34,7 @@ const PostLayoutformag = ({ data }) => {
       <style jsx>{`
         .post-container {
           width: 100%;
-          max-width: 340px; /* slightly increased from 300px */
+          max-width: 280px; /* reduced from 340px */
           margin: 1rem auto;
         }
 
@@ -76,7 +76,7 @@ const PostLayoutformag = ({ data }) => {
             grid-template-columns: repeat(2, 1fr);
           }
           .post-container {
-            max-width: 320px;
+            max-width: 260px;
           }
         }
 
