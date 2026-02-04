@@ -9,8 +9,8 @@ const PostLayoutformag = ({ data }) => {
           <Image
             src={data.featureImg}
             alt={data?.altText || data.title}
-            width={750}   // slightly increased width
-            height={840}  // slightly reduced height
+            width={750}
+            height={1200}  // increased from 1100
             className="img-fluid"
           />
         </div>
@@ -34,7 +34,7 @@ const PostLayoutformag = ({ data }) => {
       <style jsx>{`
         .post-container {
           width: 100%;
-          max-width: 280px; /* reduced from 340px */
+          max-width: 340px; /* original size */
           margin: 1rem auto;
         }
 
@@ -68,6 +68,9 @@ const PostLayoutformag = ({ data }) => {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: 2rem;
+          max-width: 1600px;
+          margin: 0 auto;
+          padding: 0 4rem;
           justify-items: center;
         }
 
@@ -76,7 +79,7 @@ const PostLayoutformag = ({ data }) => {
             grid-template-columns: repeat(2, 1fr);
           }
           .post-container {
-            max-width: 260px;
+            max-width: 320px;
           }
         }
 

@@ -174,7 +174,7 @@ const Magazines = () => {
             gap: "2rem",
             maxWidth: "1600px",
             margin: "0 auto",
-            padding: "0 1rem",
+            padding: "0 4rem",
             justifyContent: "center",
           }}
         >
@@ -229,7 +229,7 @@ const Magazines = () => {
           gap: 2rem;
           max-width: 1600px;
           margin: 0 auto;
-          padding: 0 1rem;
+          padding: 0 4rem;
           justify-items: center;
         }
 
@@ -237,7 +237,7 @@ const Magazines = () => {
           .magazine-grid {
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
-            padding: 0 1rem;
+            padding: 0 2rem;
           }
         }
 
