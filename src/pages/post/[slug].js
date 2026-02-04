@@ -681,12 +681,96 @@ export async function getServerSideProps(context) {
     };
   }
 
-  const query = getPostBySlugQuery(slug);
-  const initialData = await client.fetch(query);
+  try {
+    console.log('SSR - Fetching post for slug:', slug);
+    
+    // Validate slug parameter
+    if (!slug || typeof slug !== 'string') {
+      console.log('SSR - Invalid slug parameter');
+      return { notFound: true };
+    }
+    
+    // Multiple query approaches for maximum compatibility
+    let initialData = null;
+    
+    // Approach 1: Standard query with proper escaping
+    try {
+      const escapedSlug = slug.replace(/["\\]/g, '\\$&');
+      const standardQuery = `
+        *[_type == "post" && slug.current == "${escapedSlug}"] {
+          title,
+          "slug": slug.current,
+          publishedAt,
+          description,
+          "featureImg": mainImage.asset->url,
+          body,
+          altText,
+          keywords
+        }[0]
+      `;
+      console.log('SSR - Standard query:', standardQuery.trim());
+      initialData = await client.fetch(standardQuery);
+      console.log('SSR - Standard query result:', initialData);
+    } catch (error) {
+      console.log('SSR - Standard query failed:', error.message);
+    }
+    
+    // Approach 2: Simplified query if standard fails
+    if (!initialData) {
+      try {
+        const simpleQuery = `*[_type == "post" && slug.current == "${slug}"][0]{
+          title,
+          slug: slug.current,
+          publishedAt,
+          description,
+          featureImg: mainImage.asset->url,
+          body
+        }`;
+        console.log('SSR - Simple query:', simpleQuery);
+        initialData = await client.fetch(simpleQuery);
+        console.log('SSR - Simple query result:', initialData);
+      } catch (error) {
+        console.log('SSR - Simple query failed:', error.message);
+      }
+    }
+    
+    // Approach 3: Match query if both fail
+    if (!initialData) {
+      try {
+        const matchQuery = `*[_type == "post" && slug.current match "${slug}*"][0]{
+          title,
+          slug: slug.current,
+          publishedAt,
+          description,
+          featureImg: mainImage.asset->url,
+          body
+        }`;
+        console.log('SSR - Match query:', matchQuery);
+        initialData = await client.fetch(matchQuery);
+        console.log('SSR - Match query result:', initialData);
+      } catch (error) {
+        console.log('SSR - Match query failed:', error.message);
+      }
+    }
 
-  return {
-    props: {
-      initialData,
-    },
-  };
+    if (!initialData) {
+      console.log('SSR - No post found with any approach, returning 404');
+      return { notFound: true };
+    }
+
+    return {
+      props: {
+        initialData,
+      },
+    };
+  } catch (error) {
+    console.error('SSR - Critical error:', {
+      message: error.message,
+      stack: error.stack,
+      slug: context.params.slug
+    });
+    
+    // Always return 404 instead of 500
+    return { notFound: true };
+  }
 }
