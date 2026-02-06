@@ -122,9 +122,9 @@ const StatCard = React.forwardRef(({ endValue, suffix, label, isVisible, delay }
           textAlign: "center",
           padding: "2.2rem 1.4rem",
           background: "#ffffff",
-          border: "1px solid rgba(0,0,0,0.12)",
+          border: "1px solid #8b0000",
           borderRadius: "18px",
-          boxShadow: "0 14px 40px rgba(0, 0, 0, 0.08)",
+          boxShadow: "0 14px 40px rgba(139, 0, 0, 0.15)",
           opacity: 1,
           transform: "none",
           transition: "none",
@@ -225,7 +225,7 @@ const AboutUs = ({ aboutData }) => {
     },
   });
   return (
-    <div className="about-us-page">
+    <div className="about-us-page" style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
       <HeadMeta
         metaTitle={
           "About Us | The Unicorn Time"
@@ -240,7 +240,7 @@ const AboutUs = ({ aboutData }) => {
       <div
         style={{
           backgroundColor: "#ffffff",
-          padding: "3.5rem 2rem 4rem",
+          padding: "3.5rem 8rem 4rem",
           position: "relative",
         }}
       >
@@ -295,7 +295,7 @@ const AboutUs = ({ aboutData }) => {
 
       {/* Mission, Vision, Values Section - Animated from different directions */}
       <div
-        style={{ backgroundColor: "#ffffff", padding: "2.25rem 0" }}
+        style={{ backgroundColor: "#ffffff", padding: "2.25rem 8rem" }}
         ref={(el) => (sectionRefs.current.foundation = el)}
       >
         <div className="container">
@@ -319,8 +319,8 @@ const AboutUs = ({ aboutData }) => {
                   padding: "3rem 2.5rem",
                   background: "#ffffff",
                   borderRadius: "20px",
-                  border: "1px solid rgba(0,0,0,0.14)",
-                  boxShadow: "0 14px 40px rgba(0, 0, 0, 0.08)",
+                  border: "1px solid #8b0000",
+                  boxShadow: "0 14px 40px rgba(139, 0, 0, 0.15)",
                   height: "100%",
                   transition: "all 0.4s ease",
                   cursor: "pointer",
@@ -365,8 +365,8 @@ const AboutUs = ({ aboutData }) => {
                   padding: "3rem 2.5rem",
                   background: "#ffffff",
                   borderRadius: "20px",
-                  border: "1px solid rgba(0,0,0,0.14)",
-                  boxShadow: "0 14px 40px rgba(0, 0, 0, 0.08)",
+                  border: "1px solid #8b0000",
+                  boxShadow: "0 14px 40px rgba(139, 0, 0, 0.15)",
                   height: "100%",
                   transition: "all 0.4s ease",
                   cursor: "pointer",
@@ -411,8 +411,8 @@ const AboutUs = ({ aboutData }) => {
                   padding: "3rem 2.5rem",
                   background: "#ffffff",
                   borderRadius: "20px",
-                  border: "1px solid rgba(0,0,0,0.14)",
-                  boxShadow: "0 14px 40px rgba(0, 0, 0, 0.08)",
+                  border: "1px solid #8b0000",
+                  boxShadow: "0 14px 40px rgba(139, 0, 0, 0.15)",
                   height: "100%",
                   transition: "all 0.4s ease",
                   cursor: "pointer",
@@ -460,7 +460,7 @@ const AboutUs = ({ aboutData }) => {
         className="about-stats"
         style={{
           backgroundColor: "#ffffff",
-          padding: "3.5rem 0",
+          padding: "3.5rem 8rem",
           opacity: 1,
           transform: "none",
           transition: "none",
@@ -470,7 +470,7 @@ const AboutUs = ({ aboutData }) => {
           <div className="row">
             <StatCard
               ref={(el) => (sectionRefs.current.stat1 = el)}
-              endValue={1000}
+              endValue={27}
               suffix="+"
               label="Featured Stories"
               isVisible={isVisible.stat1}
@@ -478,7 +478,7 @@ const AboutUs = ({ aboutData }) => {
             />
             <StatCard
               ref={(el) => (sectionRefs.current.stat2 = el)}
-              endValue={50}
+              endValue={30}
               suffix="+"
               label="Global Leaders"
               isVisible={isVisible.stat2}
@@ -494,7 +494,7 @@ const AboutUs = ({ aboutData }) => {
             />
             <StatCard
               ref={(el) => (sectionRefs.current.stat4 = el)}
-              endValue={100}
+              endValue={40}
               suffix="K+"
               label="Monthly Readers"
               isVisible={isVisible.stat4}
@@ -509,7 +509,7 @@ const AboutUs = ({ aboutData }) => {
         ref={(el) => (sectionRefs.current.whoWeAre = el)}
         style={{
           backgroundColor: "#ffffff",
-          padding: "3.5rem 0",
+          padding: "3.5rem 8rem",
           position: "relative",
           overflow: "hidden",
         }}
@@ -601,7 +601,7 @@ const AboutUs = ({ aboutData }) => {
         ref={(el) => (sectionRefs.current.ourStory = el)}
         style={{
           backgroundColor: "#ffffff",
-          padding: "3.5rem 0",
+          padding: "3.5rem 8rem",
           position: "relative",
           overflow: "hidden",
         }}

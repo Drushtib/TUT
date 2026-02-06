@@ -11,10 +11,10 @@ const CountingSection = () => {
   const sectionRef = useRef(null);
 
   const targetCounts = {
-    stories: 1000,
-    leaders: 50,
+    stories: 27,
+    leaders: 30,
     industries: 25,
-    readers: 100000
+    readers: 40000
   };
 
   useEffect(() => {
