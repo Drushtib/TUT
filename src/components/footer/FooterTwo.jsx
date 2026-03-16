@@ -805,21 +805,11 @@ const FooterTwo = () => {
               <i className="fas fa-map-marker-alt" />
               <div>
                 <div className="new-footer-contact-inline-wrap">
-                  <span className="new-footer-contact-label">USA:</span>
-                  <span>6605 Longshore St, Dublin, OH 43017, USA</span>
-                </div>
-              </div>
-            </div>
-
-            {/* <div className="new-footer-contact-item">
-              <i className="fas fa-map-marker-alt" />
-              <div>
-                <div className="new-footer-contact-inline-wrap">
                   <span className="new-footer-contact-label">Germany:</span>
                   <span>Heßstraße 36, 80798 München, Germany</span>
                 </div>
               </div>
-            </div> */}
+            </div>
 
             {/* <div className="new-footer-contact-item">
               <i className="fas fa-map-marker-alt" />

@@ -263,18 +263,10 @@ const ContactPage = () => {
                   <div className="contact-info-item">
                     <span className="contact-info-icon"><i className="fas fa-map-marker-alt" /></span>
                     <div>
-                      <div className="contact-info-heading">USA</div>
-                      <div className="contact-info-text">6605 Longshore St, Dublin, OH 43017, USA</div>
-                    </div>
-                  </div>
-
-                  {/* <div className="contact-info-item">
-                    <span className="contact-info-icon"><i className="fas fa-map-marker-alt" /></span>
-                    <div>
                       <div className="contact-info-heading">Germany</div>
                       <div className="contact-info-text">Heßstraße 36, 80798 München, Germany</div>
                     </div>
-                  </div> */}
+                  </div>
 
                   {/* <div className="contact-info-item">
                     <span className="contact-info-icon"><i className="fas fa-map-marker-alt" /></span>
@@ -321,52 +313,7 @@ const ContactPage = () => {
         {/* End of .container */}
         <div className="container" style={{ maxWidth: "1200px" }}>
           <div className="row" style={{ rowGap: "1.5rem" }}>
-            <div className="col-lg-12" id="usa-map">
-              <div className="map-card">
-                <iframe
-                  src="https://www.google.com/maps?q=6605+Longshore+St,+Dublin,+OH+43017,+USA&output=embed"
-                  width="100%"
-                  height={320}
-                  style={{ border: 0, width: "100%", display: "block" }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="6605 Longshore St, Dublin, OH 43017, USA"
-                />
-                <div style={{ textAlign: 'center', padding: '10px', background: '#f8f9fa' }}>
-                  <a
-                    href="https://www.google.com/maps?q=6605+Longshore+St,+Dublin,+OH+43017,+USA"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      color: '#000000',
-                      textDecoration: 'none',
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '5px',
-                      padding: '5px 10px',
-                      borderRadius: '6px',
-                      transition: 'all 0.3s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = 'var(--primary-color)';
-                      e.currentTarget.style.backgroundColor = 'rgba(187, 5, 5, 0.1)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = '#000000';
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}
-                  >
-                    <i className="fas fa-external-link-alt" style={{ fontSize: '12px' }} />
-                    View large map
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* <div className="col-lg-6" id="germany-map">
+            <div className="col-lg-12" id="germany-map">
               <div className="map-card">
                 <iframe
                   src="https://www.google.com/maps?q=He%C3%9Fstra%C3%9Fe+36,+80798+M%C3%BCnchen,+Germany&output=embed"
@@ -409,7 +356,7 @@ const ContactPage = () => {
                   </a>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
         {/* End of .container */}
