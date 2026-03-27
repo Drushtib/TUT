@@ -195,6 +195,8 @@ const CompactBlogs = () => {
                     src={posts[currentIndex].featureImg}
                     alt={posts[currentIndex].title || "Featured blog post"}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    loading="eager"
                     style={{
                       objectFit: "cover",
                     }}
@@ -276,6 +278,7 @@ const CompactBlogs = () => {
                         src={actualPost.featureImg}
                         alt={actualPost.title || "Blog post"}
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         style={{
                           objectFit: "cover",
                         }}

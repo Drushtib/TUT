@@ -21,6 +21,8 @@ const PostDetails = ({ initialData }) => {
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
   const [revealed, setRevealed] = useState({ body: false, related: false });
 
+  console.log('PostDetails - Component render:', { slug, initialData: !!initialData, localView });
+
   const {
     data: postData,
     isLoading,
@@ -29,6 +31,8 @@ const PostDetails = ({ initialData }) => {
     initialData,
     enabled: !!slug && !localView,
   });
+
+  console.log('PostDetails - Query state:', { postData: !!postData, isLoading, error: !!error });
 
   const localData = localView
     ? {
@@ -41,6 +45,7 @@ const PostDetails = ({ initialData }) => {
     : null;
 
   const resolvedPost = localView ? localData : postData;
+  console.log('PostDetails - Resolved post:', !!resolvedPost, resolvedPost?.title);
 
   useEffect(() => {
     const t = setTimeout(() => setIsVisible(true), 60);
@@ -141,10 +146,36 @@ const PostDetails = ({ initialData }) => {
 
   if (!localView) {
     if (isLoading) return <Loader />;
-    if (error) return <ErrorFallback error={error} />;
+    if (error) {
+      console.error('Post fetch error:', error);
+      return <ErrorFallback error={error} />;
+    }
   }
 
-  if (!resolvedPost) return <div>No data found</div>;
+  if (!resolvedPost) {
+    console.log('No post data found for slug:', slug);
+    return (
+      <div style={{ 
+        padding: '2rem', 
+        textAlign: 'center',
+        minHeight: '60vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <h2>Article Not Found</h2>
+        <p>The article you're looking for doesn't exist or has been removed.</p>
+        <Link href="/blogs" style={{ 
+          color: '#007bff', 
+          textDecoration: 'underline',
+          marginTop: '1rem'
+        }}>
+          ← Back to Blogs
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <>

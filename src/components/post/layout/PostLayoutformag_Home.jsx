@@ -68,24 +68,7 @@ const PostLayoutformag_Home = ({ data }) => {
                 lineHeight: "1.5",
               }}
             >
-              <Link
-                href={`/magazine/${data.slug.current}`}
-                style={{ 
-                  color: "var(--text-dark)", 
-                  textDecoration: "none",
-                  transition: "color 0.3s ease"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "#545454";
-                  e.currentTarget.style.textDecoration = "none";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "var(--text-dark)";
-                  e.currentTarget.style.textDecoration = "none";
-                }}
-              >
-                {data.title}
-              </Link>
+              {data.title}
             </h4>
           </div>
         </div>

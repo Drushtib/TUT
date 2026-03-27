@@ -107,7 +107,7 @@ class MyDocument extends Document {
           />
         </Head>
 
-        <body>
+        <body data-scroll-behavior="smooth">
           <Main />
           <NextScript />
         </body>

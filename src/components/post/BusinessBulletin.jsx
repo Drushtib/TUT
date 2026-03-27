@@ -1,5 +1,6 @@
 import SectionTitle from "../elements/SectionTitle";
 import Link from "next/link";
+import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../../client";
 import PostLayoutTwo from "./layout/PostLayoutTwo";
@@ -109,15 +110,15 @@ const BusinessBulletin = () => {
                 marginBottom: '100px',
                 background: '#f2f2f2'
               }}>
-                <img
+                <Image
                   src={post.featureImg || '/images/placeholder.png'}
                   alt={post.altText || post.title || 'Post image'}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  loading="eager"
                   style={{
-                    width: '100%',
-                    height: '100%',
                     objectFit: 'cover',
-                    transition: 'transform 0.3s ease',
-                    display: 'block'
+                    transition: 'transform 0.3s ease'
                   }}
                   onError={(e) => {
                     e.currentTarget.onerror = null;

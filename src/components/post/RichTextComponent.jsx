@@ -42,6 +42,7 @@ const PortableTextComponent = {
             src={urlFor(value).url()}
             alt={value.alt || " "}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 100vw"
           />
           {value.caption && (
             <div className="position-absolute bottom-0 start-0 bg-white bg-opacity-75 p-2 small">

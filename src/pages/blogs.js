@@ -12,8 +12,7 @@ const Blogs = () => {
   const postsPerPage = 9;
 
   const query = `
-  *[_type == "post" && 
-    lower(categories[0]->title) match "*blog*"
+  *[_type == "post"
   ]{
     title,
     "slug": slug.current,
@@ -32,8 +31,14 @@ const Blogs = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["allPosts"],
     queryFn: async () => {
-      const response = await client.fetch(query);
-      return response;
+      try {
+        const response = await client.fetch(query);
+        console.log('Blogs page - Posts fetched:', response);
+        return response;
+      } catch (err) {
+        console.error('Blogs page - Error fetching posts:', err);
+        throw err;
+      }
     },
   });
 

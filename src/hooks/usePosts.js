@@ -25,8 +25,27 @@ export const usePostBySlug = (slug, options = {}) => {
   return useQuery({
     queryKey: QUERY_KEYS.POSTS.BY_SLUG(slug),
     queryFn: async () => {
-      const query = getPostBySlugQuery(slug);
-      return await client.fetch(query);
+      console.log('Client-side - Fetching post for slug:', slug);
+      
+      // Use the same query as SSR for consistency
+      const escapedSlug = slug.replace(/["\\]/g, '\\$&');
+      const query = `
+        *[_type == "post" && slug.current == "${escapedSlug}"] {
+          title,
+          "slug": slug.current,
+          publishedAt,
+          description,
+          "featureImg": mainImage.asset->url,
+          body,
+          altText,
+          keywords
+        }[0]
+      `;
+      
+      console.log('Client-side - Query:', query.trim());
+      const result = await client.fetch(query);
+      console.log('Client-side - Result:', result);
+      return result;
     },
     enabled: !!slug,
     ...options,

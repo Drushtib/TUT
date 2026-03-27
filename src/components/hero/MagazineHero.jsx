@@ -19,10 +19,21 @@ const MagazineHero = () => {
         slug,
         'featureImg': mainImage.asset->url,
         description,
-        publishedAt
+        publishedAt,
+        _createdAt
       }`;
-      return await client.fetch(query);
+      const data = await client.fetch(query);
+      // Force newest magazine (Forest Richter) to be first
+      const sortedData = data.sort((a, b) => {
+        const dateA = new Date(a.publishedAt || a._createdAt);
+        const dateB = new Date(b.publishedAt || b._createdAt);
+        return dateB - dateA; // Newest first
+      });
+      return sortedData;
     },
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+    staleTime: 0
   });
 
   // Fallback static data if Sanity data is not available
@@ -95,14 +106,26 @@ const MagazineHero = () => {
   // Use Sanity data if available, otherwise use fallback
   const displayData = magazineData && magazineData.length > 0 ? magazineData : fallbackData;
 
-  // Auto-advance carousel every 3 seconds
+  // Force newest magazine to be center when data loads
+  useEffect(() => {
+    if (displayData && displayData.length > 0) {
+      setCurrentIndex(0); // Always start with newest magazine (index 0)
+    }
+  }, [displayData]);
+
+  // Auto-advance carousel every 3 seconds - start from center (newest magazine)
   useEffect(() => {
     if (!displayData || displayData.length === 0) return;
     
     const interval = setInterval(() => {
       setIsTransitioning(true);
       setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % displayData.length);
+        // Rotate through magazines, but keep newest (index 0) as primary center
+        setCurrentIndex((prev) => {
+          // Start with 0 (newest), then cycle through others
+          const nextIndex = (prev + 1) % displayData.length;
+          return nextIndex;
+        });
         setIsTransitioning(false);
       }, 300);
     }, 3000);
@@ -136,7 +159,7 @@ const MagazineHero = () => {
           color: #ffffff !important;
         }
       `}</style>
-      <div className="hero-background-container" style={{ 
+      <div key={`magazine-hero-${Date.now()}`} className="hero-background-container" style={{ 
         width: "100%", 
         padding: '0', 
         margin: '0',
@@ -318,7 +341,8 @@ const MagazineHero = () => {
                 const isCenter = index === currentIndex;
                 const relativePosition = index - currentIndex;
                 
-                // Calculate position for 9-card layout: 4 left + 1 center + 4 right
+                // Calculate position for carousel: newest (index 0) should be center initially
+                // When new magazines are added, they push older ones to the right
                 let position = relativePosition;
                 if (position > 4) position = position - displayData.length;
                 if (position < -4) position = position + displayData.length;
@@ -327,6 +351,7 @@ const MagazineHero = () => {
                 if (Math.abs(position) > 4) return null;
                 
                 // Create horizontal row with progressive scaling
+                // Center position (0) is for newest magazine
                 const offset = position * 150;
                 const scale = isCenter ? 1.0 : Math.max(0.2, 1.0 - Math.abs(position) * 0.2);
                 
@@ -350,6 +375,7 @@ const MagazineHero = () => {
                             width={1000}
                             height={1000}
                             className="img-fluid"
+                            loading="eager"
                           />
                         </div>
                       </Link>

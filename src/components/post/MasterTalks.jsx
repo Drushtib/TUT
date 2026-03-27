@@ -1,3 +1,5 @@
+import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 import { useQuery } from "@tanstack/react-query";
@@ -108,15 +110,15 @@ const MasterTalks = ({ postData, adBanner, pClass }) => {
                     marginBottom: '100px',
                     background: '#f2f2f2'
                   }}>
-                    <img
+                    <Image
                       src={post.featureImg || '/images/placeholder.png'}
                       alt={post.altText || post.title || 'Post image'}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 300px"
+                      loading="eager"
                       style={{
-                        width: '100%',
-                        height: '100%',
                         objectFit: 'cover',
-                        transition: 'transform 0.3s ease',
-                        display: 'block'
+                        transition: 'transform 0.3s ease'
                       }}
                       onError={(e) => {
                         e.currentTarget.onerror = null;

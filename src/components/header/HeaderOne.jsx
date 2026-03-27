@@ -319,7 +319,7 @@ const HeaderOne = () => {
                 </div>
                 <Link href="/about-us" className="nav-link">About Us</Link>
                 <Link href="/contact" className="nav-link">Contact</Link>
-                {/* <Link href="/media-kit" className="nav-link">Media Kit</Link> */}
+                <Link href="/media-kit" className="nav-link">Media Kit</Link>
               </div>
 
               {/* Search and Mobile Menu */}
@@ -424,7 +424,7 @@ const HeaderOne = () => {
 
               <Link href="/about-us" className="mobile-nav-link" onClick={closeMobileMenu}>About Us</Link>
               <Link href="/contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
-              {/* <Link href="/media-kit" className="mobile-nav-link" onClick={closeMobileMenu}>Media Kit</Link> */}
+              <Link href="/media-kit" className="mobile-nav-link" onClick={closeMobileMenu}>Media Kit</Link>
             </div>
           </div>
         )}

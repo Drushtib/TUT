@@ -249,6 +249,7 @@ const MarketNews = () => {
                       alt={item.title}
                       width={200}
                       height={150}
+                      loading="eager"
                       style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
                   </Link>
@@ -284,6 +285,7 @@ const MarketNews = () => {
                       alt={item.title}
                       width={200}
                       height={150}
+                      loading="eager"
                       style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
                   </Link>

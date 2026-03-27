@@ -1,13 +1,16 @@
 import SectionTitle from "../elements/SectionTitle";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { client } from "../../client";
+import Loader from "../common/Loader";
+import ErrorFallback from "../common/ErrorFallback";
+import { QUERY_LIMITS } from "../../config/constants";
+import { getColor } from "../../lib/utils/theme";
 import PostVideoOne from "./layout/PostVideoOne";
 import PostVideoTwo from "./layout/PostVideoTwo";
 import { useWebProfiles } from "../../hooks/usePosts";
-import Loader from "../common/Loader";
-import ErrorFallback from "../common/ErrorFallback";
-import { useState } from "react";
-import { QUERY_LIMITS } from "../../config/constants";
-import { getColor } from "../../lib/utils/theme";
 
 const WebProfiles = () => {
   const [selectedProfile, setSelectedProfile] = useState(0);
@@ -73,11 +76,17 @@ const WebProfiles = () => {
               >
                 <div className="name-content">
                   <div className="name-image">
-                    <img 
+                    <Image 
                       src={post.featureImg} 
                       alt={post.title}
                       width={60}
                       height={60}
+                      sizes="60px"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
                     />
                   </div>
                   <span className="name-text">{post.title}</span>

@@ -14,22 +14,20 @@ const PostLayoutformag = ({ data }) => {
             className="img-fluid"
           />
         </div>
-      </Link>
-      <div className="title-container">
-        <div className="line" />
-        <h4
-          style={{
-            marginTop: "1rem",
-            fontSize: "1.55rem",
-            color: "#111",
-            textAlign: "center",
-          }}
-        >
-          <Link href={`/magazine/${data.slug.current}`} style={{ color: "#111" }}>
+        <div className="title-container">
+          <div className="line" />
+          <h4
+            style={{
+              marginTop: "1rem",
+              fontSize: "1.55rem",
+              color: "#111",
+              textAlign: "center",
+            }}
+          >
             {data.title}
-          </Link>
-        </h4>
-      </div>
+          </h4>
+        </div>
+      </Link>
 
       <style jsx>{`
         .post-container {

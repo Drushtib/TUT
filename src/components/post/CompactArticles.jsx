@@ -14,9 +14,17 @@ const CompactArticles = () => {
         slug,
         publishedAt,
         description,
-        'featureImg': mainImage.asset->url
+        'featureImg': mainImage.asset->url,
+        _createdAt
       }`;
-      return await client.fetch(query);
+      const data = await client.fetch(query);
+      // Fallback sorting by _createdAt if publishedAt is not working
+      const sortedData = data.sort((a, b) => {
+        const dateA = new Date(a.publishedAt || a._createdAt);
+        const dateB = new Date(b.publishedAt || b._createdAt);
+        return dateB - dateA; // Newest first
+      });
+      return sortedData;
     },
   });
 
@@ -473,6 +481,8 @@ const CompactArticles = () => {
                       src={article.featureImg}
                       alt={article.title || "Article"}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      loading="eager"
                       className="article-image"
                       style={{
                         objectFit: "contain",
