@@ -32,133 +32,222 @@ const IndustryPosts = () => {
   if (!data) return null;
 
   return (
-    <div className="section-gap section-gap-top__with-text" style={{ background: "#fff", color: "#000" }}>
-      <div className="container">
-        <SectionTitle
-          title="Industry Posts"
-          btnText="All Posts"
-          btnUrl={"/industries"}
-          pClass="title-black m-b-xs-40"
-        />
-        <div className="row">
-          {data.map((post) => (
-            <div className="col-lg-4 col-md-6" key={post.slug?.current || post.title}>
-              <div
-                className="industry-post-card"
-                style={{
-                  borderRadius: 12,
-                  overflow: "hidden",
-                  border: "1px solid #e0e0e0",
-                  background: "#ffffff",
-                  marginBottom: "2rem",
-                  transition: "all 0.3s ease",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 8px 25px rgba(220, 53, 69, 0.15)";
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "0 4px 15px rgba(0, 0, 0, 0.1)";
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
-                <Link href={`/industry-post/${post.slug?.current}`} style={{ display: "block" }}>
-                  <div style={{ position: "relative", width: "100%", height: 200, overflow: "hidden" }}>
-                    <Image
-                      src={post.featureImg}
-                      alt={post.altText || post.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      placeholder="blur"
-                      blurDataURL="/images/placeholder.png"
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                </Link>
+    <>
+      <style jsx global>{`
+        .industry-posts-container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 2rem 2rem 4rem;
+        }
 
-                <div style={{ padding: "1.5rem" }}>
-                  <div className="post-cat-group m-b-xs-10">
-                    <Link 
-                      className={`post-cat cat-btn bg-color-blue-one`} 
-                      href={`/industries/${post.category?.slug}`}
-                      style={{
-                        fontSize: "0.9rem",
-                        textTransform: "capitalize",
-                        marginBottom: "0.5rem"
-                      }}
-                    >
-                      {post.category?.title}
-                    </Link>
-                  </div>
-                  <h3 
-                    className="axil-post-title hover-line hover-line" 
-                    style={{ 
-                      marginBottom: "1rem",
-                      fontSize: "1.4rem",
-                      fontWeight: "700",
-                      color: "#000",
-                      transition: "color 0.3s ease"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = "#dc3545";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = "#000";
-                    }}
-                  >
-                    <Link href={`/industry-post/${post.slug?.current}`}>{post.title}</Link>
-                  </h3>
-                  <p 
-                    className="mid" 
-                    style={{ 
-                      marginBottom: "1.5rem", 
-                      color: "#333333",
-                      fontSize: "1.1rem",
-                      lineHeight: "1.6"
-                    }}
-                  >
+        .industry-posts-header {
+          margin-bottom: 2.5rem;
+          text-align: left;
+          border-bottom: 3px solid #000;
+          padding-bottom: 1rem;
+        }
+
+        .industry-posts-header h2 {
+          font-size: 2rem;
+          font-weight: 700;
+          color: #000000;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          margin: 0;
+          padding: 0;
+        }
+
+        .industry-posts-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 3.5rem;
+          margin-bottom: 3rem;
+        }
+
+        .industry-post-card {
+          background: #ffffff;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          opacity: 1;
+          transform: translateY(0);
+          position: relative;
+          border: 1px solid rgba(0,0,0,0.05);
+          text-decoration: none;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .industry-post-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+          border-color: #bb0505;
+        }
+
+        .industry-post-card:hover .industry-post-title {
+          color: #bb0505;
+        }
+
+        .industry-post-image-container {
+          width: 100%;
+          height: 180px;
+          overflow: hidden;
+          border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .industry-post-image-container img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.4s ease;
+        }
+
+        .industry-post-card:hover .industry-post-image-container img {
+          transform: scale(1.05);
+        }
+
+        .industry-post-body {
+          padding: 2rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .industry-post-category {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: #666666;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 0.5rem;
+        }
+
+        .industry-post-title {
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: #000000;
+          margin: 0;
+          line-height: 1.4;
+          font-family: var(--primary-font);
+        }
+
+        .industry-post-desc {
+          margin: 0;
+          color: rgba(0, 0, 0, 0.75);
+          font-size: 1.2rem;
+          line-height: 1.6;
+          font-weight: 400;
+          font-family: var(--primary-font);
+        }
+
+        .industry-readmore {
+          margin-top: auto;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: fit-content;
+          padding: 0.8rem 2rem;
+          border-radius: 8px;
+          background: #bb0505;
+          border: none;
+          color: #ffffff;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 1.2rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(187, 5, 5, 0.25);
+          font-family: var(--primary-font);
+        }
+
+        .industry-readmore:hover {
+          background: #990000;
+          color: #ffffff;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(187, 5, 5, 0.35);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+          .industry-posts-container {
+            padding: 0 1.5rem 4rem;
+          }
+
+          .industry-posts-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .industry-posts-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+          }
+
+          .industry-post-image-container {
+            height: 160px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .industry-posts-container {
+            padding: 0 1rem 4rem;
+          }
+
+          .industry-posts-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+          }
+
+          .industry-post-image-container {
+            height: 180px;
+          }
+        }
+      `}</style>
+
+      <div className="section-gap section-gap-top__with-text" style={{ background: "#fff", color: "#000" }}>
+        <div className="industry-posts-container">
+          <div className="industry-posts-header">
+            <h2>Industry Posts</h2>
+          </div>
+
+          <div className="industry-posts-grid">
+            {data.map((post) => (
+              <Link key={post.slug?.current || post.title} href={`/industry-post/${post.slug?.current}`} className="industry-post-card">
+                <div className="industry-post-image-container">
+                  <Image
+                    src={post.featureImg}
+                    alt={post.altText || post.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    placeholder="blur"
+                    blurDataURL="/images/placeholder.png"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+
+                <div className="industry-post-body">
+                  {post.category?.title && (
+                    <div className="industry-post-category">{post.category?.title}</div>
+                  )}
+                  <h3 className="industry-post-title">{post.title}</h3>
+                  <p className="industry-post-desc">
                     {post?.description && post.description.length > 80
                       ? `${post.description.slice(0, 120)}...`
                       : post.description}
                   </p>
-                  <div style={{ textAlign: "center", marginTop: "1rem" }}>
-                    <Link 
-                      href={`/industry-post/${post.slug?.current}`}
-                      className="read-more-btn"
-                      style={{
-                        background: "#990000",
-                        color: "#ffffff",
-                        border: "none",
-                        padding: "0.75rem 2rem",
-                        borderRadius: "0",
-                        fontWeight: "700",
-                        textTransform: "capitalize",
-                        fontSize: "1rem",
-                        cursor: "pointer",
-                        transition: "all 0.3s ease",
-                        display: "inline-block",
-                        textDecoration: "none"
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = "#c82333";
-                        e.currentTarget.style.transform = "translateY(-2px)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = "#dc3545";
-                        e.currentTarget.style.transform = "translateY(0)";
-                      }}
-                    >
-                      Read more
-                    </Link>
-                  </div>
+                  <div className="industry-readmore">Read More</div>
                 </div>
-              </div>
-            </div>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

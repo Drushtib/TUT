@@ -34,7 +34,7 @@ const IndustryPosts = () => {
   const { slug } = router.query;
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const postsPerPage = 8;
+  const postsPerPage = 9;
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["industryPosts", slug],
@@ -183,9 +183,9 @@ const IndustryPosts = () => {
 
         .blogs-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-          gap: 2.5rem;
-          max-width: 1200px;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 3.5rem;
+          max-width: 1400px;
           margin: 0 auto 3rem;
         }
 
@@ -194,9 +194,8 @@ const IndustryPosts = () => {
           border-radius: 16px;
           overflow: hidden;
           cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          border: 1px solid #e5e5e5;
-          border-top: 4px solid #dc3545;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          border: 1px solid rgba(0,0,0,0.05);
           box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
           display: flex;
           flex-direction: column;
@@ -204,40 +203,26 @@ const IndustryPosts = () => {
           position: relative;
         }
 
-        .blog-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          border-radius: 16px;
-          border: 1px solid transparent;
-          border-top: 4px solid transparent;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          pointer-events: none;
-        }
-
         .blog-card:hover {
-          transform: translateY(-8px) scale(1.02);
-          box-shadow: 0 20px 50px rgba(220, 53, 69, 0.25);
-          border-color: #dc3545;
+          transform: translateY(-5px);
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+          border-color: #bb0505;
         }
 
-        .blog-card:hover::before {
-          border-color: #dc3545;
-          box-shadow: 0 0 0 1px rgba(220, 53, 69, 0.1);
+        .blog-card:hover .blog-title {
+          color: #bb0505;
         }
 
         .blog-image {
           width: 100%;
-          height: 250px;
+          height: 220px;
           position: relative;
           overflow: hidden;
+          border-bottom: 1px solid rgba(0,0,0,0.08);
         }
 
         .blog-image img {
-          transition: transform 0.3s ease;
+          transition: transform 0.4s ease;
         }
 
         .blog-card:hover .blog-image img {
@@ -249,60 +234,51 @@ const IndustryPosts = () => {
           flex: 1;
           display: flex;
           flex-direction: column;
+          gap: 1rem;
         }
 
         .blog-title {
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           font-weight: 700;
-          color: #171717;
-          margin-bottom: 1rem;
-          line-height: 1.3;
+          color: #000000;
+          margin: 0;
+          line-height: 1.4;
           transition: color 0.3s ease;
-        }
-
-        .blog-card:hover .blog-title {
-          color: #545454;
+          font-family: var(--primary-font);
         }
 
         .blog-description {
-          font-size: 1.4rem;
-          color: #666666;
+          font-size: 1.2rem;
+          color: rgba(0, 0, 0, 0.75);
           line-height: 1.6;
           margin-bottom: 1.5rem;
           flex: 1;
+          font-family: var(--primary-font);
         }
 
         .read-more-btn {
-          background: #dc3545 !important;
+          background: #bb0505 !important;
           color: #ffffff !important;
           border: none;
-          padding: 0.8rem 2.5rem;
+          padding: 0.8rem 2rem;
           border-radius: 8px;
           font-weight: 600;
-          text-transform: capitalize;
-          letter-spacing: 1px;
-          font-size: 1.3rem !important;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          font-size: 1.2rem !important;
           cursor: pointer;
           transition: all 0.3s ease;
           align-self: flex-start;
           margin-top: auto;
+          box-shadow: 0 4px 15px rgba(187, 5, 5, 0.25);
+          font-family: var(--primary-font);
         }
 
         .read-more-btn:hover {
-          background: #c82333 !important;
+          background: #990000 !important;
           color: #ffffff !important;
           transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
-        }
-
-        .read-more-btn:active {
-          background: #bd2130 !important;
-          color: #ffffff !important;
-        }
-
-        .read-more-btn:focus {
-          outline: none;
-          box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.3);
+          box-shadow: 0 6px 20px rgba(187, 5, 5, 0.35);
         }
 
         .show-more-container {
@@ -311,24 +287,25 @@ const IndustryPosts = () => {
         }
 
         .show-more-btn {
-          background: #dc3545 !important;
-          color: #ffffff !important;
-          border: none;
+          background: #ffffff !important;
+          color: #bb0505 !important;
+          border: 2px solid #bb0505;
           padding: 1rem 3rem;
           border-radius: 8px;
           font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 1px;
-          font-size: 1rem;
+          letter-spacing: 0.5px;
+          font-size: 1.1rem;
           cursor: pointer;
           transition: all 0.3s ease;
+          font-family: var(--primary-font);
         }
 
         .show-more-btn:hover {
-          background: #c82333 !important;
+          background: #bb0505 !important;
           color: #ffffff !important;
           transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+          box-shadow: 0 8px 20px rgba(187, 5, 5, 0.3);
         }
 
         .show-more-btn:disabled {
@@ -391,8 +368,8 @@ const IndustryPosts = () => {
           }
 
           .blogs-grid {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
             margin: 0 auto 2rem;
           }
 
@@ -440,10 +417,14 @@ const IndustryPosts = () => {
         }
 
         /* Tablet Responsive */
-        @media (max-width: 1024px) and (min-width: 769px) {
+        @media (max-width: 1200px) {
+          .industry-container {
+            padding: 0 1.5rem;
+          }
+
           .blogs-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
+            gap: 1.5rem;
           }
 
           .blog-image {
@@ -466,7 +447,12 @@ const IndustryPosts = () => {
           }
 
           .blogs-grid {
+            grid-template-columns: 1fr;
             gap: 1rem;
+          }
+
+          .blog-image {
+            height: 220px;
           }
 
           .blog-content {
