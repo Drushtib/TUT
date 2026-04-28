@@ -1,53 +1,71 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
-import Loader from "../components/common/Loader";
-import { client } from "../client";
 import HeaderOne from "../components/header/HeaderOne";
 import FooterTwo from "../components/footer/FooterTwo";
+import Loader from "../components/common/Loader";
 import HeadMeta from "../components/elements/HeadMeta";
+import { client } from "../client";
+import Image from "next/image";
 import Link from "next/link";
 
-const Blogs = () => {
-  const [visiblePosts, setVisiblePosts] = useState(6);
-  const postsPerLoad = 6;
-
+const fetchAllBlogPosts = async () => {
   const query = `
-  *[_type == "post"
-  ]{
-    title,
-    "slug": slug.current,
-    altText,
-    publishedAt,
+    *[_type == "post"]
+    {
+      title,
+      slug,
+      altText,
+      publishedAt,
+      'featureImg': mainImage.asset->url,
+      description,
+      'category': {
+        'title': categories[0]->title,
+        'slug': categories[0]->slug.current
+      }
+    } | order(publishedAt desc)
+  `;
 
-    'featureImg': mainImage.asset->url,
-    description,
-    'category': {
-      'title': categories[0]->title,
-      'slug': categories[0]->slug.current
-    }
-  } | order(publishedAt desc)
-`;
+  return client.fetch(query);
+};
+
+const Blogs = () => {
+  const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const postsPerPage = 9;
+
+  // Save scroll position when clicking Read More
+  const saveScrollPositionAndNavigate = (postSlug) => {
+    // Save current scroll position
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+    sessionStorage.setItem(`scrollPosition_blogs`, scrollPosition.toString());
+    console.log(`Saved scroll position for blogs: ${scrollPosition}`);
+    router.push(`/post/${postSlug}`);
+  };
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["allPosts"],
-    queryFn: async () => {
-      try {
-        const response = await client.fetch(query);
-        console.log('Blogs page - Posts fetched:', response);
-        return response;
-      } catch (err) {
-        console.error('Blogs page - Error fetching posts:', err);
-        throw err;
-      }
-    },
+    queryKey: ["allBlogPosts"],
+    queryFn: fetchAllBlogPosts,
   });
 
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    
-    // Trigger animations after a small delay to ensure DOM is ready
+    // Restore scroll position if coming back from detail page
+    const savedPosition = sessionStorage.getItem(`scrollPosition_blogs`);
+    if (savedPosition) {
+      const position = parseInt(savedPosition);
+      console.log(`Restoring scroll position for blogs: ${position}`);
+      // Use a timeout to ensure the page is fully loaded before scrolling
+      setTimeout(() => {
+        window.scrollTo({ top: position, behavior: "auto" });
+        sessionStorage.removeItem(`scrollPosition_blogs`);
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 100);
@@ -55,82 +73,132 @@ const Blogs = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Calculate visible posts
-  const displayedPosts = data ? data.slice(0, visiblePosts) : [];
-  const hasMorePosts = data ? visiblePosts < data.length : false;
-  
-  const loadMore = () => {
-    setVisiblePosts(prev => prev + postsPerLoad);
+  const handlePostClick = (postSlug) => {
+    saveScrollPositionAndNavigate(postSlug);
   };
+
+  const handleShowMore = () => {
+    setIsLoadingMore(true);
+    setTimeout(() => {
+      setCurrentPage(prev => prev + 1);
+      setIsLoadingMore(false);
+    }, 1000);
+  };
+
+  // Fallback data for demonstration
+  const fallbackData = [
+    {
+      title: "Sample Blog Post",
+      slug: { current: "sample-post" },
+      altText: "Sample post",
+      publishedAt: new Date().toISOString(),
+      featureImg: "/images/tech.jpg",
+      description: "This is a sample blog post for demonstration purposes.",
+      category: { title: "Technology", slug: "tech" }
+    }
+  ];
+
+  const postsData = data && data.length > 0 ? data : fallbackData;
+  const categoryTitle = "All Blogs";
+  const totalPages = Math.ceil((postsData?.length || 0) / postsPerPage);
+  const currentPosts = postsData?.slice(0, currentPage * postsPerPage) || [];
+  const hasMore = currentPage < totalPages;
 
   return (
     <>
-      <HeadMeta
-        metaTitle="Blogs | The Unicorn Time"
-        metaDesc="Stay ahead of the curve with our top-ranked business blog. Get access to the latest industry news, proven strategies from experts, and insightful analysis to help your business thrive."
-      />
+      <HeadMeta metaTitle={categoryTitle} />
 
       <HeaderOne />
 
-      <div className="blogs-page">
-        {/* Page Header */}
-        
+      <div className="industry-container">
+        <div className="industry-header">
+          <h1 className="industry-title">{categoryTitle}</h1>
+        </div>
 
-        {isLoading ? (
-          <div className="loader-container">
-            <Loader />
-          </div>
-        ) : error ? (
-          <div className="error-alert">Error fetching posts</div>
-        ) : (
-          <div className="main-layout">
-            {/* Main Content */}
-            <div className="main-content">
-              <div className="blogs-grid">
-                {displayedPosts.map((post, index) => (
-                  <div
-                    key={post.slug || index}
-                    className={`blog-card ${isVisible ? "animate-in" : ""}`}
-                    style={{ animationDelay: `${index * 0.06}s` }}
-                  >
-                    <div className="blog-card-image">
-                      <img
-                        src={post.featureImg || "/images/placeholder.png"}
-                        alt={post.altText || post.title || "Blog image"}
-                        loading="lazy"
-                        onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src = "/images/placeholder.png";
-                        }}
-                      />
-                    </div>
-
-                    <div className="blog-card-body">
-                      <h3 className="blog-card-title">{post.title}</h3>
-                      {post.description && (
-                        <p className="blog-card-desc">{post.description}</p>
-                      )}
-
-                      <Link href={`/post/${post.slug}`} passHref legacyBehavior>
-                        <a className="blog-readmore">Read More</a>
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Show More Button */}
-              {hasMorePosts && (
-                <div className="show-more-container">
-                  <button
-                    onClick={loadMore}
-                    className="show-more-btn"
-                  >
-                    Show More
-                  </button>
-                </div>
-              )}
+        <div className="blogs-grid">
+          {isLoading ? (
+            <div className="loader-container">
+              <Loader />
             </div>
+          ) : error ? (
+            <div className="error-alert">Error fetching posts</div>
+          ) : !postsData || postsData.length === 0 ? (
+            <div className="no-posts">No posts found.</div>
+          ) : (
+            currentPosts.map((post, index) => {
+              // Ensure valid slug exists before rendering
+              const postSlug = post?.slug?.current || post?.slug;
+              if (!postSlug) {
+                console.warn('Skipping post without valid slug:', post.title);
+                return null;
+              }
+              
+              return (
+                <div
+                  key={postSlug}
+                  className={`blog-card ${isVisible ? "animate-in" : ""}`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  onClick={() => handlePostClick(postSlug)}
+                >
+                <div className="blog-image">
+                  <Image
+                    src={post.featureImg}
+                    alt={post.altText || post.title}
+                    width={400}
+                    height={250}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </div>
+                <div className="blog-content">
+                  <h3 className="blog-title">{post.title}</h3>
+                  <p className="blog-description">
+                    {post.description && post.description.length > 150 ? 
+                      `${post.description.substring(0, 150)}... ` : 
+                      post.description
+                    }
+                    {post.description && post.description.length > 150 && (
+                      <span
+                        style={{
+                          color: '#000000',
+                          textDecoration: 'none',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          transition: 'color 0.3s ease'
+                        }}
+                        onMouseOver={(e) => {
+                          e.target.style.color = '#ff0000';
+                          e.target.style.textDecoration = 'underline';
+                        }}
+                        onMouseOut={(e) => {
+                          e.target.style.color = '#000000';
+                          e.target.style.textDecoration = 'none';
+                        }}
+                        onClick={() => saveScrollPositionAndNavigate(postSlug)}
+                      >
+                        Read More
+                      </span>
+                    )}
+                  </p>
+                </div>
+              </div>
+              );
+            })
+          )}
+        </div>
+
+        {hasMore && (
+          <div className="show-more-container">
+            <button 
+              className="show-more-btn"
+              onClick={handleShowMore}
+              disabled={isLoadingMore}
+            >
+              {isLoadingMore ? (
+                <div className="spinner"></div>
+              ) : (
+                "Show More"
+              )}
+            </button>
           </div>
         )}
       </div>
@@ -138,101 +206,67 @@ const Blogs = () => {
       <FooterTwo />
 
       <style jsx global>{`
-        .blogs-page {
-          background: #ffffff !important;
-          color: #111111 !important;
-          -webkit-text-fill-color: #111111 !important;
-          min-height: 100vh;
-          font-family: var(--primary-font) !important;
+        .read-more-btn {
+          color: #ffffff !important;
         }
-
-        .blogs-page h2,
-        .blogs-page h3,
-        .blogs-page h4,
-        .blogs-page p,
-        .blogs-page a:not(.blog-readmore) {
-          color: #111111 !important;
-          -webkit-text-fill-color: #111111 !important;
+        .read-more-btn:hover {
+          color: #ffffff !important;
         }
-
-        .blogs-page a:not(.blog-readmore):hover {
-          color: #bb0505 !important;
-          -webkit-text-fill-color: #bb0505 !important;
+        .read-more-btn:active {
+          color: #ffffff !important;
         }
+      `}</style>
 
-        /* Page Header */
-        .blogs-page-header {
-          text-align: center;
-          padding: 2rem 1rem 1rem;
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        }
-
-        .blogs-page-title {
-          font-size: 3.5rem;
-          font-weight: 900;
-          color: #000000;
-          -webkit-text-fill-color: #000000;
-          margin: 0;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .blogs-page-subtitle {
-          margin: 1rem auto 0;
-          max-width: 60ch;
-          color: rgba(0, 0, 0, 0.7);
-          -webkit-text-fill-color: rgba(0, 0, 0, 0.7);
-          font-size: 1.4rem;
-          line-height: 1.6;
-          font-weight: 400;
-        }
-
-        /* Main Layout */
-        .main-layout {
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 2rem 2rem 4rem;
-        }
-
-        .main-content {
+      <style jsx>{`
+        .industry-container {
           width: 100%;
+          padding: 2rem 1rem;
+          background-color: #ffffff;
+          min-height: 100vh;
         }
 
-        /* Blog Grid */
+        .industry-header {
+          text-align: center;
+          margin-bottom: 3rem;
+          padding: 2rem 0;
+        }
+
+        .industry-title {
+          font-size: clamp(2rem, 5vw, 3rem);
+          font-weight: 800;
+          color: #171717;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          margin: 0;
+          transition: color 0.3s ease;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .industry-title:hover {
+          color: #545454;
+        }
+
         .blogs-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 3.5rem;
-          margin-bottom: 3rem;
+          max-width: 1400px;
+          margin: 0 auto 3rem;
         }
 
         .blog-card {
           background: #ffffff;
           border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+          cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          opacity: 1;
-          transform: translateY(0);
-          position: relative;
           border: 1px solid rgba(0,0,0,0.05);
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          position: relative;
         }
-
-        .blog-card.animate-in {
-          animation: fadeInUp 0.6s ease forwards;
-          opacity: 0;
-        }
-
-        .blog-card:nth-child(1) { animation-delay: 0.1s; }
-        .blog-card:nth-child(2) { animation-delay: 0.2s; }
-        .blog-card:nth-child(3) { animation-delay: 0.3s; }
-        .blog-card:nth-child(4) { animation-delay: 0.4s; }
-        .blog-card:nth-child(5) { animation-delay: 0.5s; }
-        .blog-card:nth-child(6) { animation-delay: 0.6s; }
-        .blog-card:nth-child(7) { animation-delay: 0.7s; }
-        .blog-card:nth-child(8) { animation-delay: 0.8s; }
-        .blog-card:nth-child(9) { animation-delay: 0.9s; }
 
         .blog-card:hover {
           transform: translateY(-5px);
@@ -240,129 +274,130 @@ const Blogs = () => {
           border-color: #bb0505;
         }
 
-        .blog-card:hover .blog-card-title {
+        .blog-card:hover .blog-title {
           color: #bb0505;
-          -webkit-text-fill-color: #bb0505;
         }
 
-        .blog-card-image {
+        .blog-image {
           width: 100%;
-          height: 200px;
-          background: rgba(0, 0, 0, 0.02);
+          height: 220px;
+          position: relative;
           overflow: hidden;
           border-bottom: 1px solid rgba(0,0,0,0.08);
         }
 
-        .blog-card-image img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
+        .blog-image img {
           transition: transform 0.4s ease;
         }
 
-        .blog-card:hover .blog-card-image img {
+        .blog-card:hover .blog-image img {
           transform: scale(1.05);
         }
 
-        .blog-card-body {
+        .blog-content {
           padding: 2rem;
+          flex: 1;
           display: flex;
           flex-direction: column;
           gap: 1rem;
         }
 
-        .blog-card-title {
-          margin: 0;
-          color: #000000;
-          -webkit-text-fill-color: #000000;
-          font-weight: 700;
+        .blog-title {
           font-size: 1.6rem;
+          font-weight: 700;
+          color: #000000;
+          margin: 0;
           line-height: 1.4;
-          position: relative;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          font-family: var(--primary-font);
+          transition: color 0.3s ease;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
         }
 
-        .blog-card-desc {
-          margin: 0 0 1.5rem 0;
+        .blog-description {
+          font-size: 1.2rem;
           color: rgba(0, 0, 0, 0.75);
-          -webkit-text-fill-color: rgba(0, 0, 0, 0.75);
-          font-size: 1.2rem;
           line-height: 1.6;
-          font-weight: 400;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          font-family: var(--primary-font);
+          margin-bottom: 1.5rem;
+          flex: 1;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
         }
 
-        .blog-readmore {
-          margin-top: auto;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: fit-content;
-          padding: 0.8rem 2rem;
-          border-radius: 8px;
-          background: #bb0505 !important;
-          border: none !important;
+        .read-more-btn {
+          background: transparent !important;
+          color: #000000 !important;
+          border: 1px solid #000000 !important;
+          padding: 0.5rem 1rem !important;
+          border-radius: 4px !important;
+          font-weight: 600 !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.5px !important;
+          font-size: 1rem !important;
+          cursor: pointer !important;
+          transition: all 0.3s ease !important;
+          align-self: flex-start !important;
+          margin-top: 1rem !important;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+          text-decoration: none !important;
+          display: inline-block !important;
+        }
+
+        .read-more-btn:hover {
+          background: #000000 !important;
           color: #ffffff !important;
-          -webkit-text-fill-color: #ffffff !important;
-          text-decoration: none;
-          font-weight: 600;
-          font-size: 1.2rem;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          transition: all 0.3s ease;
-          box-shadow: 0 4px 15px rgba(187, 5, 5, 0.25);
-          font-family: var(--primary-font);
+          border-color: #000000 !important;
+          transform: translateY(-2px) !important;
+          cursor: pointer !important;
+          text-decoration: none !important;
         }
 
-        .blog-readmore:hover {
-          background: #990000 !important;
-          color: #ffffff !important;
-          -webkit-text-fill-color: #ffffff !important;
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(187, 5, 5, 0.35);
-        }
-
-        /* Show More Button */
         .show-more-container {
-          display: flex;
-          justify-content: center;
-          margin-top: 3rem;
+          text-align: center;
+          margin: 3rem 0;
         }
 
         .show-more-btn {
-          padding: 1rem 3rem;
+          background: #ffffff !important;
+          color: #bb0505 !important;
           border: 2px solid #bb0505;
-          background: white;
-          color: #bb0505;
+          padding: 1rem 3rem;
           border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.3s ease;
           font-weight: 600;
-          font-size: 1.1rem;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          font-family: var(--primary-font);
+          font-size: 1.1rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
         }
 
         .show-more-btn:hover {
-          background: #bb0505;
+          background: #bb0505 !important;
           color: #ffffff !important;
-          -webkit-text-fill-color: #ffffff !important;
           transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(187,5,5,0.3);
+          box-shadow: 0 8px 20px rgba(187, 5, 5, 0.3);
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
+        .show-more-btn:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        .spinner {
+          width: 20px;
+          height: 20px;
+          border: 2px solid #ffffff;
+          border-top: 2px solid transparent;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          display: inline-block;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        @keyframes slideInFromBottom {
           from {
             opacity: 0;
             transform: translateY(30px);
@@ -373,70 +408,110 @@ const Blogs = () => {
           }
         }
 
-        @keyframes slideInRight {
-          from {
-            opacity: 0;
-            transform: translateX(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
+        .animate-in {
+          animation: slideInFromBottom 0.6s ease-out;
         }
 
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-          .main-layout {
-            padding: 0 1.5rem 4rem;
-          }
-
-          .blogs-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-          }
+        .loader-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 200px;
         }
 
-        @media (max-width: 968px) {
-          .blogs-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-          }
-        }
-
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-          .blogs-page-header {
-            padding: 2rem 1rem 1rem;
+          .industry-container {
+            padding: 1rem 0.5rem;
+          }
+
+          .industry-header {
+            margin-bottom: 2rem;
+            padding: 1rem 0;
+          }
+
+          .industry-title {
+            font-size: clamp(1.5rem, 6vw, 2rem);
+            letter-spacing: 0.5px;
           }
 
           .blogs-grid {
             grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
-          }
-
-          .blog-card-image {
-            height: 200px;
+            margin: 0 auto 2rem;
           }
 
           .blog-card {
-            min-height: 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
           }
 
-          .blogs-page-title {
-            font-size: 2.2rem;
+          .blog-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
           }
 
-          .blogs-page-subtitle {
-            font-size: 1.1rem;
+          .blog-image {
+            height: 200px;
           }
 
-          .recent-posts-list {
-            grid-template-columns: 1fr;
+          .blog-content {
+            padding: 1.5rem;
+          }
+
+          .blog-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+          }
+
+          .blog-description {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+          }
+
+          .read-more-btn {
+            padding: 0.7rem 2rem;
+            font-size: 0.85rem;
+          }
+
+          .show-more-container {
+            margin: 2rem 0;
+          }
+
+          .show-more-btn {
+            padding: 0.8rem 2rem;
+            font-size: 0.9rem;
           }
         }
 
+        /* Tablet Responsive */
+        @media (max-width: 1200px) {
+          .industry-container {
+            padding: 0 1.5rem;
+          }
+
+          .blogs-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+          }
+
+          .blog-image {
+            height: 220px;
+          }
+
+          .blog-content {
+            padding: 1.8rem;
+          }
+
+          .blog-title {
+            font-size: 1.3rem;
+          }
+        }
+
+        /* Small Mobile */
         @media (max-width: 480px) {
-          .main-layout {
-            padding: 0 1rem 4rem;
+          .industry-container {
+            padding: 0.5rem 0.25rem;
           }
 
           .blogs-grid {
@@ -444,29 +519,25 @@ const Blogs = () => {
             gap: 1rem;
           }
 
-          .blog-card-image {
-            height: 200px;
+          .blog-image {
+            height: 220px;
           }
 
-          .blogs-page-title {
-            font-size: 2rem;
+          .blog-content {
+            padding: 1rem;
           }
 
-          .blogs-page-subtitle {
-            font-size: 1rem;
+          .blog-title {
+            font-size: 1.1rem;
           }
 
-          .recent-post-content {
-            padding: 0.75rem;
+          .blog-description {
+            font-size: 0.9rem;
           }
 
-          .recent-post-image {
-            width: 60px;
-            height: 60px;
-          }
-
-          .recent-post-title h4 {
-            font-size: 0.85rem;
+          .read-more-btn {
+            padding: 0.6rem 1.5rem;
+            font-size: 0.8rem;
           }
         }
       `}</style>

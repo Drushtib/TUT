@@ -10,4 +10,6 @@ import brandlogo from './brandlogo'
 import industryCategory from './industryCategory'
 import industryPost from './industryPost'
 
-export const schemaTypes = [post, category, magazine, author, youtube, blockContent, brandlogo, industryCategory, industryPost]
+import news from './news'
+
+export const schemaTypes = [post, category, magazine, author, youtube, blockContent, brandlogo, industryCategory, industryPost, news]

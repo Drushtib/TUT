@@ -10,9 +10,9 @@ const IndustryNestedRedirect = () => {
     if (slug && Array.isArray(slug)) {
       // Extract the last segment as the actual industry slug
       const lastSegment = slug[slug.length - 1];
-      router.replace(`/industries/${lastSegment}`);
+      router.push(`/industries/${lastSegment}`);
     } else if (slug && typeof slug === 'string') {
-      router.replace(`/industries/${slug}`);
+      router.push(`/industries/${slug}`);
     }
   }, [router, slug]);
 

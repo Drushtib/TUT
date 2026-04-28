@@ -1,21 +1,57 @@
 import { useRouter } from "next/router";
+
 import HeaderOne from "../../components/header/HeaderOne";
+
 import FooterTwo from "../../components/footer/FooterTwo";
+
 import Loader from "../../components/common/Loader";
+
 import ErrorFallback from "../../components/common/ErrorFallback";
+
 import HeadMetaDynamic from "../../components/elements/HeadMetaDynamic";
+
 import { PortableText } from "@portabletext/react";
-import { client } from "../../client";
-import { RichTextComponent } from "../../components/post/RichTextComponent";
+
 import { useQuery } from "@tanstack/react-query";
+
 import { useEffect, useMemo, useState } from "react";
+
 import Link from "next/link";
 
+import { client } from "../../client";
+
+const fetchIndustryPostBySlug = async (slug) => {
+  const query = `
+    *[_type == "industryPost" && slug.current == $slug][0]
+    {
+      title,
+      slug,
+      altText,
+      publishedAt,
+      'featureImg': mainImage.asset->url,
+      description,
+      body,
+      'category': {
+        'title': industryCategory->title,
+        'slug': industryCategory->slug.current
+      },
+      author
+    }
+  `;
+
+  return client.fetch(query, { slug });
+};
+
 const IndustryPostDetails = () => {
+
   const router = useRouter();
+
   const { slug } = router.query;
+
   const [isVisible, setIsVisible] = useState(false);
+
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
+
   const [revealed, setRevealed] = useState({ body: false, related: false });
 
   const {
@@ -24,51 +60,11 @@ const IndustryPostDetails = () => {
     error,
   } = useQuery({
     queryKey: ["industryPost", slug],
-    queryFn: async () => {
-      if (!slug) return null;
-      const query = `*[_type == "industryPost" && slug.current == $slug][0]{
-        title,
-        altText,
-        keywords,
-        slug,
-        "featureImg": mainImage.asset->url,
-        body,
-        description
-      }`;
-      return client.fetch(query, { slug });
-    },
+    queryFn: () => fetchIndustryPostBySlug(slug),
     enabled: !!slug,
   });
 
-  const currentSlug = useMemo(() => {
-    if (!postData) return "";
-    return postData?.slug?.current || postData?.slug || slug || "";
-  }, [postData, slug]);
-
-  const relatedQuery = useMemo(() => {
-    if (!currentSlug) return null;
-    const skip = (currentSlug.length % 10);
-    return `
-      *[_type == "industryPost" && slug.current != "${currentSlug}"]{
-        title,
-        "slug": slug.current,
-        altText,
-        publishedAt,
-        "featureImg": mainImage.asset->url,
-        description
-      } | order(publishedAt desc)[${skip}...${skip + 3}]
-    `;
-  }, [currentSlug]);
-
-  const { data: relatedBlogs } = useQuery({
-    queryKey: ["relatedIndustryPosts", currentSlug],
-    queryFn: async () => {
-      if (!relatedQuery) return [];
-      const response = await client.fetch(relatedQuery);
-      return response || [];
-    },
-    enabled: !!relatedQuery,
-  });
+  const resolvedPost = postData;
 
   useEffect(() => {
     const t = setTimeout(() => setIsVisible(true), 60);
@@ -96,466 +92,1047 @@ const IndustryPostDetails = () => {
           if (!entry.isIntersecting) return;
           const key = entry.target.getAttribute("data-reveal");
           if (!key) return;
-          setRevealed((prev) => (prev[key] ? prev : { ...prev, [key]: true }));
-        });
-      },
-      { root: null, threshold: 0.12 }
-    );
-
-    targets.forEach((t) => io.observe(t));
-    return () => io.disconnect();
-  }, [slug]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (!postData?.body) return;
-    if (!hasUserScrolled) return;
-
-    const root = document.querySelector(".postBody");
-    if (!root) return;
-
-    const items = Array.from(
-      root.querySelectorAll("h2, h3, h4, p, ul, ol, blockquote")
-    );
-    if (items.length === 0) return;
-
-    items.forEach((el) => {
-      el.classList.add("revealItem");
-    });
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("revealVisible");
+          setRevealed(prev => ({ ...prev, [key]: true }));
+          io.unobserve(entry.target);
         });
       },
       { root: null, threshold: 0.32, rootMargin: "0px 0px -12% 0px" }
     );
 
-    items.forEach((el) => io.observe(el));
+    targets.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, [postData?.body, hasUserScrolled]);
+  }, [resolvedPost?.body, hasUserScrolled]);
+
+  const currentSlug = useMemo(() => {
+    if (!resolvedPost) return "";
+    return resolvedPost?.slug?.current || resolvedPost?.slug || slug || "";
+  }, [resolvedPost, slug]);
+
+  // Related blogs query
+  const relatedQuery = useMemo(() => {
+    if (!currentSlug) return null;
+
+    const skip = (currentSlug.length % 10);
+    const limit = 6;
+    
+    return `
+      *[_type == "industryPost" && slug.current != $currentSlug] | order(publishedAt desc)[${skip}...${skip + limit}] {
+        title,
+        slug,
+        "featureImg": mainImage.asset->url,
+        altText,
+        publishedAt,
+        description,
+        "category": {
+          "title": industryCategory->title,
+          "slug": industryCategory->slug.current
+        }
+      }
+    `;
+  }, [currentSlug]);
+
+  const { data: relatedBlogs } = useQuery({
+    queryKey: ["relatedIndustryBlogs", currentSlug],
+    queryFn: async () => {
+      if (!relatedQuery) return [];
+      const response = await client.fetch(relatedQuery, { currentSlug });
+      return response || [];
+    },
+    enabled: !!relatedQuery,
+  });
+
+  // Previous/Next blogs query
+  const adjacentQuery = useMemo(() => {
+    if (!currentSlug) return null;
+    
+    return `
+      *[_type == "industryPost"] | order(publishedAt desc) {
+        title,
+        slug,
+        "featureImg": mainImage.asset->url,
+        altText,
+        publishedAt,
+        description,
+        "category": {
+          "title": industryCategory->title,
+          "slug": industryCategory->slug.current
+        }
+      }
+    `;
+  }, [currentSlug]);
+
+  const { data: allIndustryBlogs } = useQuery({
+    queryKey: ["allIndustryBlogs"],
+    queryFn: async () => {
+      if (!adjacentQuery) return [];
+      const response = await client.fetch(adjacentQuery);
+      return response || [];
+    },
+    enabled: !!adjacentQuery,
+  });
+
+  const adjacentPosts = useMemo(() => {
+    if (!allIndustryBlogs || !currentSlug) return { prev: null, next: null };
+    
+    const currentIndex = allIndustryBlogs.findIndex(post => 
+      post.slug?.current === currentSlug || post.slug === currentSlug
+    );
+    
+    return {
+      prev: currentIndex > 0 ? allIndustryBlogs[currentIndex - 1] : null,
+      next: currentIndex < allIndustryBlogs.length - 1 ? allIndustryBlogs[currentIndex + 1] : null
+    };
+  }, [allIndustryBlogs, currentSlug]);
 
   if (isLoading) return <Loader />;
+
   if (error) {
     console.error('Industry post fetch error:', error);
     return <ErrorFallback error={error} />;
   }
 
-  if (!postData) {
+  if (!resolvedPost) {
     console.log('No industry post data found for slug:', slug);
     return (
       <div style={{ 
         padding: '2rem', 
         textAlign: 'center',
-        background: '#fff',
-        minHeight: '100vh'
+        minHeight: '60vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
       }}>
-        <h2>No data found</h2>
-        <p>Industry post not found</p>
+        <h2>Industry Post Not Found</h2>
+        <p>The industry post you're looking for doesn't exist or has been removed.</p>
+        <Link href="/industries" style={{ 
+          color: '#007bff', 
+          textDecoration: 'underline',
+          marginTop: '1rem'
+        }}>
+          ← Back to Industries
+        </Link>
       </div>
     );
   }
 
-  const resolvedPost = postData;
+  const generateStructuredData = () => {
+    if (!resolvedPost) return null;
+
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": resolvedPost?.title || "",
+      "description": resolvedPost?.description || "",
+      "image": resolvedPost?.featureImg || "",
+      "author": {
+        "@type": "Organization",
+        "name": "The Unicorn Times",
+        "url": "https://theunicorntimes.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "The Unicorn Times",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://theunicorntimes.com/favicon.png"
+        }
+      },
+      "datePublished": resolvedPost?.publishedAt || "",
+      "dateModified": resolvedPost?.publishedAt || ""
+    };
+
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+    );
+  };
 
   return (
     <>
-      <HeadMetaDynamic metaData={resolvedPost} />
       <HeaderOne />
-
-      <div className="postPage">
+      <div className="page">
         <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              {/* Featured Image */}
+                    <div className="newsLayout">
+            {/* Left Side - Main Content */}
+            <div className="mainContent">
+              <div className="header">
+                <h1 className="title">{resolvedPost?.title}</h1>
+              </div>
+
               {resolvedPost?.featureImg && (
-                <div className={`postImage ${isVisible ? "animate-in" : ""}`}>
+                <div className="hero">
                   <img
                     src={resolvedPost.featureImg}
-                    alt={resolvedPost.altText || resolvedPost.title || "Industry post image"}
-                    onError={(e) => {
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src = "/images/placeholder.png";
-                    }}
+                    alt={resolvedPost.altText || resolvedPost.title}
+                    style={{ width: "100%", height: "auto", objectFit: "contain" }}
                   />
                 </div>
               )}
 
-              <div className={`postHeader ${isVisible ? "animate-in" : ""}`}>
-                <h1 className="postTitle">{resolvedPost?.title}</h1>
-              </div>
-
-              <div className={`followUsSection ${isVisible ? "animate-in" : ""}`}>
-                <div className="followUsHeader">
-                  <h3 className="followUsTitle">Follow Us:</h3>
-                  <div className="socialIcons">
-                    <a href="https://www.facebook.com/theunicorntimeswhere" target="_blank" rel="noopener noreferrer" className="socialIcon socialIcon-facebook">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                      </svg>
-                    </a>
-                    <a href="https://twitter.com/EntreprChrocles" target="_blank" rel="noopener noreferrer" className="socialIcon socialIcon-twitter">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                      </svg>
-                    </a>
-                    <a href="https://www.instagram.com/the.unicorntimes/" target="_blank" rel="noopener noreferrer" className="socialIcon socialIcon-instagram">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                      </svg>
-                    </a>
-                    <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" className="socialIcon socialIcon-youtube">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                      </svg>
-                    </a>
-                    <a href="https://www.linkedin.com/company/the-unicorn-times/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="socialIcon socialIcon-linkedin">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <article
-                className={`postBody ${isVisible ? "animate-in" : ""} ${
-                  hasUserScrolled ? "scrollReady" : "awaitScroll"
-                }`}
-              >
-                <div className={`revealBlock ${revealed.body ? "isRevealed" : ""}`} data-reveal="body">
-                  {resolvedPost?.body ? (
-                    <PortableText value={resolvedPost?.body} components={RichTextComponent} />
-                  ) : null}
-                </div>
+              <article className="body">
+                {resolvedPost?.body ? (
+                  <PortableText
+                    value={resolvedPost.body}
+                    components={{
+                      block: {
+                        normal: ({ children }) => <p className="p contentHtml-p">{children}</p>,
+                        h1: ({ children }) => <h1 className="contentHtml-h1">{children}</h1>,
+                        h2: ({ children }) => <h2 className="contentHtml-h2">{children}</h2>,
+                        h3: ({ children }) => <h3 className="contentHtml-h3">{children}</h3>,
+                        h4: ({ children }) => <h4 className="contentHtml-h3">{children}</h4>,
+                        h5: ({ children }) => <h5 className="contentHtml-h3">{children}</h5>,
+                        h6: ({ children }) => <h6 className="contentHtml-h3">{children}</h6>,
+                      },
+                      list: ({ children }) => <ul className="contentHtml-list">{children}</ul>,
+                      listItem: ({ children }) => <li className="contentHtml-li">{children}</li>,
+                      marks: {
+                        strong: ({ children }) => <strong>{children}</strong>,
+                        em: ({ children }) => <em>{children}</em>,
+                      },
+                    }}
+                  />
+                ) : (
+                  <p className="p">{resolvedPost?.description}</p>
+                )}
               </article>
 
-              <div className={`shareSection ${isVisible ? "animate-in" : ""}`}>
-                <h3 className="shareTitle">Share:</h3>
-                <div className="shareButtons">
-                  <button className="shareButton shareButton-facebook">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                    <span>Facebook</span>
-                  </button>
-                  <button className="shareButton shareButton-twitter">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                    </svg>
-                    <span>Twitter</span>
-                  </button>
-                  <button className="shareButton shareButton-instagram">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
-                    <span>Instagram</span>
-                  </button>
-                  <button className="shareButton shareButton-linkedin">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                    </svg>
-                    <span>LinkedIn</span>
-                  </button>
-                </div>
+              {/* Previous/Next Navigation */}
+              <div className="navigation">
+                {adjacentPosts.prev && (
+                  <Link href={`/industry-post/${adjacentPosts.prev.slug?.current || adjacentPosts.prev.slug}`} className="navLink prev">
+                    <span className="navLabel">← Previous</span>
+                    <span className="navTitle">{adjacentPosts.prev.title}</span>
+                  </Link>
+                )}
+                {adjacentPosts.next && (
+                  <Link href={`/industry-post/${adjacentPosts.next.slug?.current || adjacentPosts.next.slug}`} className="navLink next">
+                    <span className="navLabel">Next →</span>
+                    <span className="navTitle">{adjacentPosts.next.title}</span>
+                  </Link>
+                )}
               </div>
+
+                          </div>
+
+            {/* Right Side - Related Posts */}
+            <div className="sidebar">
+              <h3 className="relatedTitle">Related Posts</h3>
+              {relatedBlogs && relatedBlogs.length > 0 ? (
+                <ul className="relatedList">
+                  {relatedBlogs.map((post) => (
+                    <li key={post.slug} className="relatedItem">
+                      <Link href={`/industry-post/${post.slug?.current || post.slug}`}>
+                        {post.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No related posts found.</p>
+              )}
             </div>
           </div>
-
-          {/* Recommended Industry Posts */}
-          {relatedBlogs && relatedBlogs.length > 0 ? (
-            <section className={`relatedSection ${isVisible ? "animate-in" : ""}`}>
-              <div className={`revealBlock ${revealed.related ? "isRevealed" : ""}`} data-reveal="related">
-                <div className="relatedHeader">
-                  <h2 className="relatedTitle">Recommended:</h2>
-                </div>
-
-                <div className="relatedContainer">
-                  <div className="relatedGrid">
-                    {relatedBlogs.slice(0, 3).map((post, index) => (
-                      <Link href={`/industry-post/${post.slug}`} key={post.slug || index}>
-                        <div
-                          className="relatedCard"
-                          style={{ animationDelay: `${index * 0.06}s` }}
-                        >
-                          <div className="relatedImgWrap">
-                            <img
-                              src={post.featureImg || "/images/placeholder.png"}
-                              alt={post.altText || post.title || "Industry post image"}
-                              loading="lazy"
-                              onError={(e) => {
-                                e.currentTarget.onerror = null;
-                                e.currentTarget.src = "/images/placeholder.png";
-                              }}
-                            />
-                          </div>
-
-                          <div className="relatedBody">
-                            <h3 className="relatedCardTitle">{post.title}</h3>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </section>
-          ) : null}
         </div>
       </div>
+      <FooterTwo />
 
-      <style jsx>{`
-        .postPage {
+      <style jsx global>{`
+        html {
+          overflow: visible !important;
+          height: auto !important;
+          max-height: none !important;
+        }
+
+        body {
+          overflow: visible !important;
+          height: auto !important;
+          max-height: none !important;
+          min-height: auto !important;
+        }
+
+        body > div {
+          min-height: auto !important;
+          height: auto !important;
+          max-height: none !important;
+          overflow: visible !important;
+        }
+
+        body > div > div {
+          min-height: auto !important;
+          height: auto !important;
+          max-height: none !important;
+          overflow: visible !important;
+        }
+
+        .page {
+          width: 100%;
           background: #ffffff;
           color: #111111;
           padding: 2.5rem 0 3.5rem;
-          min-height: 100vh;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+          overflow: visible !important;
         }
 
         .container {
-          max-width: 1200px;
+          max-width: 1400px;
           margin: 0 auto;
-          padding: 0 1.5rem;
-        }
-
-        .row {
-          display: flex;
-          flex-wrap: wrap;
-          margin: 0 -1rem;
-        }
-
-        .col-lg-12 {
-          flex: 0 0 100%;
-          max-width: 100%;
           padding: 0 1rem;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+          overflow: visible !important;
         }
 
-        .postImage {
-          width: 100%;
-          margin-bottom: 2rem;
-          opacity: 0;
-          transform: translateY(20px);
-          animation: fadeUp 0.55s ease forwards;
+        .newsLayout {
+          display: grid;
+          grid-template-columns: 2.5fr 1fr;
+          gap: 3rem;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+          overflow: visible !important;
+          height: auto !important;
         }
 
-        .postImage img {
-          width: 100%;
-          height: 450px;
-          object-fit: cover;
-          border-radius: 12px;
+        .mainContent {
+          max-width: none;
+          border-right: 1.5px solid #706464ff;
+          padding-right: 3rem;
+          padding-left: 2rem;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+          overflow: visible !important;
+          height: auto !important;
+        }
+
+        .sidebar {
+          position: sticky !important;
+          top: 80px !important;
+          padding-left: 2rem;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+          height: fit-content !important;
+          max-height: none !important;
+        }
+
+        .header {
+          text-align: left;
+          margin-bottom: 1.5rem;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .title {
+          margin: 0;
+          font-size: clamp(2rem, 3.2vw, 3.2rem);
+          font-weight: 800;
+          color: #000000;
+          -webkit-text-fill-color: #000000;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .meta {
+          margin-top: 0.75rem;
+          color: rgba(0, 0, 0, 0.72);
+          -webkit-text-fill-color: rgba(0, 0, 0, 0.72);
+          font-size: 1.05rem;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .hero {
+          margin: 1.25rem 0 1.75rem;
+          border-radius: 0;
+          overflow: hidden;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          box-shadow: 0 18px 44px rgba(0, 0, 0, 0.08);
+          background: #f2f2f2;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .body {
+          font-size: 1.5rem !important;
+          line-height: 1.6 !important;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .contentHtml {
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .p {
+          margin: 0 0 1rem 0;
+          color: #111111;
+          -webkit-text-fill-color: #111111;
+          white-space: pre-wrap;
+          font-size: 1.5rem !important;
+          line-height: 1.6 !important;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .contentHtml :global(h2) {
+          margin: 1.1rem 0 0.75rem;
+          color: #000000;
+          -webkit-text-fill-color: #000000;
+          font-size: 1.6rem;
+          font-weight: 800;
+          line-height: 1.25;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .contentHtml-h1 {
+          margin: 1.5rem 0 1rem;
+          color: #111f35;
+          -webkit-text-fill-color: #111f35;
+          font-size: 2.2rem;
+          font-weight: 800;
+          line-height: 1.25;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .contentHtml-h2 {
+          margin: 1.5rem 0 0.75rem;
+          color: #111f35;
+          -webkit-text-fill-color: #111f35;
+          font-size: 1.8rem;
+          font-weight: 800;
+          line-height: 1.25;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .contentHtml-h3 {
+          margin: 1.2rem 0 0.5rem;
+          color: #111f35;
+          -webkit-text-fill-color: #111f35;
+          font-size: 1.5rem;
+          font-weight: 700;
+          line-height: 1.25;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .contentHtml-image {
           display: block;
+          width: 100%;
+          max-width: 640px;
+          height: auto;
+          margin: 0.75rem auto 1.25rem;
+          border-radius: 12px;
+          border: 1px solid rgba(0, 0, 0, 0.12);
         }
 
-        .postHeader {
+        .contentHtml :global(p) {
+          margin: 0 0 1rem;
+          color: #111111;
+          -webkit-text-fill-color: #111111;
+          font-size: 1.5rem !important;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .contentHtml-p {
+          font-size: 1.5rem !important;
+          line-height: 1.6 !important;
+          color: #111111 !important;
+          -webkit-text-fill-color: #111111 !important;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .contentHtml-list {
+          margin: 0.75rem 0 1rem;
+          padding-left: 2.25rem;
+          color: #111111;
+          -webkit-text-fill-color: #111111;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .contentHtml-li {
+          margin: 0.35rem 0;
+          font-size: 1.5rem !important;
+          line-height: 1.5;
+          color: #111111;
+          -webkit-text-fill-color: #111111;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .contentHtml :global(ul),
+        .contentHtml :global(ol) {
+          margin: 0.75rem 0 1rem;
+          padding-left: 2.25rem;
+          color: #111111;
+          -webkit-text-fill-color: #111111;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .contentHtml :global(li) {
+          margin: 0.35rem 0;
+          font-size: 1.5rem !important;
+          line-height: 1.6;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .contentHtml :global(ul li::marker),
+        .contentHtml :global(ol li::marker) {
+          color: #000000;
+        }
+
+        .contentHtml :global(ul) {
+          list-style-type: disc;
+        }
+
+        .contentHtml :global(ol) {
+          list-style-type: decimal;
+        }
+
+        .contentHtml :global(.tableWrap) {
+          width: 100%;
+          overflow-x: auto;
+          margin: 1rem 0 1.25rem;
+        }
+
+        .contentHtml :global(.equation) {
+          margin: 0.9rem 0 1.1rem;
+          padding: 0.9rem 1rem;
+          border: 1px solid rgba(0, 0, 0, 0.25);
+          border-radius: 12px;
+          background: rgba(0, 0, 0, 0.03);
+          color: #000000;
+          -webkit-text-fill-color: #000000;
+          font-size: 1.35rem;
+          font-weight: 800;
           text-align: center;
-          margin-bottom: 2rem;
+          letter-spacing: 0.2px;
+        }
+
+        .contentHtml :global(img.contentImage) {
+          display: block;
+          width: 100%;
+          max-width: 640px;
+          height: 240px;
+          object-fit: cover;
+          margin: 0.75rem auto 1.25rem;
+          border-radius: 12px;
+          border: 1px solid rgba(0, 0, 0, 0.12);
+        }
+
+        .contentHtml :global(table.contentTable) {
+          width: 100%;
+          border-collapse: collapse;
+          min-width: 640px;
+          background: #ffffff;
+        }
+
+        .contentHtml :global(table.contentTable th),
+        .contentHtml :global(table.contentTable td) {
+          border: 1px solid rgba(0, 0, 0, 0.35);
+          padding: 0.85rem 1rem;
+          text-align: left;
+          vertical-align: top;
+          color: #111111;
+          -webkit-text-fill-color: #111111;
+          font-size: 1.6rem;
+          line-height: 1.35;
+          white-space: normal;
+        }
+
+        .contentHtml :global(table.contentTable th) {
+          font-weight: 800;
+          background: rgba(0, 0, 0, 0.03);
+        }
+
+        .navigation {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 3rem;
+          padding-top: 2rem;
+          border-top: 1px solid #e9ecef;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .navLink {
+          display: flex;
+          flex-direction: column;
+          text-decoration: none;
+          color: inherit;
+          max-width: 45%;
+          padding: 1rem;
+          border-radius: 8px;
+          transition: background-color 0.2s ease;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .navLink:hover {
+          background-color: #f8f9fa;
+        }
+
+        .navLink.prev {
+          text-align: left;
+        }
+
+        .navLink.next {
+          text-align: right;
+          margin-left: auto;
+        }
+
+        .navLabel {
+          font-size: 1.3rem;
+          font-weight: 600;
+          color: #007bff;
+          -webkit-text-fill-color: #007bff;
+          margin-bottom: 0.5rem;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .navTitle {
+          font-size: 1.3rem;
+          font-weight: 500;
+          line-height: 1.4;
+          color: #000000;
+          -webkit-text-fill-color: #000000;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .relatedTitle {
+          margin: 0 0 1rem 0;
+          font-size: 2.5rem;
+          font-weight: 700;
+          color: #111f35;
+          -webkit-text-fill-color: #111f35;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .relatedList {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        .relatedItem {
+          padding: 0.5rem 0;
+          border-bottom: 1px solid #706464ff;
+        }
+
+        .relatedItem:last-child {
+          border-bottom: none;
+        }
+
+        .relatedItem a {
+          text-decoration: none;
+          color: #111f35 !important;
+          -webkit-text-fill-color: #111f35 !important;
+          font-size: 1.5rem !important;
+          font-weight: 400 !important;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+        }
+
+        .relatedItem a:hover {
+          text-decoration: underline;
+        }
+
+        @media (max-width: 992px) {
+          .hero {
+            height: 360px;
+          }
+
+          .newsLayout {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+          }
+
+          .sidebar {
+            position: static;
+          }
+
+          .navigation {
+            flex-direction: column;
+            gap: 1rem;
+          }
+
+          .navLink {
+            max-width: 100%;
+          }
+
+          .navLink.next {
+            margin-left: 0;
+          }
+        }
+
+        @media (max-width: 576px) {
+          .hero {
+            height: 260px;
+          }
+
+          .body {
+            font-size: 1.05rem;
+          }
+
+          .newsLayout {
+            gap: 1.5rem;
+          }
+
+          .relatedPosts {
+            padding: 1rem;
+          }
+
+          .relatedItem {
+            padding: 0.5rem;
+          }
+
+          .relatedImage {
+            width: 60px;
+            height: 45px;
+          }
+
+          .navigation {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+          }
+        }
+
+        .postHero {
+          position: relative;
+          width: 100%;
+          height: 400px;
+          border-radius: 12px;
+          overflow: hidden;
           opacity: 0;
-          transform: translateY(20px);
+          transform: translateY(30px);
+          transition: all 0.8s ease 0.2s;
+        }
+
+        .postHero.animate-in {
           animation: fadeUp 0.55s ease forwards;
           animation-delay: 0.08s;
         }
 
-        .postTitle {
-          font-size: clamp(2rem, 4vw, 2.8rem);
-          font-weight: 700;
-          color: #000000;
-          margin: 0;
-          line-height: 1.3;
-          font-family: var(--primary-font);
+        .postHeroImg {
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+          display: block;
+          background: #f2f2f2;
         }
 
-        .followUsSection {
-          margin: 2rem 0;
-          opacity: 0;
-          transform: translateY(20px);
+        .newsHero {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: 1.5rem;
+          margin-bottom: 2rem;
+          opacity: 1;
+          transform: none;
+        }
+
+        .newsHero.animate-in {
           animation: fadeUp 0.55s ease forwards;
-          animation-delay: 0.1s;
+          animation-delay: 0.08s;
         }
 
-        .followUsHeader {
+        .newsHero-featured {
+          position: relative;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .newsHero-featured:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .newsHero-featured:hover .newsHero-featured-image {
+          transform: translateY(-4px);
+          box-shadow: 0 22px 50px rgba(0, 0, 0, 0.18);
+        }
+
+        .newsHero-featured-image {
+          width: 100%;
+          height: 400px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .newsHero-featured-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.4s ease;
+        }
+
+        .newsHero-overlay {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+          padding: 2rem;
+          color: #ffffff;
+          min-height: 200px;
           display: flex;
-          align-items: center;
+          flex-direction: column;
+          justify-content: flex-end;
+        }
+
+        .newsHero-title {
+          margin: 0 0 0.75rem 0;
+          font-size: 2rem;
+          font-weight: 700;
+          line-height: 1.3;
+        }
+
+        .newsHero-description {
+          margin: 0;
+          font-size: 1rem;
+          line-height: 1.5;
+          opacity: 0.9;
+        }
+
+        .newsHero-sidebar {
+          display: flex;
+          flex-direction: column;
           gap: 1rem;
+        }
+
+        .newsHero-sidebar-header h3 {
+          margin: 0;
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: #333;
+        }
+
+        .newsHero-sidebar-content {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .newsHero-sidebar-item {
+          display: block;
+          text-decoration: none;
+          padding: 0.75rem;
+          background: #ffffff;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 12px;
+          transition: all 0.3s ease;
+        }
+
+        .newsHero-sidebar-item:hover {
+          border-color: #bb0505;
+          background: rgba(187, 5, 5, 0.02);
+          transform: translateX(-4px);
+          box-shadow: 0 4px 15px rgba(187, 5, 5, 0.1);
+        }
+
+        .newsHero-sidebar-content {
+          display: flex;
+          gap: 0.75rem;
+          align-items: center;
+        }
+
+        .newsHero-sidebar-image {
+          flex-shrink: 0;
+          width: 80px;
+          height: 60px;
+          border-radius: 8px;
+          overflow: hidden;
+        }
+
+        .newsHero-sidebar-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .newsHero-sidebar-text {
+          flex: 1;
+        }
+
+        .newsHero-sidebar-text h4 {
+          margin: 0;
+          font-size: 0.95rem;
+          font-weight: 600;
+          color: #333;
+          line-height: 1.3;
+        }
+
+        .postTitle {
+          font-size: clamp(2rem, 4vw, 3rem);
+          font-weight: 800;
+          color: #000;
+          margin: 0 0 1rem 0;
+          line-height: 1.2;
+        }
+
+        .postCategory {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: #bb0505;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
           margin-bottom: 1rem;
         }
 
+        .followUsSection {
+          padding: 1.5rem;
+          background: #f8f9fa;
+          border-radius: 8px;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.8s ease 0.3s;
+        }
+
+        .followUsSection.animate-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
         .followUsTitle {
-          margin: 0;
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #000000;
-          font-family: var(--primary-font);
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #333;
+          margin: 0 0 1rem 0;
         }
 
         .socialIcons {
           display: flex;
-          gap: 0.75rem;
-          flex-wrap: wrap;
+          gap: 1rem;
         }
 
         .socialIcon {
           width: 40px;
           height: 40px;
+          border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 8px;
-          transition: all 0.3s ease;
-          text-decoration: none;
+          transition: transform 0.3s ease;
+        }
+
+        .socialIcon:hover {
+          transform: translateY(-2px);
         }
 
         .socialIcon-facebook {
-          background: #0d4fa8;
-        }
-
-        .socialIcon-facebook:hover {
-          background: #0a3d82;
-          transform: translateY(-2px);
+          background: #1877f2;
         }
 
         .socialIcon-twitter {
-          background: #000000;
-        }
-
-        .socialIcon-twitter:hover {
-          background: #333333;
-          transform: translateY(-2px);
+          background: #1da1f2;
         }
 
         .socialIcon-instagram {
-          background: #2d2d2d;
-        }
-
-        .socialIcon-instagram:hover {
-          background: #1a1a1a;
-          transform: translateY(-2px);
+          background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
         }
 
         .socialIcon-youtube {
-          background: #bb0505;
-        }
-
-        .socialIcon-youtube:hover {
-          background: #990000;
-          transform: translateY(-2px);
+          background: #ff0000;
         }
 
         .socialIcon-linkedin {
-          background: #0d4fa8;
-        }
-
-        .socialIcon-linkedin:hover {
-          background: #0a3d82;
-          transform: translateY(-2px);
+          background: #0077b5;
         }
 
         .postBody {
-          font-size: 1.25rem;
-          line-height: 1.9;
-          color: #111111;
-          opacity: 1;
-          transform: none;
-        }
-
-        .postBody :global(*) {
-          color: #111111 !important;
-          -webkit-text-fill-color: #111111 !important;
-        }
-
-        .postBody :global(strong),
-        .postBody :global(b) {
-          font-weight: 900;
-          font-size: 1.4rem;
-          color: #000000 !important;
-          -webkit-text-fill-color: #000000 !important;
-          display: block;
-          margin: 1rem 0 0.5rem 0;
-        }
-
-        .postBody :global(h2),
-        .postBody :global(h3) {
-          font-weight: 800;
-          font-size: 1.6rem;
-          color: #000000 !important;
-          -webkit-text-fill-color: #000000 !important;
-          margin-top: 2rem;
-          margin-bottom: 1rem;
-        }
-
-        .postBody :global(p:last-child),
-        .postBody :global(.conclusion) {
-          font-weight: 700;
-          font-size: 1.35rem;
-          color: #000000 !important;
-          -webkit-text-fill-color: #000000 !important;
-          margin-top: 2rem;
-          padding-top: 1.5rem;
-          border-top: 2px solid #e0e0e0;
-        }
-
-        .postBody :global(p) {
-          margin: 0 0 0.22rem 0 !important;
-          line-height: 1.95 !important;
-        }
-
-        .postBody :global(ul),
-        .postBody :global(ol) {
-          margin: 0 0 0.22rem 1.2rem !important;
-          padding-left: 1.2rem !important;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.8s ease 0.4s;
         }
 
         .postBody.animate-in {
-          animation: fadeUp 0.55s ease forwards;
-          animation-delay: 0.14s;
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .revealBlock {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: all 0.8s ease;
+        }
+
+        .revealBlock.isRevealed {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .postDescription {
+          font-size: 1.1rem;
+          line-height: 1.8;
+          color: #333;
+        }
+
+        .body-paragraph {
+          font-size: 1.1rem;
+          line-height: 1.8;
+          color: #333;
+          margin-bottom: 1.5rem;
+          text-align: justify;
+        }
+
+        .body-h1 {
+          font-size: 2rem;
+          font-weight: 700;
+          color: #000;
+          margin: 2rem 0 1rem 0;
+        }
+
+        .body-h2 {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: #000;
+          margin: 1.5rem 0 0.8rem 0;
+        }
+
+        .body-h3 {
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: #000;
+          margin: 1rem 0 0.6rem 0;
         }
 
         .shareSection {
-          padding: 0;
-          background: transparent;
-          border-radius: 0;
-          box-shadow: none;
-          opacity: 1;
-          transform: none;
-          display: flex;
-          align-items: center;
-          gap: 1.5rem;
-          margin: 2rem 0;
+          padding: 1.5rem;
+          background: #f8f9fa;
+          border-radius: 8px;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.8s ease 0.5s;
         }
 
         .shareSection.animate-in {
-          animation: fadeUp 0.55s ease forwards;
+          opacity: 1;
+          transform: translateY(0);
         }
 
         .shareTitle {
-          margin: 0;
-          font-size: 2rem;
-          font-weight: 700;
-          color: #000000;
-          font-family: var(--primary-font);
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #333;
+          margin: 0 0 1rem 0;
         }
 
         .shareButtons {
           display: flex;
-          gap: 1rem;
+          gap: 0.5rem;
           flex-wrap: wrap;
-          align-items: center;
         }
 
         .shareButton {
-          padding: 0.8rem 1.5rem;
-          color: #ffffff !important;
-          border: none;
-          border-radius: 8px;
-          font-weight: 600;
-          font-size: 1.3rem;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          font-family: var(--primary-font);
           display: flex;
           align-items: center;
-          gap: 0.75rem;
+          gap: 0.5rem;
+          padding: 0.6rem 1rem;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: white;
+          transition: all 0.3s ease;
+        }
+
+        .shareButton svg {
+          width: 16px;
+          height: 16px;
         }
 
         .shareButton span {
@@ -582,16 +1159,6 @@ const IndustryPostDetails = () => {
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
         }
 
-        .shareButton-instagram {
-          background: #2d2d2d;
-        }
-
-        .shareButton-instagram:hover {
-          background: #1a1a1a;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(45, 45, 45, 0.25);
-        }
-
         .shareButton-linkedin {
           background: #0d4fa8;
         }
@@ -602,81 +1169,117 @@ const IndustryPostDetails = () => {
           box-shadow: 0 4px 15px rgba(13, 79, 168, 0.25);
         }
 
-        .shareButton svg {
-          width: 20px;
-          height: 20px;
+        .shareButton-instagram {
+          background: #2d2d2d;
         }
 
+        .shareButton-instagram:hover {
+          background: #1a1a1a;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(45, 45, 45, 0.25);
+        }
+
+        .backSection {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.8s ease 0.6s;
+        }
+
+        .backSection.animate-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .backButton {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.8rem 2rem;
+          background: #bb0505;
+          color: #ffffff;
+          text-decoration: none;
+          font-weight: 600;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(187, 5, 5, 0.25);
+        }
+
+        .backButton:hover {
+          background: #990000;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(187, 5, 5, 0.35);
+        }
+
+        /* Recommended Blogs Section Styles */
         .relatedSection {
           margin-top: 3rem;
-          opacity: 1;
-          transform: none;
-        }
-
-        .relatedSection {
+          padding: 3rem 0;
           color: #000000;
         }
 
         .relatedSection.animate-in {
           animation: fadeUp 0.55s ease forwards;
-          animation-delay: 0.18s;
         }
 
         .relatedHeader {
           display: flex;
-          justify-content: left;
-          margin-bottom: 2rem;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 2.5rem;
         }
 
         .relatedTitle {
+          font-size: 2.2rem;
+          font-weight: 700;
+          color: #000000;
+          text-align: center;
           margin: 0;
-          font-size: 2.5rem;
-          font-weight: 600;
-          color: #000000 !important;
-          -webkit-text-fill-color: #000000 !important;
-          font-family: var(--primary-font);
+          letter-spacing: -0.02em;
         }
 
         .relatedContainer {
           max-width: 1400px;
           margin: 0 auto;
-          padding: 0 1rem;
+          padding: 0 2rem;
         }
 
         .relatedGrid {
           display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 3rem;
-          align-items: stretch;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 2rem;
         }
 
+        /* Related cards: match /blogs card style (white bg, black text) */
         .relatedCard {
           background: #ffffff;
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          border-radius: 14px;
+          border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.07);
-          transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-          opacity: 0;
-          transform: translateY(18px);
-          animation: fadeUp 0.55s ease forwards;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          opacity: 1;
+          transform: translateY(0);
+          position: relative;
+          border: 1px solid rgba(0,0,0,0.05);
+          text-decoration: none;
           display: flex;
           flex-direction: column;
-          height: 100%;
-          min-height: 350px;
         }
 
         .relatedCard:hover {
           transform: translateY(-4px);
-          box-shadow: 0 18px 44px rgba(0, 0, 0, 0.10);
-          border-color: rgba(187, 5, 5, 0.35);
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+          border-color: #bb0505;
+        }
+
+        .relatedCard:hover .relatedCardTitle {
+          color: #bb0505;
         }
 
         .relatedImgWrap {
           width: 100%;
-          height: 220px;
-          background: rgba(0, 0, 0, 0.03);
+          height: 200px;
           overflow: hidden;
+          position: relative;
         }
 
         .relatedImgWrap img {
@@ -684,78 +1287,172 @@ const IndustryPostDetails = () => {
           height: 100%;
           object-fit: cover;
           display: block;
-          transition: transform 0.35s ease, filter 0.35s ease;
+          transition: transform 0.4s ease;
         }
 
         .relatedCard:hover .relatedImgWrap img {
           transform: translateY(-2px);
-          filter: saturate(1.08) contrast(1.06);
-        }
-
-        .relatedCard a {
-          text-decoration: none;
-          display: block;
         }
 
         .relatedBody {
           padding: 1.25rem 1.15rem 1.35rem;
           display: flex;
           flex-direction: column;
-          gap: 0.65rem;
+          gap: 0.75rem;
+          flex: 1;
         }
 
         .relatedCardTitle {
           margin: 0;
-          color: #000000 !important;
-          -webkit-text-fill-color: #000000 !important;
-          font-weight: 500;
-          font-size: 1.5rem;
-          line-height: 1.35;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          font-family: var(--primary-font);
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #000000;
+          line-height: 1.3;
+          transition: color 0.3s ease;
         }
 
-        @keyframes fadeUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+        .relatedCardDesc {
+          margin: 0;
+          font-size: 1rem;
+          color: rgba(0, 0, 0, 0.7);
+          line-height: 1.5;
+          flex: 1;
         }
 
+        .relatedReadMore {
+          margin-top: auto;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: fit-content;
+          padding: 0.6rem 1.5rem;
+          border-radius: 8px;
+          background: #bb0505;
+          border: none;
+          color: #ffffff;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 0.9rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(187, 5, 5, 0.25);
+        }
+
+        .relatedReadMore:hover {
+          background: #990000;
+          color: #ffffff;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(187, 5, 5, 0.35);
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-          .postImage img {
-            height: 300px;
+          .postContainer {
+            padding: 1rem 0.5rem;
+          }
+
+          .postLayout {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+          }
+
+          .postHero {
+            height: 250px;
           }
 
           .postTitle {
-            font-size: 1.8rem;
+            font-size: clamp(1.5rem, 6vw, 2rem);
           }
 
-          .followUsHeader {
-            flex-direction: column;
-            align-items: flex-start;
+          .newsHero {
+            grid-template-columns: 1fr;
+            gap: 1rem;
           }
 
-          .shareSection {
-            flex-direction: column;
-            align-items: flex-start;
+          .newsHero-featured-image {
+            height: 300px;
+          }
+
+          .newsHero-title {
+            font-size: 1.6rem;
+          }
+
+          .newsHero-description {
+            font-size: 1rem;
           }
 
           .relatedGrid {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 1.5rem;
+          }
+
+          .relatedTitle {
+            font-size: 2rem;
+          }
+
+          .relatedCardTitle {
+            font-size: 1.35rem;
+          }
+
+          .relatedCardDesc {
+            font-size: 1.15rem;
+          }
+
+          .relatedImgWrap {
+            height: 240px;
+          }
+        }
+
+        /* Tablet Responsive */
+        @media (max-width: 1024px) {
+          .postLayout {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+          }
+
+          .relatedGrid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+          }
+
+          .relatedTitle {
+            font-size: 2rem;
+          }
+
+          .relatedCardTitle {
+            font-size: 1.35rem;
+          }
+
+          .relatedCardDesc {
+            font-size: 1.15rem;
+          }
+        }
+
+        /* Large Mobile Responsive */
+        @media (max-width: 640px) {
+          .relatedGrid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+          }
+
+          .relatedImgWrap {
+            height: 240px;
+          }
+
+          .relatedCardTitle {
+            font-size: 1.35rem;
+          }
+
+          .relatedCardDesc {
+            font-size: 1.15rem;
+          }
+
+          .relatedTitle {
+            font-size: 1.8rem;
           }
         }
       `}</style>
-
-      <FooterTwo />
     </>
   );
 };

@@ -6,7 +6,7 @@ export const SANITY_CONFIG = {
   projectId: "lres172w",
   dataset: "production",
   apiVersion: "2023-05-03",
-  useCdn: true,
+  useCdn: process.env.NODE_ENV === "production",
 };
 
 // Sanity Content Types

@@ -804,14 +804,25 @@ In our pages, readers find real journeys—stories of risk-taking, breakthrough 
 export default AboutUs;
 
 export async function getStaticProps() {
-  const aboutData = getFileContentBySlug("AboutData", "src/data/about");
-  const content = await markdownToHtml(aboutData.content || "");
-  return {
-    props: {
-      aboutData: {
-        ...aboutData,
-        content,
+  try {
+    const aboutData = getFileContentBySlug("AboutData", "src/data/about");
+    const content = await markdownToHtml(aboutData.content || "");
+    return {
+      props: {
+        aboutData: {
+          ...aboutData,
+          content,
+        },
       },
-    },
-  };
+    };
+  } catch (error) {
+    console.error("Error in getStaticProps:", error);
+    return {
+      props: {
+        aboutData: {
+          content: "",
+        },
+      },
+    };
+  }
 }

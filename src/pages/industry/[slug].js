@@ -8,7 +8,7 @@ const IndustryRedirect = () => {
   useEffect(() => {
     // Redirect from /industry/[slug] to /industries/[slug] (with 's')
     if (slug) {
-      router.replace(`/industries/${slug}`);
+      router.push(`/industries/${slug}`);
     }
   }, [router, slug]);
 

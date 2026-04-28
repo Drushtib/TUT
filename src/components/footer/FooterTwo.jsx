@@ -62,6 +62,7 @@ const FooterTwo = () => {
         .page-footer,
         .page-footer * {
           color: white !important;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
         }
         .page-footer a {
           color: white !important;

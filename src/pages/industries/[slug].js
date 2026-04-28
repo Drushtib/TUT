@@ -36,6 +36,15 @@ const IndustryPosts = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const postsPerPage = 9;
 
+  // Save scroll position when clicking Read More
+  const saveScrollPositionAndNavigate = (postSlug) => {
+    // Save current scroll position
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+    sessionStorage.setItem(`scrollPosition_${slug}`, scrollPosition.toString());
+    console.log(`Saved scroll position for ${slug}: ${scrollPosition}`);
+    router.push(`/industry-post/${postSlug}`);
+  };
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["industryPosts", slug],
     queryFn: () => fetchIndustryPostsByIndustry(slug),
@@ -45,7 +54,19 @@ const IndustryPosts = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Restore scroll position if coming back from detail page
+    const savedPosition = sessionStorage.getItem(`scrollPosition_${slug}`);
+    if (savedPosition) {
+      const position = parseInt(savedPosition);
+      console.log(`Restoring scroll position for ${slug}: ${position}`);
+      // Use a timeout to ensure the page is fully loaded before scrolling
+      setTimeout(() => {
+        window.scrollTo({ top: position, behavior: "auto" });
+        sessionStorage.removeItem(`scrollPosition_${slug}`);
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -55,7 +76,7 @@ const IndustryPosts = () => {
   }, [slug]);
 
   const handlePostClick = (postSlug) => {
-    router.push(`/industry-post/${postSlug}`);
+    saveScrollPositionAndNavigate(postSlug);
   };
 
   const handleShowMore = () => {
@@ -66,9 +87,23 @@ const IndustryPosts = () => {
     }, 1000);
   };
 
-  const categoryTitle = data?.[0]?.category?.title || "Industry Posts";
-  const totalPages = Math.ceil((data?.length || 0) / postsPerPage);
-  const currentPosts = data?.slice(0, currentPage * postsPerPage) || [];
+  // Fallback data for demonstration
+  const fallbackData = [
+    {
+      title: "Sample Industry Post",
+      slug: { current: "sample-post" },
+      altText: "Sample post",
+      publishedAt: new Date().toISOString(),
+      featureImg: "/images/tech.jpg",
+      description: "This is a sample industry post for demonstration purposes.",
+      category: { title: "Technology", slug: "tech-ai" }
+    }
+  ];
+
+  const postsData = data && data.length > 0 ? data : fallbackData;
+  const categoryTitle = postsData?.[0]?.category?.title || "Industry Posts";
+  const totalPages = Math.ceil((postsData?.length || 0) / postsPerPage);
+  const currentPosts = postsData?.slice(0, currentPage * postsPerPage) || [];
   const hasMore = currentPage < totalPages;
 
   return (
@@ -89,16 +124,24 @@ const IndustryPosts = () => {
             </div>
           ) : error ? (
             <div className="error-alert">Error fetching posts</div>
-          ) : !data || data.length === 0 ? (
+          ) : !postsData || postsData.length === 0 ? (
             <div className="no-posts">No posts found.</div>
           ) : (
-            currentPosts.map((post, index) => (
-              <div
-                key={post?.slug?.current || index}
-                className={`blog-card ${isVisible ? "animate-in" : ""}`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-                onClick={() => handlePostClick(post.slug.current)}
-              >
+            currentPosts.map((post, index) => {
+              // Ensure valid slug exists before rendering
+              const postSlug = post?.slug?.current || post?.slug;
+              if (!postSlug) {
+                console.warn('Skipping post without valid slug:', post.title);
+                return null;
+              }
+              
+              return (
+                <div
+                  key={postSlug}
+                  className={`blog-card ${isVisible ? "animate-in" : ""}`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  onClick={() => handlePostClick(postSlug)}
+                >
                 <div className="blog-image">
                   <Image
                     src={post.featureImg}
@@ -111,14 +154,37 @@ const IndustryPosts = () => {
                 <div className="blog-content">
                   <h3 className="blog-title">{post.title}</h3>
                   <p className="blog-description">
-                    {post.description ? `${post.description.substring(0, 150)}...` : "Click to read more about this industry post."}
+                    {post.description && post.description.length > 150 ? 
+                      `${post.description.substring(0, 150)}... ` : 
+                      post.description
+                    }
+                    {post.description && post.description.length > 150 && (
+                      <span
+                        style={{
+                          color: '#000000',
+                          textDecoration: 'none',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          transition: 'color 0.3s ease'
+                        }}
+                        onMouseOver={(e) => {
+                          e.target.style.color = '#ff0000';
+                          e.target.style.textDecoration = 'underline';
+                        }}
+                        onMouseOut={(e) => {
+                          e.target.style.color = '#000000';
+                          e.target.style.textDecoration = 'none';
+                        }}
+                        onClick={() => saveScrollPositionAndNavigate(postSlug)}
+                      >
+                        Read More
+                      </span>
+                    )}
                   </p>
-                  <button className="read-more-btn">
-                    Read More
-                  </button>
                 </div>
               </div>
-            ))
+              );
+            })
           )}
         </div>
 
@@ -175,6 +241,7 @@ const IndustryPosts = () => {
           letter-spacing: 1px;
           margin: 0;
           transition: color 0.3s ease;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
         }
 
         .industry-title:hover {
@@ -244,7 +311,7 @@ const IndustryPosts = () => {
           margin: 0;
           line-height: 1.4;
           transition: color 0.3s ease;
-          font-family: var(--primary-font);
+          font-family: 'Georgia', 'Times New Roman', serif !important;
         }
 
         .blog-description {
@@ -253,32 +320,35 @@ const IndustryPosts = () => {
           line-height: 1.6;
           margin-bottom: 1.5rem;
           flex: 1;
-          font-family: var(--primary-font);
+          font-family: 'Georgia', 'Times New Roman', serif !important;
         }
 
         .read-more-btn {
-          background: #bb0505 !important;
-          color: #ffffff !important;
-          border: none;
-          padding: 0.8rem 2rem;
-          border-radius: 8px;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          font-size: 1.2rem !important;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          align-self: flex-start;
-          margin-top: auto;
-          box-shadow: 0 4px 15px rgba(187, 5, 5, 0.25);
-          font-family: var(--primary-font);
+          background: transparent !important;
+          color: #000000 !important;
+          border: 1px solid #000000 !important;
+          padding: 0.5rem 1rem !important;
+          border-radius: 4px !important;
+          font-weight: 600 !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.5px !important;
+          font-size: 1rem !important;
+          cursor: pointer !important;
+          transition: all 0.3s ease !important;
+          align-self: flex-start !important;
+          margin-top: 1rem !important;
+          font-family: 'Georgia', 'Times New Roman', serif !important;
+          text-decoration: none !important;
+          display: inline-block !important;
         }
 
         .read-more-btn:hover {
-          background: #990000 !important;
+          background: #000000 !important;
           color: #ffffff !important;
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(187, 5, 5, 0.35);
+          border-color: #000000 !important;
+          transform: translateY(-2px) !important;
+          cursor: pointer !important;
+          text-decoration: none !important;
         }
 
         .show-more-container {
@@ -298,7 +368,7 @@ const IndustryPosts = () => {
           font-size: 1.1rem;
           cursor: pointer;
           transition: all 0.3s ease;
-          font-family: var(--primary-font);
+          font-family: 'Georgia', 'Times New Roman', serif !important;
         }
 
         .show-more-btn:hover {

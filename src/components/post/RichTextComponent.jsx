@@ -76,23 +76,23 @@ const PortableTextComponent = {
   },
   block: {
     h1: ({ children }) => (
-      <h1 className="display-4 fw-bold my-3">{children}</h1>
+      <h1 style={{ fontSize: '3rem', fontWeight: '800', marginTop: '2.5rem', marginBottom: '1.5rem', lineHeight: '1.3' }}>{children}</h1>
     ),
     h2: ({ children }) => (
-      <h2 className="display-5 fw-bold my-3">{children}</h2>
+      <h2 style={{ fontSize: '2.5rem', fontWeight: '800', marginTop: '2.5rem', marginBottom: '1.25rem', lineHeight: '1.4' }}>{children}</h2>
     ),
     h3: ({ children }) => (
-      <h3 className="display-6 fw-bold my-3">{children}</h3>
+      <h3 style={{ fontSize: '2.25rem', fontWeight: '700', marginTop: '2rem', marginBottom: '1rem', lineHeight: '1.4' }}>{children}</h3>
     ),
-    h4: ({ children }) => <h4 className="h2 fw-bold my-3">{children}</h4>,
-    h5: ({ children }) => <h5 className="h3 fw-bold my-3">{children}</h5>,
-    h6: ({ children }) => <h6 className="h4 fw-bold my-3">{children}</h6>,
+    h4: ({ children }) => <h4 style={{ fontSize: '2rem', fontWeight: '700', marginTop: '1.75rem', marginBottom: '0.75rem', lineHeight: '1.4' }}>{children}</h4>,
+    h5: ({ children }) => <h5 style={{ fontSize: '1.75rem', fontWeight: '700', marginTop: '1.5rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>{children}</h5>,
+    h6: ({ children }) => <h6 style={{ fontSize: '1.5rem', fontWeight: '700', marginTop: '1.25rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>{children}</h6>,
     blockquote: ({ children }) => (
-      <blockquote className="border-start border-4 border-secondary ps-3 py-3 my-3 fst-italic">
+      <blockquote style={{ borderLeft: '4px solid #6c757d', paddingLeft: '1rem', padding: '0.75rem 1rem', marginTop: '1.5rem', marginBottom: '1.5rem', fontStyle: 'italic', backgroundColor: '#f8f9fa' }}>
         {children}
       </blockquote>
     ),
-    normal: ({ children }) => <p className="my-3">{children}</p>,
+    normal: ({ children }) => <p style={{ marginBottom: '1.25rem', lineHeight: '1.85', textAlign: 'left', width: '100%' }}>{children}</p>,
   },
   marks: {
     link: ({ children, value }) => {
