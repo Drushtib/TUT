@@ -94,13 +94,13 @@ const Home = () => {
 
       {/* Industry Blogs Section */}
 
-      <IndustryBlogs />
+      {/* <IndustryBlogs /> */}
 
       
 
       {/* Industry Posts Section */}
-
-      <IndustryPosts />
+{/* 
+      <IndustryPosts /> */}
 
       
 
