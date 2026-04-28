@@ -510,29 +510,43 @@ const MagazineHero = () => {
 
             <div className="newsHero-sidebar-list" style={{overflow: 'hidden', height: '480px !important', position: 'relative'}}>
 
-              {newsItems.slice(0, 4).map((news, index) => (
+              {newsItems.slice(0, 4).map((news, index) => {
 
-                <div key={news.slug || index} className="newsHero-sidebar-item-container" style={{
+                const displayIndex = (index + newsCarouselIndex) % newsItems.length;
+
+                const actualNews = newsItems[displayIndex];
+
+                return (
+
+                <div key={actualNews.slug || index} className="newsHero-sidebar-item-container" style={{
+
                   position: 'absolute',
+
                   top: `${index * 120}px`,
+
                   left: 0,
+
                   right: 0,
+
                   transition: 'top 0.5s ease-out',
+
                   opacity: 1,
+
                   visibility: 'visible'
+
                 }}>
 
-                  <Link href={`/news/${news.slug}`} className="newsHero-sidebar-item">
+                  <Link href={`/news/${actualNews.slug}`} className="newsHero-sidebar-item">
 
                     <div className="newsHero-sidebar-text">
 
                       <div className="newsHero-article-category">ARTICLES</div>
 
-                      <h4 className="newsHero-sidebar-item-title">{news.title}</h4>
+                      <h4 className="newsHero-sidebar-item-title">{actualNews.title}</h4>
 
-                      {news.description && (
+                      {actualNews.description && (
 
-                        <p className="newsHero-sidebar-description">{news.description}</p>
+                        <p className="newsHero-sidebar-description">{actualNews.description}</p>
 
                       )}
 
@@ -542,7 +556,7 @@ const MagazineHero = () => {
 
                 </div>
 
-              ))}
+              )})}
 
             </div>
 
@@ -1286,7 +1300,7 @@ const MagazineHero = () => {
 
           gap: 1rem;
 
-          background: #9b1c10;
+          background: #F3F2EC;
 
           padding: 1rem;
 
@@ -1334,13 +1348,13 @@ const MagazineHero = () => {
 
           padding: 0.75rem;
 
-          border-top: 1px solid #ffffff;
+          border-top: 1px solid #888888;
 
-          border-bottom: 1px solid #ffffff;
+          border-bottom: 1px solid #888888;
 
-          border-left: 1px solid #ffffff;
+          border-left: 1px solid #888888;
 
-          border-right: 1px solid #ffffff;
+          border-right: 1px solid #888888;
 
           border-top-left-radius: 50px;
 
@@ -1477,9 +1491,9 @@ const MagazineHero = () => {
 
           
 
-          color: #ffffff !important;
+          color: #000000 !important;
 
-          -webkit-text-fill-color: #ffffff !important;
+          -webkit-text-fill-color: #000000 !important;
 
           padding: 0.3rem 0.75rem;
 
@@ -1509,9 +1523,9 @@ const MagazineHero = () => {
 
           font-weight: 700;
 
-          color: #ffffff !important;
+          color: #000000 !important;
 
-          -webkit-text-fill-color: #ffffff !important;
+          -webkit-text-fill-color: #000000 !important;
 
           line-height: 1.4;
 
@@ -1535,9 +1549,9 @@ const MagazineHero = () => {
 
           font-size: 1.1rem;
 
-          color: #cfd6e4 !important;
+          color: #000000 !important;
 
-          -webkit-text-fill-color: #cfd6e4 !important;
+          -webkit-text-fill-color: #000000 !important;
 
           line-height: 1.5;
 
