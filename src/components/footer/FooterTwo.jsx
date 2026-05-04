@@ -410,12 +410,22 @@ const FooterTwo = () => {
 
         .new-footer-social a:hover {
           transform: translateY(-2px);
-          background: var(--primary-color);
-          border-color: var(--primary-color);
+        }
+
+        .new-footer-social a:hover img {
+          opacity: 0.8;
+        }
+
+        .new-footer-social a:hover svg {
+          fill: #ffffff;
         }
 
         .new-footer-social i {
           font-size: 16px !important;
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
+          visibility: visible !important;
+          display: inline-block !important;
         }
 
         .new-footer-contact {
@@ -461,10 +471,12 @@ const FooterTwo = () => {
         }
 
         .new-footer-contact-item i {
-          color: rgba(255, 255, 255, 0.9) !important;
-          -webkit-text-fill-color: rgba(255, 255, 255, 0.9) !important;
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
           font-size: 16px;
           margin-top: 2px;
+          visibility: visible !important;
+          display: inline-block !important;
         }
 
         .new-footer-contact-item:hover {
@@ -738,19 +750,21 @@ const FooterTwo = () => {
 
           <div className="new-footer-social" aria-label="Social links">
             <a href={SocialLink.fb.url} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              <i className={SocialLink.fb.icon} />
+              <img src="/assest/facebook.png" alt="Facebook" style={{ width: '18px', height: '18px' }} />
             </a>
             <a href={SocialLink.instagram.url} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <i className={SocialLink.instagram.icon} />
+              <img src="/assest/instagram.png" alt="Instagram" style={{ width: '18px', height: '18px' }} />
             </a>
             <a href={SocialLink.twitter.url} target="_blank" rel="noopener noreferrer" aria-label="X">
-              <i className={SocialLink.twitter.icon} />
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#ffffff' }}>
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
             </a>
             <a href={SocialLink.linked.url} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <i className={SocialLink.linked.icon} />
+              <img src="/assest/linkedin.png" alt="LinkedIn" style={{ width: '18px', height: '18px' }} />
             </a>
             <a href={SocialLink.yt.url} target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-              <i className={SocialLink.yt.icon} />
+              <img src="/assest/youtube.png" alt="YouTube" style={{ width: '18px', height: '18px' }} />
             </a>
           </div>
         </div>
@@ -783,7 +797,10 @@ const FooterTwo = () => {
           <h4 className="new-footer-title">Contact</h4>
           <div className="new-footer-contact">
             <div className="new-footer-contact-item">
-              <i className="fas fa-envelope" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#ffffff', marginTop: '2px' }}>
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
               <div>
                 <div className="new-footer-contact-inline">
                   <span className="new-footer-contact-label">Email:</span>
@@ -803,7 +820,10 @@ const FooterTwo = () => {
             </div> */}
 
             <div className="new-footer-contact-item">
-              <i className="fas fa-map-marker-alt" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#ffffff', marginTop: '2px' }}>
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
               <div>
                 <div className="new-footer-contact-inline-wrap">
                   <span className="new-footer-contact-label">Germany:</span>

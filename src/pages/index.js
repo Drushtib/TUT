@@ -99,8 +99,7 @@ const Home = () => {
       
 
       {/* Industry Posts Section */}
-{/* 
-      <IndustryPosts /> */}
+      {/* <IndustryPosts /> */}
 
       
 

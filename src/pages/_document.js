@@ -14,11 +14,10 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/assest/Favicon_TUT_1.png" />
 
           {/* ================= Preload Critical CSS ================= */}
-          <link rel="preload" href="/css/fontawesome-all.min.css" as="style" />
           <link rel="preload" href="/css/iconfont.css" as="style" />
 
           {/* ================= Static CSS ================= */}
-          <link rel="stylesheet" href="/css/fontawesome-all.min.css" />
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
           <link rel="stylesheet" href="/css/iconfont.css" />
 
           {/* ================= Google Fonts ================= */}

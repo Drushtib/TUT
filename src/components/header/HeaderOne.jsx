@@ -225,8 +225,8 @@ const HeaderOne = () => {
           <div className="top-bar-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
             {/* Navigation Links */}
             <div className="top-nav-links" style={{ display: 'flex', gap: '2rem', marginRight: 'auto' }}>
-              <Link href="/about-us" className="top-nav-link">About Us</Link>
-              <Link href="/contact" className="top-nav-link">Contact Us</Link>
+              <Link href="/about-us" className="top-nav-link" style={{ color: '#ffffff', textDecoration: 'none' }}>About Us</Link>
+              <Link href="/contact" className="top-nav-link" style={{ color: '#ffffff', textDecoration: 'none' }}>Contact Us</Link>
             </div>
             
             {/* Social Media Icons */}
@@ -1671,9 +1671,13 @@ const HeaderOne = () => {
           gap: 2rem;
         }
 
-        .top-nav-link {
+        .top-nav-link,
+        .top-bar .top-nav-link,
+        .top-bar .container .top-bar-inner .top-nav-links .top-nav-link,
+        a.top-nav-link,
+        .top-bar a.top-nav-link {
           color: #ffffff !important;
-          text-decoration: none;
+          text-decoration: none !important;
           font-size: 14px;
           font-weight: 400;
           transition: color 0.2s ease;
@@ -1681,12 +1685,16 @@ const HeaderOne = () => {
           display: inline-block;
         }
 
-        .top-nav-link:hover {
+        .top-nav-link:hover,
+        .top-bar .top-nav-link:hover,
+        a.top-nav-link:hover {
           color: #bb0505 !important;
         }
 
         .top-nav-link:visited,
-        .top-nav-link:focus {
+        .top-nav-link:focus,
+        .top-bar .top-nav-link:visited,
+        .top-bar .top-nav-link:focus {
           color: #ffffff !important;
         }
 
@@ -1862,8 +1870,12 @@ const HeaderOne = () => {
             font-size: 12px;
           }
 
-          .top-nav-link {
+          .top-nav-link,
+          .top-bar .top-nav-link,
+          .top-bar .container .top-bar-inner .top-nav-links .top-nav-link,
+          a.top-nav-link {
             font-size: 13px;
+            color: #ffffff !important;
           }
         }
 
@@ -1886,8 +1898,12 @@ const HeaderOne = () => {
             font-size: 11px;
           }
 
-          .top-nav-link {
+          .top-nav-link,
+          .top-bar .top-nav-link,
+          .top-bar .container .top-bar-inner .top-nav-links .top-nav-link,
+          a.top-nav-link {
             font-size: 12px;
+            color: #ffffff !important;
           }
         }
 

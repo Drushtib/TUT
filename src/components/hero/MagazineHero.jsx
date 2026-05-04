@@ -34,13 +34,15 @@ const MagazineHero = () => {
 
       const newsQuery = `
 
-        *[_type == "news"] | order(publishedAt desc)[0...10]{
+        *[_type == "news"][0...10]{
 
           title,
 
           "slug": slug.current,
 
           publishedAt,
+
+          _createdAt,
 
           description,
 
@@ -54,7 +56,19 @@ const MagazineHero = () => {
 
       const news = await client.fetch(newsQuery);
 
-      return news || [];
+      // Sort by publishedAt (or _createdAt as fallback) - newest first
+
+      const sortedNews = (news || []).sort((a, b) => {
+
+        const dateA = new Date(a.publishedAt || a._createdAt);
+
+        const dateB = new Date(b.publishedAt || b._createdAt);
+
+        return dateB - dateA;
+
+      });
+
+      return sortedNews;
 
     },
 
