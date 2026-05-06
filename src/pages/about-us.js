@@ -17,7 +17,6 @@ import WidgetSocialShare from "../components/widget/WidgetSocialShare";
 import { removeDuplicates } from "../utils";
 import { authorsData } from "../data/about/TeamData";
 import FooterTwo from "../components/footer/FooterTwo";
-
 // Custom hook for count-up animation
 const useCountUp = (end, duration = 2000, startOnVisible = false, isVisible = false) => {
   const [count, setCount] = useState(0);
@@ -236,66 +235,139 @@ const AboutUs = ({ aboutData }) => {
       />
       <HeaderOne />
 
-      {/* Modern Hero Section */}
+      {/* Hero Section with Image Background */}
       <div
         style={{
-          backgroundColor: "#ffffff",
-          padding: "3.5rem 8rem 4rem",
           position: "relative",
+          width: "100%",
+          height: "350px",
+          backgroundImage: "url('/assest/Asset 2.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <div
-          className="container"
-          style={{ position: "relative", zIndex: 1 }}
-          ref={(el) => (sectionRefs.current.hero = el)}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+        />
+        <div
+          className="hero-section-text"
+          style={{
+            position: "relative",
+            zIndex: 1,
+            textAlign: "center",
+            padding: "0 2rem",
+            maxWidth: "1200px",
+          }}
         >
-          <div
+          <h1
             style={{
-              textAlign: "center",
-              maxWidth: "1200px",
-              margin: "0 auto",
-              opacity: isVisible.hero ? 1 : 0,
-              transform: isVisible.hero ? "translateY(0)" : "translateY(-50px)",
-              transition: "all 0.8s ease-out",
+              fontSize: "3.5rem",
+              fontWeight: "800",
+              color: "#ffffff",
+              marginBottom: "1.5rem",
+              fontFamily: "Poppins, sans-serif",
+              lineHeight: "1.2",
             }}
           >
-            <h1
-              style={{
-                fontSize: "34px",
-                fontWeight: "800",
-                color: "#111111",
-                marginBottom: "2rem",
-                letterSpacing: "-0.02em",
-                lineHeight: "1.4",
-                fontFamily: "Poppins, sans-serif",
-                textShadow: "none",
-              }}
-              className="page-title"
-            >
-              About Us
-            </h1>
+            About Us
+          </h1>
+          <p
+            style={{
+              fontSize: "1.6rem",
+              color: "#ffffff",
+              lineHeight: "2.6rem",
+              fontFamily: "Roboto, sans-serif",
+              maxWidth: "1000px",
+              margin: "0 auto",
+            }}
+          >
+            The Unicorn Times is a modern business and entrepreneurship website where we publish inspiring founder stories, industry insights, and practical ideas that help readers think bigger, build smarter, and stay ahead.
+          </p>
+        </div>
+      </div>
 
-            <p
-              className="about-hero-desc"
-              style={{
-                fontSize: "1.7rem",
-                lineHeight: "2.9rem",
-                color: "#111111",
-                fontFamily: "Roboto, sans-serif",
-                maxWidth: "1100px",
-                margin: "0 auto 1.6rem",
-              }}
-            >
-              The Unicorn Times is a modern business and entrepreneurship website where we publish inspiring founder stories, industry insights, and practical ideas that help readers think bigger, build smarter, and stay ahead.
-            </p>
+      {/* About Us Content Section */}
+      <div
+        style={{
+          backgroundColor: "#ffffff",
+          padding: "5rem 3rem",
+        }}
+      >
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <h2
+            style={{
+              fontSize: "3rem",
+              fontWeight: "700",
+              color: "#111111",
+              marginBottom: "2rem",
+              fontFamily: "Poppins, sans-serif",
+              lineHeight: "1.3",
+            }}
+          >
+            About Us
+          </h2>
+          <p
+            style={{
+              fontSize: "1.6rem",
+              color: "#555555",
+              lineHeight: "2.8rem",
+              fontFamily: "Roboto, sans-serif",
+            }}
+          >
+            We are a modern digital magazine dedicated to delivering insightful, engaging, and high-quality content across business, technology, innovation, and global trends. Our platform is built to inform and inspire readers through well-researched articles, expert perspectives, and compelling storytelling. We focus on highlighting the ideas, people, and developments shaping today's world—bringing clarity to complex topics and offering meaningful insights that matter. With a strong commitment to accuracy, originality, and editorial integrity, we aim to create content that is both informative and impactful. Our goal is to provide a trusted space where readers can stay updated, explore new perspectives, and connect with stories that drive progress and innovation.
+          </p>
+        </div>
+      </div>
 
-          </div>
+      {/* Our Mission Section */}
+      <div
+        style={{
+          padding: "5rem 3rem",
+        }}
+      >
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <h2
+            style={{
+              fontSize: "3rem",
+              fontWeight: "700",
+              color: "#111111",
+              marginBottom: "2rem",
+              fontFamily: "Poppins, sans-serif",
+              lineHeight: "1.3",
+            }}
+          >
+            Our Mission
+          </h2>
+          <p
+            style={{
+              fontSize: "1.6rem",
+              color: "#555555",
+              lineHeight: "2.8rem",
+              fontFamily: "Roboto, sans-serif",
+            }}
+          >
+            Our mission is to deliver high-quality, engaging, and reliable content that informs, inspires, and connects readers. We are committed to presenting meaningful stories, emerging trends, and innovative ideas that shape industries and influence perspectives.
+
+            Through thoughtful storytelling and in-depth insights, we aim to provide clarity in a fast-moving world, helping our audience stay informed and ahead of the curve. We uphold the highest standards of accuracy, originality, and editorial integrity, ensuring every piece reflects credibility and purpose.
+
+            By fostering a strong editorial voice and a reader-first approach, we strive to create a platform that not only shares information but also sparks curiosity, encourages innovation, and builds lasting connections with our audience.
+          </p>
         </div>
       </div>
 
       {/* Mission, Vision, Values Section - Animated from different directions */}
       <div
-        style={{ backgroundColor: "#ffffff", padding: "2.25rem 8rem" }}
+        style={{ backgroundColor: "#ffffff", padding: "2.25rem 2rem" }}
         ref={(el) => (sectionRefs.current.foundation = el)}
       >
         <div className="container">
@@ -311,12 +383,12 @@ const AboutUs = ({ aboutData }) => {
               paragraph="The core principles that drive everything we do"
             />
           </div>
-          <div className="row" style={{ marginTop: "1.25rem", justifyContent: "center" }}>
+          <div className="row" style={{ marginTop: "1.25rem", justifyContent: "center", alignItems: "stretch" }}>
             <div className="col-lg-4 col-md-6" style={{ marginBottom: "2rem", display: "flex", justifyContent: "center" }}>
               <div
                 ref={(el) => (sectionRefs.current.mission = el)}
                 style={{
-                  padding: "3rem 2.5rem",
+                  padding: "1.5rem 1.2rem",
                   background: "#ffffff",
                   borderRadius: "20px",
                   border: "1px solid #8b0000",
@@ -325,7 +397,7 @@ const AboutUs = ({ aboutData }) => {
                   transition: "all 0.4s ease",
                   cursor: "pointer",
                   opacity: isVisible.mission ? 1 : 0,
-                  transform: isVisible.mission ? "translateX(0)" : "translateX(-100px)",
+                  transform: isVisible.mission ? "translateY(0)" : "translateY(50px)",
                   transition: "all 0.8s ease-out 0.2s",
                   textAlign: "center",
                   maxWidth: "100%",
@@ -333,7 +405,7 @@ const AboutUs = ({ aboutData }) => {
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-10px) scale(1.02)";
                   e.currentTarget.style.borderColor = "rgba(187, 5, 5, 0.35)";
-                  e.currentTarget.style.boxShadow = "0 22px 60px rgba(0, 0, 0, 0.14)";
+                  e.currentTarget.style.boxShadow = "0 20px 50px rgba(0, 0, 0, 0.12)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "translateY(0) scale(1)";
@@ -341,20 +413,20 @@ const AboutUs = ({ aboutData }) => {
                   e.currentTarget.style.boxShadow = "0 14px 40px rgba(0, 0, 0, 0.08)";
                 }}
               >
-                <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>
+                <div style={{ marginBottom: "1rem", display: "flex", justifyContent: "center" }}>
                   <Image
                     src="/assest/target.png"
                     alt="Mission"
-                    width={56}
-                    height={56}
+                    width={48}
+                    height={48}
                     style={{ objectFit: "contain" }}
                   />
                 </div>
-                <h3 style={{ fontSize: "2.4rem", fontWeight: "600", marginBottom: "1.2rem", color: "#111111", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
+                <h3 style={{ fontSize: "2.2rem", fontWeight: "600", marginBottom: "1rem", color: "#111111", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
                   Our Mission
                 </h3>
-                <p style={{ color: "#111111", lineHeight: "2.8rem", fontSize: "1.6rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
-                  To inspire and empower entrepreneurs worldwide by sharing authentic stories of innovation, resilience, and success that drive meaningful change in the business world.
+                <p style={{ color: "#111111", lineHeight: "2.4rem", fontSize: "1.5rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
+                  We inspire entrepreneurs by sharing authentic stories of innovation and success that drive meaningful change.
                 </p>
               </div>
             </div>
@@ -362,7 +434,7 @@ const AboutUs = ({ aboutData }) => {
               <div
                 ref={(el) => (sectionRefs.current.vision = el)}
                 style={{
-                  padding: "3rem 2.5rem",
+                  padding: "1.5rem 1.2rem",
                   background: "#ffffff",
                   borderRadius: "20px",
                   border: "1px solid #8b0000",
@@ -371,7 +443,7 @@ const AboutUs = ({ aboutData }) => {
                   transition: "all 0.4s ease",
                   cursor: "pointer",
                   opacity: isVisible.vision ? 1 : 0,
-                  transform: isVisible.vision ? "translateY(0)" : "translateY(100px)",
+                  transform: isVisible.vision ? "translateY(0)" : "translateY(50px)",
                   transition: "all 0.8s ease-out 0.4s",
                   textAlign: "center",
                   maxWidth: "100%",
@@ -387,20 +459,20 @@ const AboutUs = ({ aboutData }) => {
                   e.currentTarget.style.boxShadow = "0 14px 40px rgba(0, 0, 0, 0.08)";
                 }}
               >
-                <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>
+                <div style={{ marginBottom: "1rem", display: "flex", justifyContent: "center" }}>
                   <Image
                     src="/assest/business_13586897.png"
                     alt="Vision"
-                    width={56}
-                    height={56}
+                    width={48}
+                    height={48}
                     style={{ objectFit: "contain" }}
                   />
                 </div>
-                <h3 style={{ fontSize: "2.4rem", fontWeight: "600", marginBottom: "1.2rem", color: "#111111", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
+                <h3 style={{ fontSize: "2.2rem", fontWeight: "600", marginBottom: "1rem", color: "#111111", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
                   Our Vision
                 </h3>
-                <p style={{ color: "#111111", lineHeight: "2.8rem", fontSize: "1.6rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
-                  To become the world's most trusted platform for entrepreneurial insights, connecting visionary leaders and fostering a global community of innovators.
+                <p style={{ color: "#111111", lineHeight: "2.4rem", fontSize: "1.5rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
+                  We are building a trusted platform that connects visionary leaders and fosters a global community of innovators.
                 </p>
               </div>
             </div>
@@ -408,7 +480,7 @@ const AboutUs = ({ aboutData }) => {
               <div
                 ref={(el) => (sectionRefs.current.values = el)}
                 style={{
-                  padding: "3rem 2.5rem",
+                  padding: "1.5rem 1.2rem",
                   background: "#ffffff",
                   borderRadius: "20px",
                   border: "1px solid #8b0000",
@@ -417,7 +489,7 @@ const AboutUs = ({ aboutData }) => {
                   transition: "all 0.4s ease",
                   cursor: "pointer",
                   opacity: isVisible.values ? 1 : 0,
-                  transform: isVisible.values ? "translateX(0)" : "translateX(100px)",
+                  transform: isVisible.values ? "translateY(0)" : "translateY(50px)",
                   transition: "all 0.8s ease-out 0.6s",
                   textAlign: "center",
                   maxWidth: "100%",
@@ -433,20 +505,20 @@ const AboutUs = ({ aboutData }) => {
                   e.currentTarget.style.boxShadow = "0 14px 40px rgba(0, 0, 0, 0.08)";
                 }}
               >
-                <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>
+                <div style={{ marginBottom: "1rem", display: "flex", justifyContent: "center" }}>
                   <Image
                     src="/assest/value_17994255.png"
                     alt="Values"
-                    width={56}
-                    height={56}
+                    width={48}
+                    height={48}
                     style={{ objectFit: "contain" }}
                   />
                 </div>
-                <h3 style={{ fontSize: "2.4rem", fontWeight: "600", marginBottom: "1.2rem", color: "#111111", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
+                <h3 style={{ fontSize: "2.2rem", fontWeight: "600", marginBottom: "1rem", color: "#111111", fontFamily: "Poppins, sans-serif", textAlign: "center" }}>
                   Our Values
                 </h3>
-                <p style={{ color: "#111111", lineHeight: "2.8rem", fontSize: "1.6rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
-                  Integrity, innovation, and inclusivity guide our work. We believe in authentic storytelling, diverse perspectives, and empowering the next generation of leaders.
+                <p style={{ color: "#111111", lineHeight: "2.4rem", fontSize: "1.5rem", fontFamily: "Roboto, sans-serif", textAlign: "center" }}>
+                  Integrity, innovation, and inclusivity guide our authentic storytelling and empower future leaders worldwide.
                 </p>
               </div>
             </div>
@@ -454,267 +526,151 @@ const AboutUs = ({ aboutData }) => {
         </div>
       </div>
 
-      {/* Statistics Section - Animated from bottom */}
+      {/* Our Editorial Principles Section */}
       <div
-        ref={(el) => (sectionRefs.current.stats = el)}
-        className="about-stats"
+        className="editorial-section"
         style={{
           backgroundColor: "#ffffff",
-          padding: "3.5rem 8rem",
-          opacity: 1,
-          transform: "none",
-          transition: "none",
+          padding: "5rem 8rem",
+          display: "flex",
+          justifyContent: "space-between",
+          gap: "4rem",
         }}
       >
-        <div className="container">
-          <div className="row">
-            <StatCard
-              ref={(el) => (sectionRefs.current.stat1 = el)}
-              endValue={27}
-              suffix="+"
-              label="Featured Stories"
-              isVisible={isVisible.stat1}
-              delay={0.1}
-            />
-            <StatCard
-              ref={(el) => (sectionRefs.current.stat2 = el)}
-              endValue={30}
-              suffix="+"
-              label="Global Leaders"
-              isVisible={isVisible.stat2}
-              delay={0.2}
-            />
-            <StatCard
-              ref={(el) => (sectionRefs.current.stat3 = el)}
-              endValue={25}
-              suffix="+"
-              label="Industries Covered"
-              isVisible={isVisible.stat3}
-              delay={0.3}
-            />
-            <StatCard
-              ref={(el) => (sectionRefs.current.stat4 = el)}
-              endValue={40}
-              suffix="K+"
-              label="Monthly Readers"
-              isVisible={isVisible.stat4}
-              delay={0.4}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Who We Are Section */}
-      <div
-        ref={(el) => (sectionRefs.current.whoWeAre = el)}
-        style={{
-          backgroundColor: "#ffffff",
-          padding: "3.5rem 8rem",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        {/* Animated background elements */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-100px",
-            left: "-100px",
-            width: "300px",
-            height: "300px",
-            background: "radial-gradient(circle, rgba(187, 5, 5, 0.06) 0%, transparent 70%)",
-            borderRadius: "50%",
-            opacity: isVisible.whoWeAre ? 1 : 0,
-            transform: isVisible.whoWeAre ? "scale(1)" : "scale(0.5)",
-            transition: "all 1.2s ease-out",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "-150px",
-            right: "-150px",
-            width: "400px",
-            height: "400px",
-            background: "radial-gradient(circle, rgba(187, 5, 5, 0.05) 0%, transparent 70%)",
-            borderRadius: "50%",
-            opacity: isVisible.whoWeAre ? 1 : 0,
-            transform: isVisible.whoWeAre ? "scale(1)" : "scale(0.5)",
-            transition: "all 1.5s ease-out 0.3s",
-          }}
-        />
-
-        <div className="container" style={{ position: "relative", zIndex: 1, maxWidth: "1500px" }}>
-          <div
+        <div className="editorial-column" style={{ flex: 1, maxWidth: "45%" }}>
+          <h2
             style={{
-              opacity: isVisible.whoWeAre ? 1 : 0,
-              transform: isVisible.whoWeAre ? "translateX(0)" : "translateX(-100px)",
-              transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
+              fontSize: "3.5rem",
+              fontWeight: "800",
+              color: "#111111",
+              marginBottom: "1.5rem",
+              fontFamily: "Poppins, sans-serif",
+              lineHeight: "1.2",
             }}
           >
-            <div className="row">
-              <div className="col-lg-12 mx-auto">
-                <div style={{ maxWidth: "1320px", margin: "0 auto", background: "#ffffff", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "22px", boxShadow: "0 18px 50px rgba(0,0,0,0.08)", padding: "3.5rem 3rem", borderLeft: "6px solid #bb0505" }}>
-                  <h2
-                    style={{
-                      fontSize: "3.5rem",
-                      fontWeight: "800",
-                      color: "#111111",
-                      marginBottom: "2rem",
-                      fontFamily: "Poppins, sans-serif",
-                      lineHeight: "1.2",
-                      opacity: isVisible.whoWeAre ? 1 : 0,
-                      transform: isVisible.whoWeAre ? "translateY(0) scale(1)" : "translateY(-30px) scale(0.9)",
-                      transition: "all 0.8s ease-out 0.2s",
-                    }}
-                  >
-                    Who We Are
-                  </h2>
-                  <div
-                    style={{
-                      opacity: isVisible.whoWeAre ? 1 : 0,
-                      transform: isVisible.whoWeAre ? "translateY(0)" : "translateY(30px)",
-                      transition: "all 0.8s ease-out 0.6s",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontSize: "1.6rem",
-                        color: "#111111",
-                        lineHeight: "2.8rem",
-                        fontFamily: "Roboto, sans-serif",
-                        textAlign: "left",
-                      }}
-                    >
-                      The Unicorns Times is a professional magazine platform dedicated to covering everything related to entrepreneurship, innovation, and success. Our focus is on capturing the essence of the entrepreneurial journey — from the spark of an idea to the realization of major business goals. We highlight how entrepreneurship goes beyond starting a business; it's about solving problems, creating value, and making an impact. Our magazine showcases diverse entrepreneurial stories that reflect resilience, creativity, determination, and the drive to innovate
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Our Story Section */}
-      <div
-        ref={(el) => (sectionRefs.current.ourStory = el)}
-        style={{
-          backgroundColor: "#ffffff",
-          padding: "3.5rem 8rem",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        {/* Animated background elements */}
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            width: "500px",
-            height: "500px",
-            background: "radial-gradient(circle, rgba(187, 5, 5, 0.04) 0%, transparent 70%)",
-            borderRadius: "50%",
-            opacity: isVisible.ourStory ? 1 : 0,
-            transform: isVisible.ourStory ? "translate(-50%, -50%) scale(1)" : "translate(-50%, -50%) scale(0.3)",
-            transition: "all 1.5s ease-out",
-          }}
-        />
-
-        <div className="container" style={{ position: "relative", zIndex: 1, maxWidth: "1500px" }}>
-          <div
+            Our Editorial Principles
+          </h2>
+          <p
             style={{
-              opacity: isVisible.ourStory ? 1 : 0,
-              transform: isVisible.ourStory ? "translateX(0)" : "translateX(100px)",
-              transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
+              fontSize: "1.6rem",
+              color: "#555555",
+              lineHeight: "2.8rem",
+              fontFamily: "Roboto, sans-serif",
             }}
           >
-            <div className="row">
-              <div className="col-lg-12 mx-auto">
-                <div style={{ maxWidth: "1320px", margin: "0 auto", background: "#ffffff", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "22px", boxShadow: "0 18px 50px rgba(0,0,0,0.08)", padding: "3.5rem 3rem", borderLeft: "6px solid #bb0505" }}>
-                  <h2
-                    style={{
-                      fontSize: "3.5rem",
-                      fontWeight: "800",
-                      color: "#111111",
-                      marginBottom: "2rem",
-                      fontFamily: "Poppins, sans-serif",
-                      lineHeight: "1.2",
-                      opacity: isVisible.ourStory ? 1 : 0,
-                      transform: isVisible.ourStory ? "translateY(0) scale(1)" : "translateY(-30px) scale(0.9)",
-                      transition: "all 0.8s ease-out 0.2s",
-                    }}
-                  >
-                    Our Story
-                  </h2>
-                  <div
-                    style={{
-                      opacity: isVisible.ourStory ? 1 : 0,
-                      transform: isVisible.ourStory ? "translateY(0)" : "translateY(30px)",
-                      transition: "all 0.8s ease-out 0.6s",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontSize: "1.6rem",
-                        color: "#111111",
-                        lineHeight: "2.8rem",
-                        marginBottom: "2rem",
-                        fontFamily: "Roboto, sans-serif",
-                        textAlign: "left",
-                      }}
-                    >
-The Unicorns Times was created with a clear purpose: to capture the true essence of the entrepreneurial journey and bring it to readers in a meaningful, inspiring way. We follow the path entrepreneurs take — from the moment an idea is born to the point it grows into a successful venture.
+           Every feature we publish is guided by a well-defined editorial process designed to uphold accuracy, clarity, and impactful storytelling. Our team carefully reviews each piece to ensure it meets high standards of quality and relevance. We place strong emphasis on originality, shaping every narrative to authentically capture the voice, vision, and achievements behind the story, while delivering content that resonates with and adds value to our readers.
+          </p>
+        </div>
 
-Over time, we have witnessed how entrepreneurship is not just about launching a business. It is a path defined by problem-solving, value creation, and the desire to make a real difference. This understanding became the foundation of our magazine.
-
-Our story reflects the stories we tell. We document the resilience of individuals who start with limited resources, the creativity that turns simple ideas into remarkable innovations, and the determination that pushes entrepreneurs through challenges, failures, and turning points. Whether it's a startup working out of a garage or a company expanding onto the global stage, we showcase the full spectrum of entrepreneurial experiences.
-
-In our pages, readers find real journeys—stories of risk-taking, breakthrough moments, lessons learned, and the courage required to build something meaningful. The Unicorns Times continues to evolve with each story we publish, staying committed to celebrating the spirit of entrepreneurship and giving a voice to those who shape the future through their ideas and determination.                    </p>
-                    <p
-                      style={{
-                        fontSize: "1.6rem",
-                        color: "#111111",
-                        lineHeight: "2.8rem",
-                        marginBottom: "2rem",
-                        fontFamily: "Roboto, sans-serif",
-                        textAlign: "left",
-                      }}
-                    >
-                      Over time, we have witnessed how entrepreneurship is not just about launching a business. It is a path defined by problem-solving, value creation, and the desire to make a real difference. This understanding became the foundation of our magazine.
-                    </p>
-                    <p
-                      style={{
-                        fontSize: "1.6rem",
-                        color: "#111111",
-                        lineHeight: "2.8rem",
-                        marginBottom: "2rem",
-                        fontFamily: "Roboto, sans-serif",
-                        textAlign: "left",
-                      }}
-                    >
-                      Our story reflects the stories we tell. We document the resilience of individuals who start with limited resources, the creativity that turns simple ideas into remarkable innovations, and the determination that pushes entrepreneurs through challenges, failures, and turning points. Whether it's a startup working out of a garage or a company expanding onto the global stage, we showcase the full spectrum of entrepreneurial experiences.
-                    </p>
-                    <p
-                      style={{
-                        fontSize: "1.6rem",
-                        color: "#111111",
-                        lineHeight: "2.8rem",
-                        fontFamily: "Roboto, sans-serif",
-                        textAlign: "left",
-                      }}
-                    >
-                      In our pages, readers find real journeys—stories of risk-taking, breakthrough moments, lessons learned, and the courage required to build something meaningful. The Entrepreneurial Chronicles continues to evolve with each story we publish, staying committed to celebrating the spirit of entrepreneurship and giving a voice to those who shape the future through their ideas and determination.
-                    </p>
-                  </div>
-                </div>
+        <div className="editorial-column" style={{ flex: 1, maxWidth: "55%" }}>
+          {[
+            {
+              question: "Authentic Stories",
+              answer: "We share real experiences and genuine journeys of leaders and entrepreneurs.",
+            },
+            {
+              question: "Quality Content",
+              answer: "Every piece is carefully researched and crafted to provide value to our readers.",
+            },
+            {
+              question: "Diverse Perspectives",
+              answer: "We feature voices from various industries, backgrounds, and regions worldwide.",
+            },
+            {
+              question: "Timely Insights",
+              answer: "Our content reflects current trends and developments in the business world.",
+            },
+            {
+              question: "Reader Focus",
+              answer: "We prioritize content that educates, informs, and helps our audience grow.",
+            },
+          ].map((principle, index) => (
+            <div
+              key={index}
+              className="editorial-item"
+              style={{
+                marginBottom: "1.2rem",
+                borderBottom: index < 4 ? "1px solid #e0e0e0" : "none",
+                paddingBottom: index < 4 ? "1.2rem" : "0",
+              }}
+            >
+              <div
+                className="editorial-toggle"
+                onClick={() => {
+                  const answers = document.querySelectorAll('.editorial-answer');
+                  const currentAnswer = answers[index];
+                  const icons = document.querySelectorAll('.editorial-icon');
+                  const currentIcon = icons[index];
+                  
+                  if (currentAnswer.style.display === 'block') {
+                    currentAnswer.style.display = 'none';
+                    currentIcon.innerHTML = '+';
+                  } else {
+                    answers.forEach((ans, i) => {
+                      ans.style.display = 'none';
+                      icons[i].innerHTML = '+';
+                    });
+                    currentAnswer.style.display = 'block';
+                    currentIcon.innerHTML = '−';
+                  }
+                }}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  padding: "0.5rem 0",
+                }}
+              >
+                <h3
+                  style={{
+                    fontSize: "1.6rem",
+                    fontWeight: "600",
+                    color: "#111111",
+                    fontFamily: "Poppins, sans-serif",
+                    margin: 0,
+                  }}
+                >
+                  {principle.question}
+                </h3>
+                <span
+                  className="editorial-icon"
+                  style={{
+                    fontSize: "2rem",
+                    fontWeight: "300",
+                    color: "#111111",
+                    fontFamily: "Poppins, sans-serif",
+                    lineHeight: 1,
+                  }}
+                >
+                  +
+                </span>
+              </div>
+              <div
+                className="editorial-answer"
+                style={{
+                  display: "none",
+                  paddingTop: "0.8rem",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "1.4rem",
+                    color: "#666666",
+                    lineHeight: "2.4rem",
+                    fontFamily: "Roboto, sans-serif",
+                    margin: 0,
+                  }}
+                >
+                  {principle.answer}
+                </p>
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
 
+     
       <div className="axil-our-team section-gap section-gap-top__with-text" style={{ backgroundColor: '#fff', color: '#111' }}>
         {/* <div className="container">
           <div className="axil-team-grid-wrapper">
@@ -758,6 +714,59 @@ In our pages, readers find real journeys—stories of risk-taking, breakthrough 
           max-width: 1100px !important;
         }
 
+        .about-us-page .editorial-section {
+          background-color: #ffffff;
+          padding: 5rem 8rem;
+          display: flex;
+          justify-content: space-between;
+          gap: 4rem;
+          flex-wrap: wrap;
+        }
+
+        .about-us-page .editorial-column {
+          flex: 1;
+          min-width: 280px;
+        }
+
+        .about-us-page .editorial-item {
+          margin-bottom: 1.2rem;
+          border-bottom: 1px solid #e0e0e0;
+          padding-bottom: 1.2rem;
+        }
+
+        .about-us-page .editorial-item:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+
+        .about-us-page .editorial-toggle {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          cursor: pointer;
+          padding: 0.5rem 0;
+        }
+
+        .about-us-page .editorial-icon {
+          transition: transform 0.2s ease;
+        }
+
+        .about-us-page .editorial-answer {
+          display: none;
+          padding-top: 0.8rem;
+        }
+
+        .about-us-page .editorial-answer p {
+          font-size: 1.4rem;
+          color: #666666;
+          line-height: 2.4rem;
+        }
+
+        .about-us-page .hero-section-text h1,
+        .about-us-page .hero-section-text p {
+          color: #ffffff !important;
+        }
+
         @media (max-width: 1199px) {
           .about-us-page .about-hero-desc {
             max-width: 100% !important;
@@ -783,6 +792,98 @@ In our pages, readers find real journeys—stories of risk-taking, breakthrough 
             font-size: 28px !important;
             line-height: 1.25 !important;
           }
+
+          /* Hero section responsive */
+          .about-us-page > div[style*="height: 350px"] {
+            height: 300px !important;
+          }
+
+          .about-us-page .hero-section-text h1 {
+            font-size: 2.8rem !important;
+          }
+
+          .about-us-page .hero-section-text p {
+            font-size: 1.4rem !important;
+            line-height: 2.2rem !important;
+          }
+
+          /* About Us & Mission sections padding */
+          .about-us-page > div[style*="padding: 5rem 8rem"] {
+            padding: 3rem 4rem !important;
+          }
+
+          .about-us-page .editorial-section {
+            padding: 3rem 2rem !important;
+            flex-direction: column !important;
+            gap: 2rem !important;
+          }
+
+          .about-us-page .editorial-column {
+            max-width: 100% !important;
+          }
+
+          .about-us-page .editorial-toggle h3 {
+            font-size: 1.4rem !important;
+          }
+
+          .about-us-page .editorial-answer p {
+            font-size: 1.3rem !important;
+            line-height: 2rem !important;
+          }
+
+          /* Editorial Principles section - stack columns */
+          .about-us-page > div[style*="display: flex"] > div[style*="maxWidth: 45%"],
+          .about-us-page > div[style*="display: flex"] > div[style*="maxWidth: 55%"] {
+            max-width: 100% !important;
+            flex: none !important;
+          }
+
+          .about-us-page > div[style*="display: flex"][style*="gap: 4rem"] {
+            flex-direction: column !important;
+            gap: 2rem !important;
+          }
+        }
+
+        @media (max-width: 767px) {
+          .about-us-page > div[style*="height: 300px"],
+          .about-us-page > div[style*="height: 350px"] {
+            height: 250px !important;
+          }
+
+          .about-us-page .hero-section-text h1 {
+            font-size: 2.2rem !important;
+          }
+
+          .about-us-page .hero-section-text p {
+            font-size: 1.2rem !important;
+            line-height: 2rem !important;
+          }
+
+          .about-us-page > div[style*="padding: 3rem 4rem"],
+          .about-us-page > div[style*="padding: 5rem 8rem"] {
+            padding: 2.5rem 2rem !important;
+          }
+
+          .about-us-page .editorial-section {
+            padding: 2.5rem 1.5rem !important;
+          }
+
+          .about-us-page .editorial-toggle h3 {
+            font-size: 1.3rem !important;
+          }
+
+          .about-us-page .editorial-icon {
+            font-size: 1.8rem !important;
+          }
+
+          .about-us-page h2 {
+            font-size: 2.2rem !important;
+          }
+
+          .about-us-page p {
+            font-size: 1.4rem !important;
+            line-height: 2.4rem !important;
+          }
         }
 
         @media (max-width: 575px) {
@@ -793,6 +894,154 @@ In our pages, readers find real journeys—stories of risk-taking, breakthrough 
           .about-us-page .about-hero-desc {
             font-size: 15px !important;
             line-height: 26px !important;
+          }
+
+          .about-us-page > div[style*="height: 250px"],
+          .about-us-page > div[style*="height: 300px"],
+          .about-us-page > div[style*="height: 350px"] {
+            height: 200px !important;
+          }
+
+          .about-us-page .hero-section-text h1 {
+            font-size: 1.8rem !important;
+            margin-bottom: 1rem !important;
+          }
+
+          .about-us-page .hero-section-text p {
+            font-size: 1.1rem !important;
+            line-height: 1.8rem !important;
+          }
+
+          .about-us-page > div[style*="padding: 2.5rem 2rem"],
+          .about-us-page > div[style*="padding: 3rem 4rem"],
+          .about-us-page > div[style*="padding: 5rem 8rem"] {
+            padding: 2rem 1.5rem !important;
+          }
+
+          .about-us-page .editorial-section {
+            padding: 2rem 1rem !important;
+          }
+
+          .about-us-page h2 {
+            font-size: 1.8rem !important;
+            margin-bottom: 1.5rem !important;
+          }
+
+          .about-us-page .editorial-toggle h3 {
+            font-size: 1.2rem !important;
+          }
+
+          .about-us-page .editorial-icon {
+            font-size: 1.6rem !important;
+          }
+
+          .about-us-page p {
+            font-size: 1.3rem !important;
+            line-height: 2.2rem !important;
+          }
+
+          /* Editorial Principles items */
+          .about-us-page h3 {
+            font-size: 1.4rem !important;
+          }
+
+          .about-us-page .editorial-answer p {
+            font-size: 1.2rem !important;
+            line-height: 2rem !important;
+          }
+        }
+
+        /* About Us & Our Mission sections - add horizontal padding on mobile */
+        @media (max-width: 767px) {
+          .about-us-page > div[style*="padding: 5rem 3rem"] {
+            padding: 2.5rem 2rem !important;
+          }
+
+          .about-us-page > div[style*="padding: 5rem 3rem"] > div {
+            maxWidth: 100% !important;
+          }
+        }
+
+        @media (max-width: 575px) {
+          .about-us-page > div[style*="padding: 5rem 3rem"] {
+            padding: 2rem 2rem !important;
+          }
+
+          .about-us-page > div[style*="padding: 5rem 3rem"] > div {
+            maxWidth: 100% !important;
+          }
+        }
+
+        /* Foundation cards - single row on mobile */
+        @media (max-width: 767px) {
+          .about-us-page > div[style*="padding: 2.25rem 2rem"] .row {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            gap: 0.6rem !important;
+            justify-content: center !important;
+            align-items: stretch !important;
+          }
+
+          .about-us-page > div[style*="padding: 2.25rem 2rem"] .col-lg-4 {
+            flex: 1 1 0 !important;
+            max-width: 32% !important;
+            min-width: 0 !important;
+            padding-left: 0.2rem !important;
+            padding-right: 0.2rem !important;
+            margin-bottom: 0 !important;
+          }
+
+          .about-us-page > div[style*="padding: 2.25rem 2rem"] .col-lg-4 > div {
+            padding: 1rem 0.5rem !important;
+          }
+
+          .about-us-page > div[style*="padding: 2.25rem 2rem"] h3 {
+            font-size: 1.2rem !important;
+            margin-bottom: 0.5rem !important;
+          }
+
+          .about-us-page > div[style*="padding: 2.25rem 2rem"] p {
+            font-size: 0.85rem !important;
+            line-height: 1.4rem !important;
+          }
+
+          .about-us-page > div[style*="padding: 2.25rem 2rem"] img {
+            width: 28px !important;
+            height: 28px !important;
+            margin-bottom: 0.5rem !important;
+          }
+        }
+
+        @media (max-width: 575px) {
+          .about-us-page > div[style*="padding: 2.25rem 2rem"] .row {
+            gap: 0.3rem !important;
+            align-items: stretch !important;
+          }
+
+          .about-us-page > div[style*="padding: 2.25rem 2rem"] .col-lg-4 {
+            max-width: 33% !important;
+            padding-left: 0.1rem !important;
+            padding-right: 0.1rem !important;
+          }
+
+          .about-us-page > div[style*="padding: 2.25rem 2rem"] .col-lg-4 > div {
+            padding: 0.7rem 0.3rem !important;
+          }
+
+          .about-us-page > div[style*="padding: 2.25rem 2rem"] h3 {
+            font-size: 0.9rem !important;
+            margin-bottom: 0.3rem !important;
+          }
+
+          .about-us-page > div[style*="padding: 2.25rem 2rem"] p {
+            font-size: 0.7rem !important;
+            line-height: 1.2rem !important;
+          }
+
+          .about-us-page > div[style*="padding: 2.25rem 2rem"] img {
+            width: 24px !important;
+            height: 24px !important;
+            margin-bottom: 0.3rem !important;
           }
         }
       `}</style>

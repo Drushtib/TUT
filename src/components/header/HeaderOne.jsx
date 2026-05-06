@@ -338,14 +338,14 @@ const HeaderOne = () => {
                       onChange={handleSearchInput}
                     />
                     <button className="navbar-search-btn" type="submit">
-                      <i className="fal fa-search" />
+                      <i className="fas fa-search" />
                     </button>
                   </div>
                   <span
                     className="navbar-search-close"
                     onClick={headerSearchClose}
                   >
-                    <i className="fal fa-times" />
+                    <i className="fas fa-times" />
                   </span>
                 </form>
 
@@ -353,7 +353,7 @@ const HeaderOne = () => {
                   className="nav-search-field-toggler"
                   onClick={headerSearchShow}
                 >
-                  <i className="far fa-search" />
+                  <i className="fas fa-search" />
                 </button>
 
                 {/* Mobile Hamburger Menu */}
