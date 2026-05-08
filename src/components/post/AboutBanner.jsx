@@ -10,7 +10,7 @@ const AboutBanner = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setImageInView(true);
+            setImageInView(true); 
             observer.disconnect();
           }
         });
@@ -30,7 +30,7 @@ const AboutBanner = () => {
     <div className="about-banner-section">
       {imageInView && (
         <img 
-          src="/assest/Asset 4.png" 
+          src="/assest/abous us web visuals-04.png" 
           alt="About The Unicorn Times" 
           className={`about-banner-full-img ${imageLoaded ? 'loaded' : ''}`}
           onLoad={() => setImageLoaded(true)}
@@ -49,13 +49,10 @@ const AboutBanner = () => {
           <div className="about-banner-content-box">
             <h2 className="about-banner-title">The Unicorn Times: A Leading Voice in Business and Innovation</h2>
             <div className="about-banner-description about-banner-description-full">
-              The Unicorn Times is a dynamic online business magazine focused on delivering insightful coverage of the rapidly evolving startup and entrepreneurial ecosystem. As a growing platform in the digital media space, we provide in-depth business insights, inspiring entrepreneur journeys, and success stories that reflect the spirit of innovation across industries. Our platform features exclusive cover stories of business leaders, emerging startup narratives, and thought-provoking content that highlights the trends shaping the future of business. With regular updates on industry news, press releases, and market developments, The Unicorn Times keeps entrepreneurs, investors, and professionals well-informed and ahead in the competitive landscape.
+              The Unicorn Times is a dynamic business magazine delivering sharp coverage of startups, growth strategies, and market trends. We highlight inspiring entrepreneur journeys and industry insights that help leaders move ahead with confidence.
             </div>
-            <div className="about-banner-description about-banner-description-mobile">
-              The Unicorn Times is a dynamic online business magazine delivering insightful coverage of the startup ecosystem. We provide business insights, inspiring entrepreneur journeys, and success stories across industries.
-            </div>
-            <Link href="/about-us" className="about-banner-button">
-              Read More
+            <Link href="/about-us" legacyBehavior>
+              <a className="about-banner-button">Read More</a>
             </Link>
           </div>
         </div>
@@ -127,15 +124,15 @@ const AboutBanner = () => {
           max-width: 1400px;
           width: 100%;
           display: flex;
-          justify-content: center;
+          justify-content: flex-end;
         }
 
         .about-banner-content-box {
           background: rgba(230, 68, 58, 0.2);
           backdrop-filter: blur(5px);
           border-radius: 20px;
-          padding: 4rem;
-          max-width: 800px;
+          padding: 3rem;
+          max-width: 600px;
           width: 100%;
           border: 1px solid rgba(230, 68, 58, 0.4);
           box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
@@ -168,7 +165,8 @@ const AboutBanner = () => {
 
         .about-banner-button,
         .about-banner-content-box .about-banner-button,
-        a.about-banner-button {
+        a.about-banner-button,
+        .about-banner-button * {
           display: inline-block !important;
           padding: 1rem 2.5rem !important;
           background: #bb0505 !important;
@@ -197,7 +195,7 @@ const AboutBanner = () => {
 
           .about-banner-content-box {
             margin-right: 6rem;
-            max-width: 700px;
+            max-width: 560px;
           }
         }
 
@@ -207,11 +205,15 @@ const AboutBanner = () => {
             min-height: 450px;
           }
 
+          .about-banner-container {
+            justify-content: flex-end;
+          }
+
           .about-banner-content-box {
-            max-width: 65%;
+            max-width: 520px;
             padding: 2.5rem;
             margin-left: auto;
-            margin-right: 1rem;
+            margin-right: 1.5rem;
           }
 
           .about-banner-title {
@@ -219,7 +221,7 @@ const AboutBanner = () => {
           }
 
           .about-banner-description {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             line-height: 1.5;
           }
 
@@ -236,7 +238,7 @@ const AboutBanner = () => {
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
           }
 
           .about-banner-full-img {
@@ -256,7 +258,7 @@ const AboutBanner = () => {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            padding: 1rem;
+            padding: 0.5rem;
           }
 
           .about-banner-container {
@@ -268,24 +270,25 @@ const AboutBanner = () => {
 
           .about-banner-content-box {
             max-width: 45%;
-            padding: 0.6rem;
-            margin: 0;
-            margin-right: 0.5rem;
+            min-width: 180px;
+            width: auto;
+            padding: 0.55rem 0.75rem;
+            margin: 0 0.75rem 0 auto;
             text-align: left;
-            background: rgba(230, 68, 58, 0.9);
-            border-radius: 10px;
-            max-height: 85%;
+            background: rgba(230, 68, 58, 0.95);
+            border-radius: 12px;
+            max-height: 100%;
             overflow: hidden;
           }
 
           .about-banner-title {
             font-size: 1rem;
             text-align: left;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.35rem;
           }
 
           .about-banner-description {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: left;
             line-height: 1.35;
           }
@@ -296,12 +299,20 @@ const AboutBanner = () => {
 
           .about-banner-button,
           .about-banner-content-box .about-banner-button,
+          a.about-banner-button,
+          .about-banner-button * {
+            color: #ffffff !important;
+          }
+
+          .about-banner-button,
+          .about-banner-content-box .about-banner-button,
           a.about-banner-button {
-            padding: 0.25rem 0.5rem !important;
-            font-size: 0.6rem !important;
+            color: #ffffff !important;
+            padding: 0.6rem 1rem !important;
+            font-size: 0.75rem !important;
             font-weight: 500 !important;
             display: inline-block !important;
-            margin: 0.3rem 0 0 0 !important;
+            margin: 0.75rem 0 0 0 !important;
             border-width: 1px !important;
           }
         }
@@ -313,43 +324,55 @@ const AboutBanner = () => {
           }
 
           .about-banner-overlay {
-            padding: 0.4rem;
+            padding: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
           }
 
           .about-banner-content-box {
             max-width: 50%;
-            padding: 0.6rem;
-            margin-right: 0.25rem;
+            width: auto;
+            padding: 0.45rem 0.6rem;
+            margin: 0 0.75rem 0 auto;
             background: rgba(230, 68, 58, 0.95);
-            border-radius: 8px;
-            max-height: 90%;
+            border-radius: 10px;
+            max-height: 100%;
           }
 
           .about-banner-title {
-            font-size: 0.95rem;
-            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.35rem;
           }
 
           .about-banner-description {
-            font-size: 0.8rem;
-            line-height: 1.3;
+            font-size: 0.75rem;
+            line-height: 1.35;
           }
 
           .about-banner-description-full {
-            display: none;
+            display: block;
           }
 
           .about-banner-description-mobile {
-            display: block;
+            display: none;
+          }
+
+          .about-banner-button,
+          .about-banner-content-box .about-banner-button,
+          a.about-banner-button,
+          .about-banner-button * {
+            color: #ffffff !important;
           }
 
           .about-banner-button,
           .about-banner-content-box .about-banner-button,
           a.about-banner-button {
-            padding: 0.2rem 0.4rem !important;
-            font-size: 0.55rem !important;
+            color: #ffffff !important;
+            padding: 0.5rem 0.9rem !important;
+            font-size: 0.75rem !important;
             font-weight: 500 !important;
-            margin-top: 0.25rem !important;
+            margin-top: 0.75rem !important;
             border-width: 1px !important;
           }
         }
@@ -357,12 +380,14 @@ const AboutBanner = () => {
         /* Extra Small Mobile (up to 360px) */
         @media (max-width: 360px) {
           .about-banner-content-box {
-            max-width: 55%;
-            padding: 0.5rem;
+            max-width: 65%;
+            width: auto;
+            padding: 0.35rem 0.45rem;
+            margin: 0 0.4rem 0 auto;
           }
 
           .about-banner-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             margin-bottom: 0.25rem;
           }
 
@@ -372,18 +397,26 @@ const AboutBanner = () => {
           }
 
           .about-banner-description-full {
-            display: none;
+            display: block;
           }
 
           .about-banner-description-mobile {
-            display: block;
+            display: none;
+          }
+
+          .about-banner-button,
+          .about-banner-content-box .about-banner-button,
+          a.about-banner-button,
+          .about-banner-button * {
+            color: #ffffff !important;
           }
 
           .about-banner-button,
           .about-banner-content-box .about-banner-button,
           a.about-banner-button {
-            padding: 0.15rem 0.35rem !important;
-            font-size: 0.5rem !important;
+            color: #ffffff !important;
+            padding: 0.2rem 0.45rem !important;
+            font-size: 0.65rem !important;
             font-weight: 500 !important;
             margin-top: 0.2rem !important;
             border-width: 1px !important;

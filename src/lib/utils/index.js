@@ -9,7 +9,9 @@ export * from "./array";
 export * from "./sitemap";
 
 // Re-export for backward compatibility
-export { slugify, formatDate as dateFormate, sortByDate as SortingByDate, removeDuplicates } from "./string";
+export { slugify } from "./string";
+export { formatDate as dateFormate, sortByDate as SortingByDate } from "./date";
+export { removeDuplicates } from "./array";
 export { formatDate, sortByDate } from "./date";
 export { removeDuplicates as removeDuplicatesArray } from "./array";
 

@@ -235,13 +235,13 @@ const AboutUs = ({ aboutData }) => {
       />
       <HeaderOne />
 
-      {/* Hero Section with Image Background */}
+     
       <div
         style={{
           position: "relative",
           width: "100%",
           height: "350px",
-          backgroundImage: "url('/assest/Asset 2.png')",
+          backgroundImage: "url('/assest/abous us web visuals-05.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           display: "flex",
@@ -281,7 +281,7 @@ const AboutUs = ({ aboutData }) => {
           >
             About Us
           </h1>
-          <p
+          {/* <p
             style={{
               fontSize: "1.6rem",
               color: "#ffffff",
@@ -292,7 +292,7 @@ const AboutUs = ({ aboutData }) => {
             }}
           >
             The Unicorn Times is a modern business and entrepreneurship website where we publish inspiring founder stories, industry insights, and practical ideas that help readers think bigger, build smarter, and stay ahead.
-          </p>
+          </p> */}
         </div>
       </div>
 

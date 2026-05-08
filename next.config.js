@@ -32,14 +32,6 @@ const nextConfig = {
     ],
     qualities: [100, 75],
   },
-  // Fix for react-syntax-highlighter ES module issues with Turbopack
-  turbopack: {
-    resolveAlias: {
-      'react-syntax-highlighter': 'react-syntax-highlighter'
-    }
-  },
-  // Fix for database persistence warnings
-  serverExternalPackages: ['@sanity/client'],
   // Disable filesystem cache to prevent persistence warnings
   onDemandEntries: {
     maxInactiveAge: 25 * 1000,
