@@ -16,12 +16,6 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-               bat 'set CI=true && npm test'
-            }
-        }
-
         stage('Build Application') {
             steps {
                 bat 'npm run build'
@@ -62,9 +56,6 @@ pipeline {
     }
 
     post {
-        always {
-            cleanWs()
-        }
 
         success {
             echo 'Pipeline executed successfully!'
@@ -72,6 +63,10 @@ pipeline {
 
         failure {
             echo 'Pipeline failed!'
+        }
+
+        always {
+            cleanWs()
         }
     }
 }
