@@ -18,7 +18,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'CI=true npm test'
+               bat 'set CI=true && npm test'
             }
         }
 
