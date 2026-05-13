@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  tut-app:
+    image: drushtibothikar/tut-app:latest
+    container_name: tut-container
+    ports:
+      - "3000:3000"
